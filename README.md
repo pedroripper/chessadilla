@@ -1,1 +1,1 @@
-# chessadilla
+# ♟ Chessadilla ♟
