@@ -1,14 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+
 class Pawn extends Piece{
 	public Pawn(Color c, int x, int y) {
 		super(c, x, y);
 	}
 
 	public void move_list() throws CoordinateInvalid {
-		List
+		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
 		if(color == Color.white) {
-			if(board.get_piece(x+1, y+1) instanceof Piece) {
+			Piece p = board.get_piece(this.coord.x+1, this.coord.y+1);
+			if(p != null && p.color == Color.black) { // existe piece para ser removida
 				
 			}
 		}

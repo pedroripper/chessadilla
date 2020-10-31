@@ -7,14 +7,12 @@ abstract class Piece {
 	}
 	protected char type;
 	protected Color color; // Cor do objeto
-	protected int x; // Posicao da peca na coordenada x
-	protected int y; // Posicao da peca na coordenada y
+	Coordinate coord;
 	Board board = Board.get_board();
 
 	public Piece(Color c, int x, int y) {
 		this.color =  c;
-		this.x = x;
-		this.y = y;
+		this.coord = new Coordinate(x,y);
 	}
 	
 	
