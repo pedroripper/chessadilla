@@ -1,6 +1,6 @@
 package model;
 
-public class Piece {
+abstract class Piece {
 	protected enum Color{
 		white, black;
 	}
@@ -13,4 +13,5 @@ public class Piece {
 		this.x = x;
 		this.y = y;
 	}
+	public abstract void move();
 }
