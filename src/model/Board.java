@@ -5,20 +5,20 @@ public class Board {
 	protected int x; // Dimensão x do tabuleiro
 	protected int y; // Dimensão y do tabuleiro
 	protected Piece b [][]; // Matriz que representa o tabuleiro
-	public Board(int x, int y) throws CoordinateInvalid{
-		if(x > 0 &&  y > 0) {
-			this.x = x;
-			this.y = y;
-			b = new Piece[x][y];
+	private static Board board = null;
+
+	
+	public static Board get_board(){
+		if(board != null) {
+			return board;
 		}
-		else {
-			throw new CoordinateInvalid();
-		}
+		board = new Board();
+		board.x = 8;
+		board.y = 8;
+		board.b = new Piece[board.x][board.y];
+		return board;
 	}
 	
-	public Piece[][] get_board() {
-		return b;
-	}
 	
 	/*
 	get_xdim: retorna a dimensao no eixo x do board
