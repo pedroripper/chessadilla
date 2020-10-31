@@ -5,7 +5,15 @@ class Bishop extends Piece{
 		super(c, x, y);
 	}
 
-	public void move() {
+
+	@Override
+	public void move_list() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void move(int x, int y) {
 		// TODO Auto-generated method stub
 		
 	}

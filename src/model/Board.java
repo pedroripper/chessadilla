@@ -16,6 +16,10 @@ public class Board {
 		}
 	}
 	
+	public Piece[][] get_board() {
+		return b;
+	}
+	
 	/*
 	get_xdim: retorna a dimensao no eixo x do board
 	*/

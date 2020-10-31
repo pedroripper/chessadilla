@@ -13,5 +13,15 @@ abstract class Piece {
 		this.x = x;
 		this.y = y;
 	}
-	public abstract void move();
+	
+	/*
+	exibe a lista de movimentos disponiveis
+	*/
+	public abstract void move_list();
+	
+	/*
+	movimenta a piece
+	*/
+	public abstract void move(int x, int y);
+	
 }
