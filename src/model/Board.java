@@ -37,7 +37,7 @@ public class Board {
 	/*
 	verify_xy: checa se duas coordenadas sao validas para o tabuleiro
 	*/
-	private boolean verify_xy(int x,int y) {
+	public boolean verify_xy(int x,int y) {
 		if ((x >= 0) && (x < this.x) && (y >= 0) && (y < this.y)) {
 			return true;
 		}

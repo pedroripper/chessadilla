@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 
 abstract class Piece {
 	protected enum Color{
@@ -20,7 +21,7 @@ abstract class Piece {
 	/*
 	exibe a lista de movimentos disponiveis
 	*/
-	public abstract void move_list() throws CoordinateInvalid;
+	public abstract ArrayList<Coordinate> move_list() throws CoordinateInvalid;
 	
 	/*
 	movimenta a piece
