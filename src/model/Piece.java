@@ -6,7 +6,6 @@ abstract class Piece {
 	protected enum Color{
 		white, black;
 	}
-	protected char type;
 	protected Color color; // Cor do objeto
 	Coordinate coord;
 	Board board = Board.get_board();
@@ -32,13 +31,13 @@ abstract class Piece {
 	/*
 	movimenta a piece
 	*/
-	public boolean move(int x, int y) throws CoordinateInvalid{
-		if(check_move(new Coordinate(x,y))) {
+	public boolean move(Coordinate c) throws CoordinateInvalid{
+		if(check_move(new Coordinate(c.x,c.y))) {
 //			Pode realizar o movimento
-			if(board.get_piece(x, y) instanceof Piece) {
-				board.remove_piece(x, y);
+			if(board.get_piece(c.x, c.y) instanceof Piece) {
+				board.remove_piece(c.x, c.y);
 			}
-			board.add_piece(this, x, y);
+			board.add_piece(this, c.x, c.y);
 			board.remove_piece(this.coord.x, this.coord.y);
 			return true;
 		} else {
