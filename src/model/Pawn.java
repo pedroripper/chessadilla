@@ -67,13 +67,10 @@ class Pawn extends Piece{
 				}
 			}
 		}
-		
+		this.moveList = lst;
 		return lst;
 	}
 
-	public void move(int x, int y) {
-		
-	}
 
 
 }

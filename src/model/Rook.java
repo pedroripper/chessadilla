@@ -8,13 +8,6 @@ class Rook extends Piece{
 		super(c, x, y);
 	}
 
-
-	public void move(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	@Override
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		// TODO Auto-generated method stub
