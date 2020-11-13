@@ -2,12 +2,14 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public class GameFrame extends Frame{
+class GameFrame extends Frame{
 	Image logo = null;
 	File f = null;
 	
@@ -27,8 +29,11 @@ public class GameFrame extends Frame{
 		}
 	}
 	
+	/*
+	 * prepareGUI: set da tela do jogo
+	 */
 	private void prepareGUI() {
-		setSize(400,500);
+		setSize(450,550);
 		addWindowListener(new WindowAdapter() {
 		     public void windowClosing(WindowEvent windowEvent){
 		        System.exit(0);
@@ -36,22 +41,31 @@ public class GameFrame extends Frame{
 		 }); 
 	}
 	
-
+	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-	//	g2.setBackground(Color.WHITE);
-		if(logo != null){
-//			g2.drawImage(logo, 50, 50, 50, 50, null);
-		}
+		drawBoardFrame(g2);
 		drawBoard(g2);
 	}
 	
+	/*
+	 * toggleColor:  faz o toggle da cor de g2 de branco para preto
+	 */
 	private void toggleColor(Graphics2D g2) {
-		if(g2.getColor() == Color.BLACK) {
-			g2.setColor(Color.WHITE);
-		} else {
+		if(g2.getColor() == Color.WHITE) {
 			g2.setColor(Color.BLACK);
+		} else {
+			g2.setColor(Color.WHITE);
 		}
+	}
+	
+	/*
+	 * drawBoardFrame: desenha o frame da board
+	 */
+	private void drawBoardFrame(Graphics2D g2) {
+		g2.setColor(Color.GRAY);
+		Area s = new Area(new Rectangle2D.Double(0, 80, 450, 450));
+		g2.fill(s);
 	}
 	
 	/*
@@ -60,16 +74,14 @@ public class GameFrame extends Frame{
 	private void drawBoard(Graphics2D g2) {
 		for(int j = 0; j < 8; j ++) {
 			for(int i = 0; i < 8; i ++) {
+				Area s = new Area(new Rectangle2D.Double(i*55 + 5, j*55 + 85, 55, 55));
 				toggleColor(g2);
-				
-				g2.fillRect(i*50, j*50 + 80, 50, 50);
+				g2.fill(s);
 				if(i == 7) {
 					toggleColor(g2);
 				}
 			}
 		}
-		
-		
 		
 		
 	}

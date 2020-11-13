@@ -9,6 +9,7 @@ import javax.imageio.*;
 import javax.swing.*;
 
 public class StartingFrame extends JFrame  {
+	private static StartingFrame sFrame = null;
 	JButton b_newGame = new JButton("Novo Jogo");
 	JButton b_loadGame = new JButton("Carregar Jogo");
 	JLabel title = new JLabel("Xadrez");
@@ -16,8 +17,15 @@ public class StartingFrame extends JFrame  {
 	
 	
 	
-	public StartingFrame(){
+	public static StartingFrame get_startingFrame(){
+		if(sFrame != null) {
+			return sFrame;
+		} 
+		sFrame = new StartingFrame();
+		return  sFrame;
+	}
 		
+	void init_frame() {
 //		p.getGraphics();
 //		p.add(logo);
 		title.setFont(new Font("Verdana", Font.PLAIN, 90));
