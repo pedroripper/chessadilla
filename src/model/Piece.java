@@ -3,13 +3,24 @@ package model;
 import java.util.ArrayList;
 
 abstract class Piece {
-	protected enum Color{
-		white, black;
+	enum Color{
+		white('w'), black('b');
+		
+		char c;
+		private Color(char c) {
+			this.c = c;
+		}
+		
+		char get_color() {
+			return c;
+		}
+		
 	}
 	protected Color color; // Cor do objeto
 	Coordinate coord;
 	Board board = Board.get_board();
 	ArrayList<Coordinate> moveList;
+	char type;
 
 	public Piece(Color c, int x, int y) {
 		this.color =  c;

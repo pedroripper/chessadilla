@@ -6,6 +6,7 @@ class Knight extends Piece{
 
 	public Knight(Color c, int x, int y) {
 		super(c, x, y);
+		type = 'c';
 	}
 
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {

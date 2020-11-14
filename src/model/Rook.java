@@ -6,6 +6,7 @@ class Rook extends Piece{
 
 	public Rook(Color c, int x, int y) {
 		super(c, x, y);
+		type = 'r';
 	}
 
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {

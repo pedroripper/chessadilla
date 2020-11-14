@@ -5,7 +5,10 @@ import java.util.ArrayList;
 class Pawn extends Piece{
 	public Pawn(Color c, int x, int y) {
 		super(c, x, y);
+		type = 'p';
 	}
+	
+	
 
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();

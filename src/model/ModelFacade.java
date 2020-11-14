@@ -9,11 +9,19 @@ public class ModelFacade {
 		board = Board.get_board();
 	}
 	
+	
 	/*
 	 * newGame: popula a Board com as pecas
 	 */
 	public void newGame() {
 		board.init_board();
+	}
+	
+	/*
+	 * get_board_data(): retorna a matriz de posicao das pecas no board
+	 */
+	public Piece[][] get_board_data(){
+		return board.b;
 	}
 	
 	/*

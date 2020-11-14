@@ -6,6 +6,7 @@ class King extends Piece{
 
 	public King(Color c, int x, int y) {
 		super(c, x, y);
+		type = 'k';
 	}
 	
 	

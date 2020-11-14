@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class Bishop extends Piece{
 	public Bishop(Color c, int x, int y) {
 		super(c, x, y);
+		type = 'b';
 	}
 
 

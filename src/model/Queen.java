@@ -6,6 +6,7 @@ class Queen extends Piece{
 
 	public Queen(Color c, int x, int y) {
 		super(c, x, y);
+		type = 'q';
 	}
 
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
