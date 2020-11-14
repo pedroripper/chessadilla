@@ -16,19 +16,19 @@ enum PieceImage {
 	B_KING("./imagem/p_rei.gif"),
 	B_ROOK("./imagem/p_torre.gif"),
 	
-	C_BISHOP("./imagem/CyanB.gif"),
-	C_KNIGHT("./imagem/CyanN.gif"),
-	C_QUEEN("./imagem/CyanQ.gif"),
-	C_PAWN("./imagem/CyanP.gif"),
-	C_KING("./imagem/CyanK.gif"),
-	C_ROOK("./imagem/CyanR.gif"),
+	C_BISHOP("./imagem/CyanB.png"),
+	C_KNIGHT("./imagem/CyanN.png"),
+	C_QUEEN("./imagem/CyanQ.png"),
+	C_PAWN("./imagem/CyanP.png"),
+	C_KING("./imagem/CyanK.png"),
+	C_ROOK("./imagem/CyanR.png"),
 	
-	P_BISHOP("./imagem/PurpleB.gif"),
-	P_KNIGHT("./imagem/PurpleN.gif"),
-	P_QUEEN("./imagem/PurpleQ.gif"),
-	P_PAWN("./imagem/PurpleP.gif"),
-	P_KING("./imagem/PurpleK.gif"),
-	P_ROOK("./imagem/PurpleR.gif")
+	P_BISHOP("./imagem/PurpleB.png"),
+	P_KNIGHT("./imagem/PurpleN.png"),
+	P_QUEEN("./imagem/PurpleQ.png"),
+	P_PAWN("./imagem/PurpleP.png"),
+	P_KING("./imagem/PurpleK.png"),
+	P_ROOK("./imagem/PurpleR.png")
 	;
 	
 	final String string;
