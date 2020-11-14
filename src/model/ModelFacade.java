@@ -13,7 +13,7 @@ public class ModelFacade {
 	/*
 	 * newGame: popula a Board com as pecas
 	 */
-	public void newGame() {
+	public void newGame() throws CoordinateInvalid {
 		board.init_board();
 	}
 	

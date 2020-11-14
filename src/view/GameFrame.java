@@ -9,10 +9,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import model.Coordinate;
-
+import model.CoordinateInvalid;
+import model.ModelFacade;
 
 class GameFrame extends Frame{
 	private static GameFrame gFrame = null;
+	private static ModelFacade model = null;
 	Image logo = null;
 	File f = null;
 	private Graphics2D g2 = null;
@@ -22,6 +24,7 @@ class GameFrame extends Frame{
 			return gFrame;
 		}
 		gFrame = new GameFrame();
+		model = new ModelFacade();
 		return gFrame;
 	}
 	
@@ -43,7 +46,7 @@ class GameFrame extends Frame{
 	/*
 	 * prepareGUI: set da tela do jogo
 	 */
-	private void prepareGUI() {
+	void prepareGUI() {
 		setSize(450,550);
 		addWindowListener(new WindowAdapter() {
 		     public void windowClosing(WindowEvent windowEvent){
@@ -57,6 +60,12 @@ class GameFrame extends Frame{
 		g2 = (Graphics2D)g;
 		drawBoardFrame();
 		drawBoard();
+		try {
+			model.newGame();
+		} catch (CoordinateInvalid e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	Coordinate pos_to_coord(int x, int y) {

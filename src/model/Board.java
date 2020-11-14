@@ -1,7 +1,7 @@
 package model;
 
 import model.Piece.Color;
-
+import view.ViewFacade;
 class Board {
 	
 	protected int x; // Dimensão x do tabuleiro
@@ -24,32 +24,32 @@ class Board {
 	/*
 	 * init_board: inicializa a board com as pieces nas suas posicoes iniciais
 	 */
-	void init_board() {
+	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-			board.b[i][2] = new Pawn(Color.white,i,2);
-			board.b[i][6] = new Pawn(Color.black,i,2);
+			add_piece(new Pawn(Color.white,i,2), i, 2);
+			add_piece(new Pawn(Color.black,i,6), i, 6);
 		}
 //		Inicializando os rooks
-		board.b[0][0] = new Rook(Color.white,0,0);
-		board.b[7][0] = new Rook(Color.white,7,0);
-		board.b[0][7] = new Rook(Color.black,0,7);
-		board.b[7][7] = new Rook(Color.black,7,7);
+		add_piece(new Rook(Color.white,0,0), 0, 0);
+		add_piece(new Rook(Color.white,7,0), 7, 0);
+		add_piece(new Rook(Color.black,0,7), 0, 7);
+		add_piece(new Rook(Color.black,7,7), 7, 7);
 //		Inicializando os knights
-		board.b[1][0] = new Knight(Color.white,1,0);
-		board.b[6][0] = new Knight(Color.white,6,0);
-		board.b[1][7] = new Knight(Color.black,1,7);
-		board.b[6][7] = new Knight(Color.black,6,7);
+		add_piece(new Knight(Color.white,1,0), 1,0);
+		add_piece(new Knight(Color.white,6,0), 6, 0);
+		add_piece(new Knight(Color.black,1,7), 1, 7);
+		add_piece(new Knight(Color.black,6,7), 6, 7);
 //		Inicializando os bishops
-		board.b[2][0] = new Bishop(Color.white,2,0);
-		board.b[5][0] = new Bishop(Color.white,5,0);
-		board.b[2][7] = new Bishop(Color.black,2,7);
-		board.b[5][7] = new Bishop(Color.black,5,7);
+		add_piece(new Bishop(Color.white,2,0), 2,0);
+		add_piece(new Bishop(Color.white,5,0), 5,0);
+		add_piece(new Bishop(Color.black,2,7), 2,7);
+		add_piece(new Bishop(Color.black,5,7), 5,7);
 //		Inicializando a queen
-		board.b[3][0] = new Queen(Color.white,3,0);
-		board.b[3][7] = new Queen(Color.black,3,7);
+		add_piece(new Queen(Color.white,3,0), 3,0);
+		add_piece(new Queen(Color.black,3,7), 3,7);
 //		Inicializando o king
-		board.b[4][0] = new King(Color.white,4,0);
-		board.b[4][7] = new King(Color.black,4,7);
+		add_piece(new King(Color.white,4,0), 4,0);
+		add_piece(new King(Color.black,4,7), 4,7);
 	}
 	
 	
@@ -87,6 +87,7 @@ class Board {
 	void add_piece(Piece p, int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			this.b[x][y] = p;
+			ViewFacade.add_piece(new Coordinate(x,y), p.type , p.color.get_color());
 		}
 		else {
 			throw new CoordinateInvalid();

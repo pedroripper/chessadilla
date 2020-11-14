@@ -26,6 +26,7 @@ public class StartingFrame extends JFrame  {
 	}
 		
 	void init_frame() {
+		sFrame.setVisible(true);
 //		p.getGraphics();
 //		p.add(logo);
 		title.setFont(new Font("Verdana", Font.PLAIN, 90));
@@ -36,7 +37,8 @@ public class StartingFrame extends JFrame  {
 		b_newGame.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e)
 	      {
-	       GameFrame gameFrame = new GameFrame();
+	       GameFrame gameFrame = GameFrame.get_GameFrame();
+	       gameFrame.prepareGUI();
 	       gameFrame.setVisible(true);
 	      }
 	    });

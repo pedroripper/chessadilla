@@ -16,7 +16,7 @@ public class ViewFacade {
 	
 	
 	
-	public void add_piece(Coordinate coord, char type, char color) {
+	public static void add_piece(Coordinate coord, char type, char color) {
 		if(gFrame == null) {
 			gFrame = GameFrame.get_GameFrame();
 		}
