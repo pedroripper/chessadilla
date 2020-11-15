@@ -169,6 +169,16 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+		if (e.getButton() == 1) {
+			for(PieceView i: this.pImages) {
+				if(i.contains(e.getX(), e.getY())) {
+					; // Falta implementar
+				}
+			}
+		}
+		else if (e.getButton() == 2) {
+			; // Falta implementar
+		}
 	}
 
 

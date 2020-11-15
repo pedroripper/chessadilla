@@ -62,6 +62,13 @@ class PieceView {
 		return pI.toString();
 	}
 	
+	boolean contains(int x,int y) {
+		if(x > this.x && y > this.y && x < this.x + 55 && y < this.y + 55)
+			return true;
+		else
+			return false;
+	}
+	
 }
 
 	
