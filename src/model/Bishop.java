@@ -3,8 +3,8 @@ package model;
 import java.util.ArrayList;
 
 class Bishop extends Piece{
-	public Bishop(Color c, int x, int y) {
-		super(c, x, y);
+	public Bishop(Color c, int x, int y, int o) {
+		super(c, x, y, o);
 		type = 'b';
 	}
 

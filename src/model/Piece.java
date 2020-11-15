@@ -22,12 +22,14 @@ abstract class Piece {
 	Coordinate coord;
 	Board board = Board.get_board();
 	ArrayList<Coordinate> moveList;
+	int owner;
 	
 	char type;
 
-	public Piece(Color c, int x, int y) {
+	public Piece(Color c, int x, int y, int owner) {
 		this.color =  c;
 		this.coord = new Coordinate(x,y);
+		this.owner = owner;
 	}
 	
 	

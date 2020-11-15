@@ -4,7 +4,6 @@ import model.Coordinate;
 
 public class ViewFacade {
 	ViewFacade vf= null;
-//	private static StartingFrame sFrame = null;
 	private static GameFrame gFrame = null;
 	
 	public ViewFacade get_vireFacade() {

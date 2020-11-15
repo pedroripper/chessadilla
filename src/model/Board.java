@@ -43,30 +43,30 @@ class Board {
 	 */
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-			add_piece(new Pawn(Color.white,i,1), i, 1);
-			add_piece(new Pawn(Color.black,i,6), i, 6);
+			add_piece(new Pawn(Color.white,i,1,1), i, 1);
+			add_piece(new Pawn(Color.black,i,6,1), i, 6);
 		}
 //		Inicializando os rooks
-		add_piece(new Rook(Color.white,0,0), 0, 0);
-		add_piece(new Rook(Color.white,7,0), 7, 0);
-		add_piece(new Rook(Color.black,0,7), 0, 7);
-		add_piece(new Rook(Color.black,7,7), 7, 7);
+		add_piece(new Rook(Color.white,0,0,1), 0, 0);
+		add_piece(new Rook(Color.white,7,0,1), 7, 0);
+		add_piece(new Rook(Color.black,0,7,1), 0, 7);
+		add_piece(new Rook(Color.black,7,7,2), 7, 7);
 //		Inicializando os knights
-		add_piece(new Knight(Color.white,1,0), 1,0);
-		add_piece(new Knight(Color.white,6,0), 6, 0);
-		add_piece(new Knight(Color.black,1,7), 1, 7);
-		add_piece(new Knight(Color.black,6,7), 6, 7);
+		add_piece(new Knight(Color.white,1,0,1), 1,0);
+		add_piece(new Knight(Color.white,6,0,1), 6, 0);
+		add_piece(new Knight(Color.black,1,7,2), 1, 7);
+		add_piece(new Knight(Color.black,6,7,2), 6, 7);
 //		Inicializando os bishops
-		add_piece(new Bishop(Color.white,2,0), 2,0);
-		add_piece(new Bishop(Color.white,5,0), 5,0);
-		add_piece(new Bishop(Color.black,2,7), 2,7);
-		add_piece(new Bishop(Color.black,5,7), 5,7);
+		add_piece(new Bishop(Color.white,2,0,1), 2,0);
+		add_piece(new Bishop(Color.white,5,0,1), 5,0);
+		add_piece(new Bishop(Color.black,2,7,2), 2,7);
+		add_piece(new Bishop(Color.black,5,7,2), 5,7);
 //		Inicializando a queen
-		add_piece(new Queen(Color.white,3,0), 3,0);
-		add_piece(new Queen(Color.black,3,7), 3,7);
+		add_piece(new Queen(Color.white,3,0,1), 3,0);
+		add_piece(new Queen(Color.black,3,7,2), 3,7);
 //		Inicializando o king
-		add_piece(new King(Color.white,4,0), 4,0);
-		add_piece(new King(Color.black,4,7), 4,7);
+		add_piece(new King(Color.white,4,0,1), 4,0);
+		add_piece(new King(Color.black,4,7,2), 4,7);
 	}
 	
 	

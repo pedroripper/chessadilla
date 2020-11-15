@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 class Knight extends Piece{
 
-	public Knight(Color c, int x, int y) {
-		super(c, x, y);
+	public Knight(Color c, int x, int y, int o) {
+		super(c, x, y, o);
 		type = 'c';
 	}
 

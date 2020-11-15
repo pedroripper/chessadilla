@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 class Queen extends Piece{
 
-	public Queen(Color c, int x, int y) {
-		super(c, x, y);
+	public Queen(Color c, int x, int y, int o) {
+		super(c, x, y, o);
 		type = 'q';
 	}
 

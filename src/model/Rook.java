@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 class Rook extends Piece{
 
-	public Rook(Color c, int x, int y) {
-		super(c, x, y);
+	public Rook(Color c, int x, int y, int o) {
+		super(c, x, y, o);
 		type = 'r';
 	}
 

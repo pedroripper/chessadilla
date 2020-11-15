@@ -25,6 +25,13 @@ class GameController implements Observer{
 	void startGame() throws CoordinateInvalid {
 		ModelFacade model = new ModelFacade();
 		model.newGame();
+		runGame();
+	}
+	
+	void runGame() {
+		while(true) {
+			
+		}
 	}
 	
 	
