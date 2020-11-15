@@ -18,7 +18,7 @@ class Rook extends Piece{
 				{0,1},
 				{0,-1},
 		};
-		while (orientation[i] != null) {
+		while (i < 4) {
 			int j = 1;
 			while ( board.verify_xy(this.coord.x + j*orientation[i][0],
 								   this.coord.y + j*orientation[i][1])) {
