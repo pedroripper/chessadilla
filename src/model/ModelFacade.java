@@ -17,6 +17,10 @@ public class ModelFacade {
 		board.init_board();
 	}
 	
+	public void add_board_observer(Observer o) {
+		board.addObserver(o);
+	}
+	
 	/*
 	 * get_board_data(): retorna a matriz de posicao das pecas no board
 	 */

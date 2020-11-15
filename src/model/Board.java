@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import model.Piece.Color;
 import view.ViewFacade;
 class Board {
@@ -8,6 +10,7 @@ class Board {
 	protected int y; // Dimensão y do tabuleiro
 	protected Piece b [][]; // Matriz que representa o tabuleiro
 	private static Board board = null;
+	private ArrayList<Observer> obs = new ArrayList<Observer>();
 
 	
 	public static Board get_board(){
@@ -20,6 +23,17 @@ class Board {
 		board.b = new Piece[board.x][board.y];
 		return board;
 	}
+	
+	
+	public void addObserver(Observer o) {
+		this.obs.add(o);
+	}
+	
+	public void removeObserver(Observer o) {
+		this.obs.remove(o);
+	}
+	
+	
 	
 	/*
 	 * init_board: inicializa a board com as pieces nas suas posicoes iniciais
@@ -87,7 +101,10 @@ class Board {
 	void add_piece(Piece p, int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			this.b[x][y] = p;
-			ViewFacade.add_piece(new Coordinate(x,y), p.type , p.color.get_color());
+			for (Observer ob : this.obs) {
+	            ob.update(x , y, p.type, p.color.get_color());
+	        }
+//			ViewFacade.add_piece(new Coordinate(x,y), p.type , p.color.get_color());
 		}
 		else {
 			throw new CoordinateInvalid();
@@ -121,6 +138,9 @@ class Board {
 			if(get_piece(x,y) instanceof Piece) {
 				Piece trash = this.b[x][y];
 				this.b[x][y] = null;
+				for (Observer ob : this.obs) {
+		            ob.update(x, y, 'v', '-');
+		        }
 				return trash;
 			} else {
 				return null;

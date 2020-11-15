@@ -2,17 +2,16 @@ package view;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
+import java.awt.geom.*;
+import java.io.*;
 import javax.imageio.ImageIO;
 
 import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
+import model.Observer;
 
-class GameFrame extends Frame{
+class GameFrame extends Frame implements Observer{
 	private static GameFrame gFrame = null;
 	private static ModelFacade model = null;
 	Image logo = null;
@@ -27,7 +26,13 @@ class GameFrame extends Frame{
 		model = new ModelFacade();
 		return gFrame;
 	}
+	
 
+	@Override
+	public void update(int x, int y, char type, char c) {
+
+		display_piece(x, y, type, c);
+	}
 	
 	/*
 	 * prepareGUI: set da tela do jogo
@@ -47,6 +52,7 @@ class GameFrame extends Frame{
 		drawBoardFrame();
 		drawBoard();
 		try {
+			model.add_board_observer(this);
 			model.newGame();
 		} catch (CoordinateInvalid e) {
 			// TODO Auto-generated catch block
@@ -68,13 +74,20 @@ class GameFrame extends Frame{
 	}
 	
 	
-
-	
 	void load_piece(Coordinate matrix_index, char type, char c) {
 		display_piece(matrix_index.get_x(), matrix_index.get_y(), type, c);
 	}
 	
 	private void display_piece(int x, int y, char t, char c) {
+		if(t == 'v') {
+			if(x % 2 == y % 2) {
+				g2.setColor(Color.WHITE);
+				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
+			} else {
+				g2.setColor(Color.BLACK);
+				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
+			}
+		}
 		Image img;
 		PieceView pv = new PieceView(c,t);
 		try {
@@ -136,5 +149,8 @@ class GameFrame extends Frame{
 		
 		
 	}
+
+
+
 	
 }

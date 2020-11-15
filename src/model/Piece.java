@@ -50,6 +50,7 @@ abstract class Piece {
 			}
 			board.add_piece(this, c.x, c.y);
 			board.remove_piece(this.coord.x, this.coord.y);
+			this.coord = c;
 			return true;
 		} else {
 			return false;
