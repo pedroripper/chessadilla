@@ -117,12 +117,7 @@ class Board {
 	*/
 	Piece get_piece(int x, int y) throws CoordinateInvalid {
 		if (verify_xy(x,y)) {
-			if(this.b[x][y] != null) {
-				return this.b[x][y];
-			}
-			else {
-				return null;
-			}
+			return this.b[x][y];
 		}
 		else {
 			throw new CoordinateInvalid();

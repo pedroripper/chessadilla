@@ -20,10 +20,12 @@ class Rook extends Piece{
 		};
 		while (orientation[i] != null) {
 			int j = 1;
-			while (board.get_piece(this.coord.x + j*orientation[i][0], 
-								   this.coord.y + j*orientation[i][1]) == null &&
-				   board.verify_xy(this.coord.x + j*orientation[i][0],
+			while ( board.verify_xy(this.coord.x + j*orientation[i][0],
 								   this.coord.y + j*orientation[i][1])) {
+				if (board.get_piece(this.coord.x + j*orientation[i][0], 
+								   this.coord.y + j*orientation[i][1]) != null) {
+					break;
+				}
 				lst.add(new Coordinate(this.coord.x + j*orientation[i][0],
 									   this.coord.y + j*orientation[i][1]));
 				j++;
