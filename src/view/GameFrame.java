@@ -16,7 +16,7 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	private static ModelFacade model = null;
 	Image logo = null;
 	File f = null;
-	private ArrayList<PieceView> pImages;
+	private ArrayList<PieceView> pImages = new ArrayList<PieceView>();
 	private Graphics2D g2 = null;
 	
 	
@@ -56,15 +56,20 @@ class GameFrame extends Frame implements Observer, MouseListener{
 			try {
 				model.add_observer(this);
 				model.newGame();
+				model.pieces_to_display();
 			} catch (CoordinateInvalid e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
-			pImages.removeAll(pImages);
 			drawBoardFrame();
 			drawBoard();
-			refresh_pieces();
+			try {
+				refresh_pieces();
+			} catch (CoordinateInvalid e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -106,8 +111,8 @@ class GameFrame extends Frame implements Observer, MouseListener{
 				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
 			}
 		}   
-		PieceView pv = new PieceView(coord_to_pos_x(x),coord_to_pos_y(y),c,t);
 		try {
+			PieceView pv = new PieceView(coord_to_pos_x(x),coord_to_pos_y(y),c,t);
 			g2.drawImage(pv.display_img(), coord_to_pos_x(x), coord_to_pos_y(y), 55, 55, null);
 			pImages.add(pv);
 			
@@ -121,8 +126,9 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	}
 	
 	
-	void refresh_pieces() {
-		
+	void refresh_pieces() throws CoordinateInvalid {
+		pImages.removeAll(pImages);
+		model.pieces_to_display();
 	}
 
 	/*

@@ -146,16 +146,12 @@ class Board {
 	}
 	
 	
-	void send_pieces() throws CoordinateInvalid {
-		for(int i = 0; i < 8 ; i ++) {
-			for(int j = 0; j < 8 ; j ++) {
-				if(verify_xy(x,y)) {
-					if(this.b[x][y] instanceof Piece && this.b[x][y] != null) {
-						ViewFacade.add_piece(new Coordinate(x,y), this.b[x][y].type , this.b[x][y].color.get_color());
-					}
-				}
-				else {
-					throw new CoordinateInvalid();
+	void send_pieces() {
+		
+		for(int j = 0; j < 8 ; j ++) {
+				for(int i = 0; i < 8 ; i ++) {
+				if(this.b[i][j] instanceof Piece && this.b[i][j] != null) {
+					ViewFacade.add_piece(new Coordinate(i,j), this.b[i][j].type , this.b[i][j].color.get_color());
 				}
 			}
 		}
