@@ -11,6 +11,8 @@ import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
 
+import controller.ControllerFacade;
+
 class GameFrame extends Frame implements Observer, MouseListener{
 	private static GameFrame gFrame = null;
 	private static ModelFacade model = null;
@@ -77,15 +79,15 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	/*
 	 *  converte posicao na tela para coordenada de matriz
 	 */
-	int pos_to_coord_x(int x, int y) {
+	int pos_to_coord_x(int x) {
 		int new_x;
 		new_x = (int)((x-5)/55);
 		return new_x;
 	}
 	
-	int pos_to_coord_y(int x, int y) {
+	int pos_to_coord_y(int y) {
 		int new_y;
-		new_y = (int)((x-85)/55);
+		new_y = (int)((y-85)/55);
 		return new_y;
 	}
 	
@@ -186,7 +188,10 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		if (e.getButton() == 1) {
 			for(PieceView i: this.pImages) {
 				if(i.contains(e.getX(), e.getY())) {
-					; // Falta implementar
+					int x,y;
+					x = pos_to_coord_x(e.getX());
+					y = pos_to_coord_y(e.getY());
+					//pre_move(x,y); // Falta implementar
 				}
 			}
 		}

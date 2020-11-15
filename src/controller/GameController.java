@@ -1,6 +1,12 @@
 package controller;
 
+//import java.util.ArrayList;
+
 import Observer.Observer;
+//import model.ModelFacade;
+//import model.Coordinate;
+//import model.CoordinateInvalid;
+//import view.ViewFacade;
 
 class GameController implements Observer{
 	
@@ -9,5 +15,7 @@ class GameController implements Observer{
 	public void update() {
 		
 	}
+	
+	
 	
 }

@@ -32,7 +32,7 @@ public class ModelFacade {
 	/*
 	 * get_board_data(): retorna a matriz de posicao das pecas no board
 	 */
-	public Piece[][] get_board_data(){
+	public static Piece[][] get_board_data(){
 		return board.b;
 	}
 	
@@ -45,7 +45,8 @@ public class ModelFacade {
 	 * possible_moves: retorna um array de Coordinate mostrando os 
 	 * movimentos possiveis para a piece
 	 */
-	public ArrayList<Coordinate> possible_moves(Coordinate c) throws CoordinateInvalid {
+	public static ArrayList<Coordinate> possible_moves(int x, int y) throws CoordinateInvalid {
+		Coordinate c = new Coordinate(x,y);
 		Piece p = board.get_piece(c.x, c.y);
 		if(p == null) {
 			return null;
@@ -57,7 +58,9 @@ public class ModelFacade {
 	 * make_move: realiza o movimento da piece da coordenada c1 para a c2 se for
 	 * possivel
 	 */
-	public boolean make_move(Coordinate c1, Coordinate c2) throws CoordinateInvalid {
+	public boolean make_move(int x1, int y1, int x2, int y2) throws CoordinateInvalid {
+		Coordinate c1 = new Coordinate(x1,y1);
+		Coordinate c2 = new Coordinate(x2,y2);
 		Piece p = board.get_piece(c1.x, c1.y);
 		if(p == null) {
 			return false;

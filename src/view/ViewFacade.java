@@ -22,4 +22,12 @@ public class ViewFacade {
 		}
 		gFrame.load_piece(coord, type, color);
 	}
+	/*
+	public int x_to_coord_x(int x) {
+		return gFrame.pos_to_coord_x(x);
+	}
+	
+	public int y_coord_y(int y) {
+		return gFrame.pos_to_coord_y(y);
+	}*/
 }
