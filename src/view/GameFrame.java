@@ -135,8 +135,7 @@ class GameFrame extends Frame implements Observer {
 		catch(IOException e) {
 			System.out.println(e.getMessage());
 			System.exit(1); 
-		}
-		
+		}		
 
 	}
 	
@@ -144,6 +143,13 @@ class GameFrame extends Frame implements Observer {
 	void refresh_pieces() throws CoordinateInvalid {
 		pImages.removeAll(pImages);
 		model.pieces_to_display();
+	}
+	
+	
+	void display_possible_moves(Coordinate c) {
+		g2.setColor(Color.GREEN);
+		g2.setStroke(new BasicStroke(5));
+		g2.drawRect(coord_to_pos_x(c.get_x()), coord_to_pos_y(c.get_y()), 55, 55);
 	}
 
 	/*
@@ -186,6 +192,7 @@ class GameFrame extends Frame implements Observer {
 	}
 	
 	void update_status_display() {
+		g2.setColor(Color.BLACK);
 		Font font = new Font ("Courier New", 1, 30);
 		g2.setFont(font);
 		String status = "Vez do jogador " + model.get_turn();
