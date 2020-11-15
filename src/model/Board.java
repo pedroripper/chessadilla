@@ -9,10 +9,11 @@ class Board {
 	
 	protected int x; // Dimensão x do tabuleiro
 	protected int y; // Dimensão y do tabuleiro
+	
 	protected Piece b [][]; // Matriz que representa o tabuleiro
 	private static Board board = null;
 	private ArrayList<Observer> obs = new ArrayList<Observer>();
-
+	
 	
 	public static Board get_board(){
 		if(board != null) {
@@ -33,6 +34,7 @@ class Board {
 	public void removeObserver(Observer o) {
 		this.obs.remove(o);
 	}
+	
 	
 	
 	
@@ -147,7 +149,6 @@ class Board {
 	
 	
 	void send_pieces() {
-		
 		for(int j = 0; j < 8 ; j ++) {
 				for(int i = 0; i < 8 ; i ++) {
 				if(this.b[i][j] instanceof Piece && this.b[i][j] != null) {
