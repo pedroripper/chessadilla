@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import Observer.Observer;
 
 public class ModelFacade {
-	private static Board board = null;
-	private static Game game = null;
+	private static ModelFacade mf=  null;
 	private ArrayList<Observer> obs = new ArrayList<Observer>();
 
 	
-	public ModelFacade() {
-		board = Board.get_board();
-		game = Game.get_game();
+	public ModelFacade getModelFacade() {
+		if(mf == null) {
+			mf = new ModelFacade();
+		}
+		return mf;
 	}
 	
 	
@@ -20,6 +21,7 @@ public class ModelFacade {
 	 * newGame: popula a Board com as pecas
 	 */
 	public void newGame() throws CoordinateInvalid {
+		Board board = Board.get_board();
 		board.init_board();
 	}
 	
@@ -35,11 +37,13 @@ public class ModelFacade {
 	 * get_board_data(): retorna a matriz de posicao das pecas no board
 	 */
 	public static Piece[][] get_board_data(){
+		Board board = Board.get_board();
 		return board.b;
 	}
 	
 	
 	public void pieces_to_display() throws CoordinateInvalid {
+		Board board = Board.get_board();
 		board.send_pieces();
 	}
 	
@@ -48,6 +52,7 @@ public class ModelFacade {
 	 * movimentos possiveis para a piece
 	 */
 	public static ArrayList<Coordinate> possible_moves(int x, int y) throws CoordinateInvalid {
+		Board board = Board.get_board();
 		Coordinate c = new Coordinate(x,y);
 		Piece p = board.get_piece(c.x, c.y);
 		if(p == null) {
@@ -61,6 +66,7 @@ public class ModelFacade {
 	 * possivel
 	 */
 	public boolean make_move(int x1, int y1, int x2, int y2) throws CoordinateInvalid {
+		Board board = Board.get_board();
 		Coordinate c1 = new Coordinate(x1,y1);
 		Coordinate c2 = new Coordinate(x2,y2);
 		Piece p = board.get_piece(c1.x, c1.y);
@@ -77,6 +83,7 @@ public class ModelFacade {
 	
 	
 	public int get_turn() {
+		Game game = Game.get_game();
 		return  game.get_turn();
 	}
 	

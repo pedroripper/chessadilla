@@ -60,7 +60,6 @@ class GameFrame extends Frame implements Observer {
 			drawBoard();
 			try {
 				model.add_observer(this);
-				model.newGame();
 				model.pieces_to_display();
 				update_status_display();
 				MouseHandler mHandler = new MouseHandler();

@@ -3,14 +3,19 @@ package view;
 import model.Coordinate;
 
 public class ViewFacade {
-	private static StartingFrame sFrame = null;
+	ViewFacade vf= null;
+//	private static StartingFrame sFrame = null;
 	private static GameFrame gFrame = null;
 	
-	public ViewFacade() {
-		sFrame = StartingFrame.get_startingFrame();
+	public ViewFacade get_vireFacade() {
+		if(vf == null) {
+			vf = new ViewFacade();
+		}
+		return vf;
 	}
 	
 	public void init_graphics() {
+		StartingFrame sFrame = StartingFrame.get_startingFrame();
 		sFrame.init_frame();
 	}
 	

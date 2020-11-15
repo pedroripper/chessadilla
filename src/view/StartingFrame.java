@@ -8,6 +8,9 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 
+import controller.ControllerFacade;
+import model.CoordinateInvalid;
+
 public class StartingFrame extends JFrame  {
 	private static StartingFrame sFrame = null;
 	JButton b_newGame = new JButton("Novo Jogo");
@@ -27,16 +30,22 @@ public class StartingFrame extends JFrame  {
 		
 	void init_frame() {
 		sFrame.setVisible(true);
-//		p.getGraphics();
-//		p.add(logo);
+
 		title.setFont(new Font("Verdana", Font.PLAIN, 90));
-//		title.setVerticalAlignment(SwingConstants.CENTER);
+
 		p.add(title);
 		
 		p.add(b_newGame);
 		b_newGame.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e)
 	      {
+	       ControllerFacade controllerF = ControllerFacade.get_controllerFacade();
+		       try {
+				controllerF.startGame();
+			} catch (CoordinateInvalid e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	       GameFrame gameFrame = GameFrame.get_GameFrame();
 	       gameFrame.prepareGUI();
 	       gameFrame.setVisible(true);

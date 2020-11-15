@@ -7,7 +7,7 @@ public class Main {
 	
 	public static void main(String []args) throws URISyntaxException {
 //		System.out.printl;
-		ControllerFacade cf = new ControllerFacade();
+		ControllerFacade cf =  ControllerFacade.get_controllerFacade();
 		cf.init();
 	}
 }
