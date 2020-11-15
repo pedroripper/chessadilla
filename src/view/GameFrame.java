@@ -13,7 +13,7 @@ import model.ModelFacade;
 
 import controller.ControllerFacade;
 
-class GameFrame extends Frame implements Observer, MouseListener{
+class GameFrame extends Frame implements Observer {
 	private static GameFrame gFrame = null;
 	private static ModelFacade model = null;
 	Image logo = null;
@@ -29,6 +29,7 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		gFrame = new GameFrame();
 		model = new ModelFacade();
 		return gFrame;
+
 	}
 	
 
@@ -53,12 +54,16 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	public void paint(Graphics g) {
 		if(g2 ==  null) {
 			g2 = (Graphics2D)g;
+
 			drawBoardFrame();
 			drawBoard();
 			try {
 				model.add_observer(this);
 				model.newGame();
 				model.pieces_to_display();
+				update_status_display();
+				MouseHandler mHandler = new MouseHandler();
+				gFrame.addMouseListener(mHandler);
 			} catch (CoordinateInvalid e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -66,6 +71,8 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		} else {
 			drawBoardFrame();
 			drawBoard();
+			update_status_display();
+
 			try {
 				refresh_pieces();
 			} catch (CoordinateInvalid e) {
@@ -130,8 +137,7 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		catch(IOException e) {
 			System.out.println(e.getMessage());
 			System.exit(1); 
-		}
-		
+		}		
 
 	}
 	
@@ -139,6 +145,13 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	void refresh_pieces() throws CoordinateInvalid {
 		pImages.removeAll(pImages);
 		model.pieces_to_display();
+	}
+	
+	
+	void display_possible_moves(Coordinate c) {
+		g2.setColor(Color.GREEN);
+		g2.setStroke(new BasicStroke(5));
+		g2.drawRect(coord_to_pos_x(c.get_x()), coord_to_pos_y(c.get_y()), 55, 55);
 	}
 
 	/*
@@ -179,14 +192,26 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		
 		
 	}
-
+	
+	void update_status_display() {
+		g2.setColor(Color.BLACK);
+		Font font = new Font ("Courier New", 1, 30);
+		g2.setFont(font);
+		String status = "Vez do jogador " + model.get_turn();
+		g2.drawString(status, 5, 55);
+	}
+	
+	
+	
+	private class MouseHandler implements MouseListener  {
+		
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 		if (e.getButton() == 1) {
-			for(PieceView i: this.pImages) {
+			for(PieceView i: pImages) {
 				if(i.contains(e.getX(), e.getY())) {
 					int x,y;
 					x = pos_to_coord_x(e.getX());
@@ -196,39 +221,39 @@ class GameFrame extends Frame implements Observer, MouseListener{
 			}
 		}
 		else if (e.getButton() == 2) {
-			; // Falta implementar
+				; // Falta implementar
 		}
+		}
+	
+	
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 	
 }
