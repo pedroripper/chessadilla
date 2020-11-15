@@ -27,21 +27,7 @@ class GameFrame extends Frame{
 		model = new ModelFacade();
 		return gFrame;
 	}
-	
-//	public GameFrame() {
-//		System.out.println("Carregando a GameFrame");
-//
-//		prepareGUI();
-//		try {
-//			f = new File("./imagem/p_bispo.gif");
-//			logo = ImageIO.read(f);		
-//			}
-//		catch(IOException e) {
-//			System.out.println("oa");
-//			System.out.println(e.getMessage());
-//			System.exit(1); 
-//		}
-//	}
+
 	
 	/*
 	 * prepareGUI: set da tela do jogo
@@ -94,7 +80,8 @@ class GameFrame extends Frame{
 		try {
 			File f = new File(pv.get_piece_file());
 			img = ImageIO.read(f);
-			g2.drawImage(img, coord_to_pos_x(x), coord_to_pos_y(y), null);
+			g2.drawImage(img, coord_to_pos_x(x), coord_to_pos_y(y), 55, 55, null);
+//			g2.drawImage(img, coord_to_pos_x(x), coord_to_pos_y(y), null);
 			}
 		catch(IOException e) {
 			System.out.println(e.getMessage());

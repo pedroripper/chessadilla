@@ -26,7 +26,7 @@ class Board {
 	 */
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-			add_piece(new Pawn(Color.white,i,2), i, 2);
+			add_piece(new Pawn(Color.white,i,1), i, 1);
 			add_piece(new Pawn(Color.black,i,6), i, 6);
 		}
 //		Inicializando os rooks

@@ -22,7 +22,7 @@ public class StartingFrame extends JFrame  {
 			return sFrame;
 		} 
 		sFrame = new StartingFrame();
-		return  sFrame;
+		return  sFrame; 
 	}
 		
 	void init_frame() {
