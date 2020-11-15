@@ -19,9 +19,6 @@ public class ModelFacade {
 	 */
 	public void newGame() throws CoordinateInvalid {
 		board.init_board();
-		for (Observer ob : this.obs) {
-            ob.update();
-        }
 	}
 	
 	public void add_observer(Observer o) {
