@@ -6,11 +6,13 @@ import Observer.Observer;
 
 public class ModelFacade {
 	private static Board board = null;
+	private static Game game = null;
 	private ArrayList<Observer> obs = new ArrayList<Observer>();
 
 	
 	public ModelFacade() {
 		board = Board.get_board();
+		game = Game.get_game();
 	}
 	
 	
@@ -68,6 +70,11 @@ public class ModelFacade {
 	        }
 		}
 		return true;
+	}
+	
+	
+	public int get_turn() {
+		return  game.get_turn();
 	}
 	
 	

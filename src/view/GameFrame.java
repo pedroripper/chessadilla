@@ -11,7 +11,7 @@ import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
 
-class GameFrame extends Frame implements Observer, MouseListener{
+class GameFrame extends Frame implements Observer {
 	private static GameFrame gFrame = null;
 	private static ModelFacade model = null;
 	Image logo = null;
@@ -27,6 +27,7 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		gFrame = new GameFrame();
 		model = new ModelFacade();
 		return gFrame;
+
 	}
 	
 
@@ -51,12 +52,16 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	public void paint(Graphics g) {
 		if(g2 ==  null) {
 			g2 = (Graphics2D)g;
+
 			drawBoardFrame();
 			drawBoard();
 			try {
 				model.add_observer(this);
 				model.newGame();
 				model.pieces_to_display();
+				update_status_display();
+				MouseHandler mHandler = new MouseHandler();
+				gFrame.addMouseListener(mHandler);
 			} catch (CoordinateInvalid e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,6 +69,8 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		} else {
 			drawBoardFrame();
 			drawBoard();
+			update_status_display();
+
 			try {
 				refresh_pieces();
 			} catch (CoordinateInvalid e) {
@@ -177,53 +184,65 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		
 		
 	}
-
+	
+	void update_status_display() {
+		Font font = new Font ("Courier New", 1, 30);
+		g2.setFont(font);
+		String status = "Vez do jogador " + model.get_turn();
+		g2.drawString(status, 5, 55);
+	}
+	
+	
+	
+	private class MouseHandler implements MouseListener  {
+		
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-		if (e.getButton() == 1) {
-			for(PieceView i: this.pImages) {
-				if(i.contains(e.getX(), e.getY())) {
-					; // Falta implementar
+			// TODO Auto-generated method stub
+	
+			if (e.getButton() == 1) {	
+				for(PieceView i: pImages) {
+					if(i.contains(e.getX(), e.getY())) {
+						System.out.print("Amigo estou aqui");
+						 // Falta implementar
+					}
 				}
 			}
+			else if (e.getButton() == 2) {
+				; // Falta implementar
+			}
 		}
-		else if (e.getButton() == 2) {
-			; // Falta implementar
+	
+	
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
+	
+	
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 	
 }

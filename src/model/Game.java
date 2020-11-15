@@ -1,13 +1,20 @@
 package model;
 
 class Game {
+	private static Game g = null;
 	private int n_p1, n_p2;
 	private int round;
+	private int turn;
 	
-	Game(){
-		n_p1 = 16;
-		n_p2 = 16;
-		round = 0;
+	static Game  get_game() {
+		if(g == null) {
+			g = new Game();	
+			g.n_p1 =  16;
+			g.n_p2 = 16;
+			g.round = 0;
+			g.turn = 1;
+		}
+		return g;
 	}
 	
 	void load_game() {
@@ -24,6 +31,20 @@ class Game {
 	
 	int get_round() {
 		return this.round;
+	}
+	
+	int get_turn() {
+		return this.turn;
+	}
+	
+	
+	
+	void toggle_turn() {
+		if(turn == 1) {
+			turn  = 2;
+		} else {
+			turn =  1;
+		}
 	}
 	
 	void decrease_p1() {
