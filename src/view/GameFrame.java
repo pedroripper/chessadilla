@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
+import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 
 import Observer.Observer;
@@ -202,28 +203,37 @@ class GameFrame extends Frame implements Observer {
 	}
 	
 	
-	
+	//ArrayList<Coordinate> p = pre_move(3,3);
 	private class MouseHandler implements MouseListener  {
 		
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-		if (e.getButton() == 1) {
-			for(PieceView i: pImages) {
-				if(i.contains(e.getX(), e.getY())) {
-					int x,y;
-					x = pos_to_coord_x(e.getX());
-					y = pos_to_coord_y(e.getY());
-					//pre_move(x,y); // Falta implementar
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+			if (e.getButton() == 1) {
+				for(PieceView i: pImages) {
+					if(i.contains(e.getX(), e.getY())) {
+						int x,y;
+						x = pos_to_coord_x(e.getX());
+						y = pos_to_coord_y(e.getY());
+						try {
+							ArrayList<Coordinate> p = ControllerFacade.pre_move(x,y);
+							
+							for(Coordinate j: p) {
+								display_possible_moves(j);
+							}
+						} catch (CoordinateInvalid e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
 				}
 			}
-		}
-		else if (e.getButton() == 2) {
-				; // Falta implementar
-		}
-		}
+			else if (e.getButton() == 2) {
+					; // Falta implementar
+			}
+			}
 	
 	
 		@Override

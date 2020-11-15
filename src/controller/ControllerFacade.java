@@ -17,7 +17,7 @@ public class ControllerFacade {
 		sc.start();
 	}
 	
-	ArrayList<Coordinate> pre_move(int x, int y) throws CoordinateInvalid {
+	public static ArrayList<Coordinate> pre_move(int x, int y) throws CoordinateInvalid {
 		return ModelFacade.possible_moves(x,y);
 	}
 }
