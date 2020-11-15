@@ -2,8 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+import Observer.Observer;
+
 public class ModelFacade {
 	private static Board board = null;
+	private ArrayList<Observer> obs = new ArrayList<Observer>();
+
 	
 	public ModelFacade() {
 		board = Board.get_board();
@@ -15,10 +19,17 @@ public class ModelFacade {
 	 */
 	public void newGame() throws CoordinateInvalid {
 		board.init_board();
+		for (Observer ob : this.obs) {
+            ob.update();
+        }
 	}
 	
-	public void add_board_observer(Observer o) {
-		board.addObserver(o);
+	public void add_observer(Observer o) {
+		this.obs.add(o);
+	}
+	
+	public void remove_observer(Observer o) {
+		this.obs.remove(o);
 	}
 	
 	/*
@@ -26,6 +37,11 @@ public class ModelFacade {
 	 */
 	public Piece[][] get_board_data(){
 		return board.b;
+	}
+	
+	
+	public void pieces_to_display() throws CoordinateInvalid {
+		board.send_pieces();
 	}
 	
 	/*
@@ -49,7 +65,12 @@ public class ModelFacade {
 		if(p == null) {
 			return false;
 		}
-		return p.move(c2);
+		if(p.move(c2) == true) {
+			for (Observer ob : this.obs) {
+	            ob.update();
+	        }
+		}
+		return true;
 	}
 	
 	

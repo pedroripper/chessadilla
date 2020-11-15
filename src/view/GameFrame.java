@@ -6,10 +6,10 @@ import java.awt.geom.*;
 import java.io.*;
 import java.util.ArrayList;
 
+import Observer.Observer;
 import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
-import model.Observer;
 
 class GameFrame extends Frame implements Observer, MouseListener{
 	private static GameFrame gFrame = null;
@@ -31,9 +31,8 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	
 
 	@Override
-	public void update(int x, int y, char type, char c) {
-
-		display_piece(x, y, type, c);
+	public void update() {
+		repaint();
 	}
 	
 	/*
@@ -50,27 +49,44 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	
 	
 	public void paint(Graphics g) {
-		g2 = (Graphics2D)g;
-		drawBoardFrame();
-		drawBoard();
-		try {
-			model.add_board_observer(this);
-			model.newGame();
-		} catch (CoordinateInvalid e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(g2 ==  null) {
+			g2 = (Graphics2D)g;
+			drawBoardFrame();
+			drawBoard();
+			try {
+				model.add_observer(this);
+				model.newGame();
+			} catch (CoordinateInvalid e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			pImages.removeAll(pImages);
+			drawBoardFrame();
+			drawBoard();
+			refresh_pieces();
 		}
+		
 	}
 	
+	/*
+	 *  converte posicao na tela para coordenada de matriz
+	 */
 	Coordinate pos_to_coord(int x, int y) {
 		Coordinate c = new Coordinate(x,y);
 		return c;
 	}
 	
+	/*
+	 * transforma x da coordenada da matriz em  x da posicao da tela
+	 */
 	int coord_to_pos_x(int x) {
 		return (5+ 55*x);
 	}
 	
+	/*
+	 * transforma y da coordenada da matriz em  y da posicao da tela
+	 */
 	int coord_to_pos_y(int y) {
 		return (85+ 55*y);
 	}
@@ -89,11 +105,12 @@ class GameFrame extends Frame implements Observer, MouseListener{
 				g2.setColor(Color.BLACK);
 				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
 			}
-		}
-		PieceView pv = new PieceView(c,t);
+		}   
+		PieceView pv = new PieceView(coord_to_pos_x(x),coord_to_pos_y(y),c,t);
 		try {
 			g2.drawImage(pv.display_img(), coord_to_pos_x(x), coord_to_pos_y(y), 55, 55, null);
 			pImages.add(pv);
+			
 		}
 		catch(IOException e) {
 			System.out.println(e.getMessage());
@@ -102,15 +119,12 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		
 
 	}
-
 	
-	/*
-	 * update_board() : faz o refresh das pieces no board
-	 */
-	void update_board() {
+	
+	void refresh_pieces() {
 		
 	}
-	
+
 	/*
 	 * toggleColor:  faz o toggle da cor de g2 de branco para preto
 	 */
@@ -129,6 +143,7 @@ class GameFrame extends Frame implements Observer, MouseListener{
 		g2.setColor(Color.GRAY);
 		Area s = new Area(new Rectangle2D.Double(0, 80, 450, 450));
 		g2.fill(s);
+		
 	}
 	
 	/*

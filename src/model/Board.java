@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import Observer.Observer;
 import model.Piece.Color;
 import view.ViewFacade;
 class Board {
@@ -91,8 +92,8 @@ class Board {
 		else {
 			return false;
 		}
-		
 	}
+	
 	
 	/*
 	add_piece: Recebe piece e duas coordenadas para inserir uma piece. Se existir uma outra piece
@@ -101,9 +102,6 @@ class Board {
 	void add_piece(Piece p, int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			this.b[x][y] = p;
-			for (Observer ob : this.obs) {
-	            ob.update(x , y, p.type, p.color.get_color());
-	        }
 //			ViewFacade.add_piece(new Coordinate(x,y), p.type , p.color.get_color());
 		}
 		else {
@@ -138,9 +136,6 @@ class Board {
 			if(get_piece(x,y) instanceof Piece) {
 				Piece trash = this.b[x][y];
 				this.b[x][y] = null;
-				for (Observer ob : this.obs) {
-		            ob.update(x, y, 'v', '-');
-		        }
 				return trash;
 			} else {
 				return null;
@@ -150,4 +145,20 @@ class Board {
 		}
 	}
 	
+	
+	void send_pieces() throws CoordinateInvalid {
+		for(int i = 0; i < 8 ; i ++) {
+			for(int j = 0; j < 8 ; j ++) {
+				if(verify_xy(x,y)) {
+					if(this.b[x][y] instanceof Piece && this.b[x][y] != null) {
+						ViewFacade.add_piece(new Coordinate(x,y), this.b[x][y].type , this.b[x][y].color.get_color());
+					}
+				}
+				else {
+					throw new CoordinateInvalid();
+				}
+			}
+		}
+		
+	}
 }

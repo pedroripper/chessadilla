@@ -10,15 +10,19 @@ class PieceView {
 	String pieceT;
 	PieceImage pI;
 	Image display;
-	PieceView(char color, char type) {
+	int x, y;
+	PieceView(int  x, int y, char color, char type) {
+		this.x = x;
+		this.y = y;
 		setColor(color, type);
 	}
 	
-	Image  display_img() throws IOException {
+	Image display_img() throws IOException {
 		File f = new File(this.get_piece_file());
 		display = ImageIO.read(f);
 		return display;
 	}
+	
 	
 	/*
 	 * setColor: recebe como parametro um char que representa a cor da peca
