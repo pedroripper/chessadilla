@@ -1,13 +1,23 @@
 package view;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 class PieceView {
 	String pieceT;
 	PieceImage pI;
-	
+	Image display;
 	PieceView(char color, char type) {
 		setColor(color, type);
-		
+	}
+	
+	Image  display_img() throws IOException {
+		File f = new File(this.get_piece_file());
+		display = ImageIO.read(f);
+		return display;
 	}
 	
 	/*

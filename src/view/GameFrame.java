@@ -4,19 +4,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
 
 import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
 import model.Observer;
 
-class GameFrame extends Frame implements Observer{
+class GameFrame extends Frame implements Observer, MouseListener{
 	private static GameFrame gFrame = null;
 	private static ModelFacade model = null;
 	Image logo = null;
 	File f = null;
+	private ArrayList<PieceView> pImages;
 	private Graphics2D g2 = null;
+	
 	
 	public static GameFrame get_GameFrame(){
 		if(gFrame != null) {
@@ -88,14 +90,11 @@ class GameFrame extends Frame implements Observer{
 				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
 			}
 		}
-		Image img;
 		PieceView pv = new PieceView(c,t);
 		try {
-			File f = new File(pv.get_piece_file());
-			img = ImageIO.read(f);
-			g2.drawImage(img, coord_to_pos_x(x), coord_to_pos_y(y), 55, 55, null);
-//			g2.drawImage(img, coord_to_pos_x(x), coord_to_pos_y(y), null);
-			}
+			g2.drawImage(pv.display_img(), coord_to_pos_x(x), coord_to_pos_y(y), 55, 55, null);
+			pImages.add(pv);
+		}
 		catch(IOException e) {
 			System.out.println(e.getMessage());
 			System.exit(1); 
@@ -147,6 +146,41 @@ class GameFrame extends Frame implements Observer{
 			}
 		}
 		
+		
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 
