@@ -77,10 +77,18 @@ class GameFrame extends Frame implements Observer, MouseListener{
 	/*
 	 *  converte posicao na tela para coordenada de matriz
 	 */
-	Coordinate pos_to_coord(int x, int y) {
-		Coordinate c = new Coordinate(x,y);
-		return c;
+	int pos_to_coord_x(int x, int y) {
+		int new_x;
+		new_x = (int)((x-5)/55);
+		return new_x;
 	}
+	
+	int pos_to_coord_y(int x, int y) {
+		int new_y;
+		new_y = (int)((x-85)/55);
+		return new_y;
+	}
+	
 	
 	/*
 	 * transforma x da coordenada da matriz em  x da posicao da tela
