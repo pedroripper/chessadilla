@@ -8,6 +8,7 @@ import model.ModelFacade;
 
 public class ControllerFacade {
 	static ControllerFacade cf  = null;
+	static ModelFacade mf = ModelFacade.getModelFacade();
 	GameController gc = null;
 	StartingController sc = null;
 	
@@ -32,6 +33,10 @@ public class ControllerFacade {
 	public void startGame() throws CoordinateInvalid {
 		gc.startGame();
 	}
+	/*
+	public int owner(int x,int y) throws CoordinateInvalid {
+		return mf.get_owner(x,y);
+	}*/
 
 	
 	
