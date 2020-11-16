@@ -9,7 +9,7 @@ public class ModelFacade {
 	private ArrayList<Observer> obs = new ArrayList<Observer>();
 
 	
-	public ModelFacade getModelFacade() {
+	public static ModelFacade getModelFacade() {
 		if(mf == null) {
 			mf = new ModelFacade();
 		}
@@ -85,6 +85,13 @@ public class ModelFacade {
 	public int get_turn() {
 		Game game = Game.get_game();
 		return  game.get_turn();
+	}
+	
+	public int get_owner(int x, int y) throws CoordinateInvalid {
+		Board board = Board.get_board();
+		Coordinate c = new Coordinate(x,y);
+		
+		return board.get_piece(x, y).owner;
 	}
 	
 	

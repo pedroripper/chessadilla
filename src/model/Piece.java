@@ -40,7 +40,11 @@ abstract class Piece {
 			}
 		}
 		return false;
-	}	
+	}
+	
+	public int get_owner() {
+		return this.owner;
+	}
 	
 	public abstract ArrayList<Coordinate> move_list() throws CoordinateInvalid;
 	

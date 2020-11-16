@@ -21,6 +21,8 @@ class GameFrame extends Frame implements Observer {
 	File f = null;
 	private ArrayList<PieceView> pImages = new ArrayList<PieceView>();
 	private Graphics2D g2 = null;
+	private boolean IsInPreMove = false;
+	ArrayList<Coordinate> p = null;
 	
 	
 	public static GameFrame get_GameFrame(){
@@ -211,16 +213,23 @@ class GameFrame extends Frame implements Observer {
 			// TODO Auto-generated method stub
 			
 			if (e.getButton() == 1) {
-				for(PieceView i: pImages) {
-					if(i.contains(e.getX(), e.getY())) {
+				if(!IsInPreMove) {
+					for(PieceView i: pImages) {
 						int x,y;
 						x = pos_to_coord_x(e.getX());
 						y = pos_to_coord_y(e.getY());
 						try {
-							ArrayList<Coordinate> p = ControllerFacade.pre_move(x,y);
-							
-							for(Coordinate j: p) {
-								display_possible_moves(j);
+							if(i.contains(e.getX(), e.getY()) && model.get_turn() == model.get_owner(x, y)) {
+								try {
+									p = ControllerFacade.pre_move(x,y);
+									
+									for(Coordinate j: p) {
+										display_possible_moves(j);
+									}
+								} catch (CoordinateInvalid e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 							}
 						} catch (CoordinateInvalid e1) {
 							// TODO Auto-generated catch block
@@ -228,11 +237,22 @@ class GameFrame extends Frame implements Observer {
 						}
 					}
 				}
+				else if(p != null) {
+					int x,y;
+					x = pos_to_coord_x(e.getX());
+					y = pos_to_coord_y(e.getY());
+					for(Coordinate i: p) {
+						if(i.get_x() == x && i.get_y() == y) {
+							ControllerFacade.move(x, y); // Corrigir erro
+						}
+					}
+				}
+				
 			}
 			else if (e.getButton() == 2) {
 					; // Falta implementar
 			}
-			}
+		}
 	
 	
 		@Override
