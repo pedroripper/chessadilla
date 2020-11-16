@@ -13,7 +13,7 @@ import Observer.Observer;
 import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
-
+//import model.Piece;
 import controller.ControllerFacade;
 
 class GameFrame extends Frame implements Observer {
@@ -215,7 +215,7 @@ class GameFrame extends Frame implements Observer {
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
-			if (e.getButton() == 1) {
+			if (e.getButton() == MouseEvent.BUTTON2) {
 				if(!IsInPreMove) {
 					System.out.print("Selecionado para ver movimentos possiveis");
 					for(PieceView i: pImages) {
@@ -261,9 +261,28 @@ class GameFrame extends Frame implements Observer {
 				}
 				
 			}
-			else if (e.getButton() == 2) {
-				JFileChooser chooser = new JFileChooser(".");
-//				chooser.set
+			else if (e.getButton() == MouseEvent.BUTTON1) {
+				int response;
+				JFileChooser chooser = new JFileChooser();
+				//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				chooser.setDialogTitle("Escolha um arquivo para salvar");
+				response = chooser.showSaveDialog(null);
+				
+				if(response == JFileChooser.APPROVE_OPTION) {
+					//System.out.println(chooser.getSelectedFile());
+					FileWriter file;
+					try {
+						file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
+						String s = model.board_data_to_string(model.get_board_data());
+						System.out.println(s);
+						file.write(s);
+						file.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("oi");
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 	

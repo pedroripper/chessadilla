@@ -34,12 +34,12 @@ class Board {
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
 			add_piece(new Pawn(Color.white,i,1,1), i, 1);
-			add_piece(new Pawn(Color.black,i,6,1), i, 6);
+			add_piece(new Pawn(Color.black,i,6,2), i, 6);
 		}
 //		Inicializando os rooks
 		add_piece(new Rook(Color.white,0,0,1), 0, 0);
 		add_piece(new Rook(Color.white,7,0,1), 7, 0);
-		add_piece(new Rook(Color.black,0,7,1), 0, 7);
+		add_piece(new Rook(Color.black,0,7,2), 0, 7);
 		add_piece(new Rook(Color.black,7,7,2), 7, 7);
 //		Inicializando os knights
 		add_piece(new Knight(Color.white,1,0,1), 1,0);

@@ -36,9 +36,28 @@ public class ModelFacade {
 	/*
 	 * get_board_data(): retorna a matriz de posicao das pecas no board
 	 */
-	public static Piece[][] get_board_data(){
+	public Piece[][] get_board_data(){
 		Board board = Board.get_board();
 		return board.b;
+	}
+	
+	public String board_data_to_string(Piece[][] bp) {
+		String s = "";
+		
+		for(Piece[] i: bp) {
+			for(Piece j: i) {
+				if (j == null) {
+					s = s + "-";
+				}
+				else {
+					//char c = (char) j.owner;
+					String aux1 = String.valueOf(j.owner);  
+					s = s + (aux1 + j.type);
+				}
+			}
+			s = s + "\n";
+		}
+		return s;
 	}
 	
 	
