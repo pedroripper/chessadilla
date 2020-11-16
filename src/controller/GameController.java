@@ -29,6 +29,11 @@ class GameController implements Observer{
 		runGame();
 	}
 	
+	void make_move(int x1, int y1, int x2, int y2) throws CoordinateInvalid {
+		ModelFacade model = ModelFacade.getModelFacade();
+		model.make_move(x1, y1, x2, y2);
+	}
+	
 	void runGame() {
 		
 	}

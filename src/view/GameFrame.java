@@ -209,6 +209,7 @@ class GameFrame extends Frame implements Observer {
 	//ArrayList<Coordinate> p = pre_move(3,3);
 	private class MouseHandler implements MouseListener  {
 		
+		int x1,y1,x2,y2;
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -216,16 +217,18 @@ class GameFrame extends Frame implements Observer {
 			
 			if (e.getButton() == 1) {
 				if(!IsInPreMove) {
+					System.out.print("Selecionado para ver movimentos possiveis");
 					for(PieceView i: pImages) {
-						int x,y;
-						x = pos_to_coord_x(e.getX());
-						y = pos_to_coord_y(e.getY());
+						x1 = pos_to_coord_x(e.getX());
+						y1 = pos_to_coord_y(e.getY());
 						try {
-							if(i.contains(e.getX(), e.getY()) && model.get_turn() == model.get_owner(x, y)) {
+							if(i.contains(e.getX(), e.getY()) && model.get_turn() == model.get_owner(x1, y1)) {
 								try {
-									p = ControllerFacade.pre_move(x,y);
+									IsInPreMove = true;
+									p = ControllerFacade.pre_move(x1,y1);
 									
 									for(Coordinate j: p) {
+										System.out.print(""+j.get_x()+" "+j.get_y() + "\n");
 										display_possible_moves(j);
 									}
 								} catch (CoordinateInvalid e1) {
@@ -240,14 +243,21 @@ class GameFrame extends Frame implements Observer {
 					}
 				}
 				else if(p != null) {
-					int x,y;
-					x = pos_to_coord_x(e.getX());
-					y = pos_to_coord_y(e.getY());
+					x2 = pos_to_coord_x(e.getX());
+					y2 = pos_to_coord_y(e.getY());
 					for(Coordinate i: p) {
-						if(i.get_x() == x && i.get_y() == y) {
-							ControllerFacade.move(x, y); // Corrigir erro
+						if(i.get_x() == x2 && i.get_y() == y2) {
+							try {
+								ControllerFacade.make_move(x1, y1, x2, y2);
+								IsInPreMove = false;
+							} catch (CoordinateInvalid e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} // Corrigir erro
 						}
 					}
+					System.out.print("Selecionou posicao errada");
+					repaint();
 				}
 				
 			}

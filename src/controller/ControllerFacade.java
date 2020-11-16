@@ -38,6 +38,10 @@ public class ControllerFacade {
 		return mf.get_owner(x,y);
 	}*/
 
+	public static void make_move(int x1, int y1, int x2,int y2) throws CoordinateInvalid {
+		cf.gc.make_move(x1,y1,x2,y2);
+	}
+
 	
 	
 }
