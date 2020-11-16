@@ -7,6 +7,8 @@ import java.io.*;
 import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
+
 import Observer.Observer;
 import model.Coordinate;
 import model.CoordinateInvalid;
@@ -230,7 +232,8 @@ class GameFrame extends Frame implements Observer {
 				}
 			}
 			else if (e.getButton() == 2) {
-					; // Falta implementar
+				JFileChooser chooser = new JFileChooser(".");
+//				chooser.set
 			}
 			}
 	

@@ -1,5 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+
+import Observer.Observer;
+
 class Game {
 	private static Game g = null;
 	private int n_p1, n_p2;

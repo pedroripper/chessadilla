@@ -11,9 +11,7 @@ class Board {
 	protected int y; // Dimensão y do tabuleiro
 	
 	protected Piece b [][]; // Matriz que representa o tabuleiro
-	private static Board board = null;
-	private ArrayList<Observer> obs = new ArrayList<Observer>();
-	
+	private static Board board = null;	
 	
 	public static Board get_board(){
 		if(board != null) {
@@ -26,14 +24,6 @@ class Board {
 		return board;
 	}
 	
-	
-	public void addObserver(Observer o) {
-		this.obs.add(o);
-	}
-	
-	public void removeObserver(Observer o) {
-		this.obs.remove(o);
-	}
 	
 	
 	
