@@ -13,7 +13,7 @@ import Observer.Observer;
 import model.Coordinate;
 import model.CoordinateInvalid;
 import model.ModelFacade;
-
+//import model.Piece;
 import controller.ControllerFacade;
 
 class GameFrame extends JFrame implements Observer, MouseListener {
@@ -247,6 +247,7 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 	
 		int x1,y1,x2,y2;
 
+//<<<<<<< HEAD
 	@Override
 	public void mouseClicked(MouseEvent e) {		
 		if (e.getButton() == 1) {
@@ -259,6 +260,32 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 						if(mustMovep1.size()>0) {
 							if(x1 != mustMovep1.get(0).get_x() || y1 != mustMovep1.get(0).get_y()) {
 								return;
+//=======
+//		@Override
+//		public void mouseClicked(MouseEvent e) {
+//			// TODO Auto-generated method stub
+//			
+//			if (e.getButton() == MouseEvent.BUTTON1) {
+//				if(!IsInPreMove) {
+//					System.out.print("Selecionado para ver movimentos possiveis");
+//					for(PieceView i: pImages) {
+//						x1 = pos_to_coord_x(e.getX());
+//						y1 = pos_to_coord_y(e.getY());
+//						try {
+//							if(i.contains(e.getX(), e.getY()) && model.get_turn() == model.get_owner(x1, y1)) {
+//								try {
+//									IsInPreMove = true;
+//									p = ControllerFacade.pre_move(x1,y1);
+//									
+//									for(Coordinate j: p) {
+//										System.out.print(""+j.get_x()+" "+j.get_y() + "\n");
+//										display_possible_moves(j);
+//									}
+//								} catch (CoordinateInvalid e1) {
+//									// TODO Auto-generated catch block
+//									e1.printStackTrace();
+//								}
+//>>>>>>> c4b26ede59795bce21fa11948edf6772f45d7621
 							}
 						}
 					}
@@ -333,34 +360,55 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 				possibleMoves.removeAll(possibleMoves);
 				repaint();
 			}
+//<<<<<<< HEAD
+//=======
+			else if (e.getButton() == MouseEvent.BUTTON2) {
+				int response;
+				JFileChooser chooser = new JFileChooser();
+				//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				chooser.setDialogTitle("Escolha um arquivo para salvar");
+				response = chooser.showSaveDialog(null);
+				
+				if(response == JFileChooser.APPROVE_OPTION) {
+					//System.out.println(chooser.getSelectedFile());
+					FileWriter file;
+					try {
+						file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
+
+						String s = controller.board_data_to_string();
+						System.out.println(s);
+						file.write(s);
+						file.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("oi");
+						e1.printStackTrace();
+					}
+				}
+			}
+		}
+		}
+	
+	
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
 			
 		}
-		else if (e.getButton() == 2) {
-			System.out.print("OI");
-//				chooser.set
+	
+	
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+	
+	
+		@Override
+		public void mouseEntered(MouseEvent e) {
 		
 	}
 
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override

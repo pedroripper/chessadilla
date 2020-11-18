@@ -48,6 +48,32 @@ public class ModelFacade {
 	public ArrayList<String> pieces_to_display() throws CoordinateInvalid {
 		return mf.board.send_pieces();
 	}
+
+	public Piece[][] get_board_data(){
+		Board board = Board.get_board();
+		return board.b;
+	}
+	
+	public String board_data_to_string(Piece[][] bp) {
+		String s = "";
+		
+		for(Piece[] i: bp) {
+			for(Piece j: i) {
+				if (j == null) {
+					s = s + "-";
+				}
+				else {
+					//char c = (char) j.owner;
+					String aux1 = String.valueOf(j.owner);  
+					s = s + (aux1 + j.type);
+				}
+			}
+			s = s + "\n";
+		}
+		return s;
+	}
+	
+
 	
 	/*
 	 * possible_moves: retorna um array de Coordinate mostrando os 
