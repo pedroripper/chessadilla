@@ -23,17 +23,31 @@ class Rook extends Piece{
 			while ( board.verify_xy(this.coord.x + j*orientation[i][0],
 								   this.coord.y + j*orientation[i][1])) {
 				if (board.get_piece(this.coord.x + j*orientation[i][0], 
-								   this.coord.y + j*orientation[i][1]) != null) {
+								   this.coord.y + j*orientation[i][1]) != null && board.get_piece(this.coord.x + j*orientation[i][0], 
+										   this.coord.y + j*orientation[i][1]).color == this.color) {
 					break;
 				}
 				lst.add(new Coordinate(this.coord.x + j*orientation[i][0],
 									   this.coord.y + j*orientation[i][1]));
+				
+				if(board.get_piece(this.coord.x + j*orientation[i][0], 
+								   this.coord.y + j*orientation[i][1]) != null && board.get_piece(this.coord.x + j*orientation[i][0], 
+										   this.coord.y + j*orientation[i][1]).color != this.color) {
+					break;
+				}
+				
 				j++;
 			}
 			i++;
 		}
 		this.moveList = lst;
 		return lst;
+	}
+
+	@Override
+	protected int isInCheck() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

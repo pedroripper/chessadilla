@@ -4,10 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.io.*;
-import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 import Observer.Observer;
 import model.Coordinate;
@@ -16,26 +16,30 @@ import model.ModelFacade;
 
 import controller.ControllerFacade;
 
-class GameFrame extends Frame implements Observer {
+class GameFrame extends JFrame implements Observer, MouseListener {
 	private static GameFrame gFrame = null;
-	private static ModelFacade model = null;
-	Image logo = null;
+//	private ModelFacade model = null;
+	ControllerFacade controller = null;
 	File f = null;
 	private ArrayList<PieceView> pImages = new ArrayList<PieceView>();
-	private Graphics2D g2 = null;
+	Graphics2D g2 = null;
 	private boolean IsInPreMove = false;
-	ArrayList<Coordinate> p = null;
-	
+	ArrayList<Coordinate> possibleMoves = new ArrayList<Coordinate>();
+	ArrayList<String> piecesInCheck = new ArrayList<String>();
+	ArrayList<Coordinate> mustMovep1  = new ArrayList<Coordinate>();
+	ArrayList<Coordinate> mustMovep2  = new ArrayList<Coordinate>();
 	
 	public static GameFrame get_GameFrame(){
 		if(gFrame != null) {
 			return gFrame;
 		}
 		gFrame = new GameFrame();
-		model = new ModelFacade();
+		gFrame.addMouseListener(gFrame);
+		gFrame.controller = ControllerFacade.get_controllerFacade();
 		return gFrame;
-
 	}
+	
+	
 	
 
 	@Override
@@ -57,36 +61,43 @@ class GameFrame extends Frame implements Observer {
 	
 	
 	public void paint(Graphics g) {
-		if(g2 ==  null) {
-			g2 = (Graphics2D)g;
-
-			drawBoardFrame();
-			drawBoard();
-			try {
-				model.add_observer(this);
-				model.pieces_to_display();
-				update_status_display();
-				MouseHandler mHandler = new MouseHandler();
-				gFrame.addMouseListener(mHandler);
-			} catch (CoordinateInvalid e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		super.paint(g);
+		gFrame.g2 = (Graphics2D)g;
+		drawBoardFrame();
+		drawBoard();
+//		gFrame.model.add_observer(gFrame);
+		try {
+			ArrayList<String> encoded_pieces = gFrame.controller.get_piecesToDisplay();
+			decode_pieces(encoded_pieces);
+		} catch (CoordinateInvalid e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(possibleMoves.size() > 0) {
+			display_possible_moves();
+		}
+		if(piecesInCheck.size() > 0) {
+			System.out.print("ATENCAO");
+			displayPieceInCheck();
+		}
+		if(gFrame.controller.get_turn() == 1) {
+			if(mustMovep1.size()>0) {
+				displayMustMoves(1);
 			}
-		} else {
-			drawBoardFrame();
-			drawBoard();
-			update_status_display();
-
-			try {
-				refresh_pieces();
-			} catch (CoordinateInvalid e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		}
+		if(gFrame.controller.get_turn() == 2) {
+			if(mustMovep2.size()>0) {
+				displayMustMoves(2);
 			}
 		}
 		
+		update_status_display();
+		
 	}
-	
+
+
+
+
 	/*
 	 *  converte posicao na tela para coordenada de matriz
 	 */
@@ -118,44 +129,73 @@ class GameFrame extends Frame implements Observer {
 	}
 	
 	
-	void load_piece(Coordinate matrix_index, char type, char c) {
-		display_piece(matrix_index.get_x(), matrix_index.get_y(), type, c);
+	void decode_pieces(ArrayList<String> encoded_pieces) throws CoordinateInvalid{
+		pImages.removeAll(pImages);
+		for(String encod : encoded_pieces) {
+			int i = Integer.valueOf(encod.charAt(0) - 48);
+			int j = Integer.valueOf(encod.charAt(1) - 48);
+//			System.out.print(encod + "\n");
+			char type = encod.charAt(2);
+			char color = encod.charAt(3);
+//			System.out.print(i + " " + j +  "\n");
+			PieceView p = new PieceView(coord_to_pos_x(i), coord_to_pos_y(j), color, type);
+			pImages.add(p);
+		}
+		for(PieceView pieceImg: pImages) {   
+			display_piece(pieceImg.display_img(), pieceImg.x, pieceImg.y);
+		}
 	}
 	
-	private void display_piece(int x, int y, char t, char c) {
-		if(t == 'v') {
-			if(x % 2 == y % 2) {
-				g2.setColor(Color.WHITE);
-				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
-			} else {
-				g2.setColor(Color.BLACK);
-				g2.clearRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
-			}
-		}   
-		try {
-			PieceView pv = new PieceView(coord_to_pos_x(x),coord_to_pos_y(y),c,t);
-			g2.drawImage(pv.display_img(), coord_to_pos_x(x), coord_to_pos_y(y), 55, 55, null);
-			pImages.add(pv);
-			
-		}
-		catch(IOException e) {
-			System.out.println(e.getMessage());
-			System.exit(1); 
-		}		
+	private void display_piece(Image img, int x, int y) throws CoordinateInvalid {
+			gFrame.g2.drawImage(img, x, y, 55, 55, null);
 
 	}
+				
+
 	
-	
-	void refresh_pieces() throws CoordinateInvalid {
-		pImages.removeAll(pImages);
-		model.pieces_to_display();
+	private void displayMustMoves(int player) {
+		gFrame.g2.setColor(Color.BLUE);
+		gFrame.g2.setStroke(new BasicStroke(5));
+		if(player == 1) {
+			System.out.print("\np1 -->"+mustMovep1.get(0).get_x() + coord_to_pos_x(mustMovep1.get(0).get_y())+"\n");
+			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(0).get_x()), coord_to_pos_x(mustMovep1.get(0).get_y()), 55, 55);
+			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(1).get_x()),coord_to_pos_x(mustMovep1.get(1).get_y()), 55, 55);
+		}
+		if(player == 2) {
+			System.out.print("P2"+ mustMovep2.get(0).get_x() + coord_to_pos_x(mustMovep2.get(0).get_y())+"\n");
+
+			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(0).get_x()),coord_to_pos_x(mustMovep2.get(0).get_y()), 55, 55);
+			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(1).get_x()), coord_to_pos_x(mustMovep2.get(1).get_y()), 55, 55);
+		}
 	}
 	
+	void displayPieceInCheck() {
+		for(String cod: piecesInCheck) {
+			int x = Integer.valueOf(cod.charAt(0) - 48);
+			int y = Integer.valueOf(cod.charAt(1) - 48);
+			char state = cod.charAt(2);
+			gFrame.g2.setStroke(new BasicStroke(5));
+			if(state == '1') {
+				System.out.print(state);
+				System.out.print("Esta em xeque");
+				gFrame.g2.setColor(Color.YELLOW);
+				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
+			} else {
+				System.out.print(state);
+
+				System.out.print("Esta em xeque-mate");
+				gFrame.g2.setColor(Color.RED);
+				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
+			}
+		}
+	}
 	
-	void display_possible_moves(Coordinate c) {
-		g2.setColor(Color.GREEN);
-		g2.setStroke(new BasicStroke(5));
-		g2.drawRect(coord_to_pos_x(c.get_x()), coord_to_pos_y(c.get_y()), 55, 55);
+	void display_possible_moves() {
+		gFrame.g2.setColor(Color.GREEN);
+		gFrame.g2.setStroke(new BasicStroke(5));
+		for(Coordinate c: possibleMoves) {
+			gFrame.g2.drawRect(coord_to_pos_x(c.get_x()), coord_to_pos_y(c.get_y()), 55, 55);
+		}
 	}
 
 	/*
@@ -201,101 +241,134 @@ class GameFrame extends Frame implements Observer {
 		g2.setColor(Color.BLACK);
 		Font font = new Font ("Courier New", 1, 30);
 		g2.setFont(font);
-		String status = "Vez do jogador " + model.get_turn();
+		String status = "Vez do jogador " + gFrame.controller.get_turn();
 		g2.drawString(status, 5, 55);
 	}
 	
-	
-	//ArrayList<Coordinate> p = pre_move(3,3);
-	private class MouseHandler implements MouseListener  {
-		
 		int x1,y1,x2,y2;
 
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-			if (e.getButton() == 1) {
-				if(!IsInPreMove) {
-					System.out.print("Selecionado para ver movimentos possiveis");
-					for(PieceView i: pImages) {
-						x1 = pos_to_coord_x(e.getX());
-						y1 = pos_to_coord_y(e.getY());
-						try {
-							if(i.contains(e.getX(), e.getY()) && model.get_turn() == model.get_owner(x1, y1)) {
-								try {
-									IsInPreMove = true;
-									p = ControllerFacade.pre_move(x1,y1);
-									
-									for(Coordinate j: p) {
-										System.out.print(""+j.get_x()+" "+j.get_y() + "\n");
-										display_possible_moves(j);
-									}
-								} catch (CoordinateInvalid e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
+	@Override
+	public void mouseClicked(MouseEvent e) {		
+		if (e.getButton() == 1) {
+//			Nenhuma peca foi selecionada ainda
+			if(!IsInPreMove) {
+				for(PieceView i: pImages) {
+					x1 = pos_to_coord_x(e.getX());
+					y1 = pos_to_coord_y(e.getY());
+					if(gFrame.controller.get_turn() == 1) {
+						if(mustMovep1.size()>0) {
+							if(x1 != mustMovep1.get(0).get_x() || y1 != mustMovep1.get(0).get_y()) {
+								return;
 							}
-						} catch (CoordinateInvalid e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
 						}
+					}
+					if(gFrame.controller.get_turn() == 2) {
+						if(mustMovep2.size()>0) {
+							if(x1 != mustMovep2.get(0).get_x() || y1 != mustMovep2.get(0).get_y()) {
+								return;
+							}
+						}
+					}
+					try {
+						if(i.contains(e.getX(), e.getY()) && gFrame.controller.get_turn() == gFrame.controller.get_owner(x1, y1)) {
+							System.out.print("Selecionado para ver movimentos possiveis \n");
+							IsInPreMove = true;
+							possibleMoves = ControllerFacade.pre_move(x1,y1);
+							if(possibleMoves.size() == 0) {
+								System.out.print("Não há movimentos possiveis para  essa peca \n");
+								IsInPreMove = false;
+								return;
+							}
+							else {
+								repaint();
+								return;
+							}
+							
+						}
+					} catch (CoordinateInvalid e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
-				else if(p != null) {
-					x2 = pos_to_coord_x(e.getX());
-					y2 = pos_to_coord_y(e.getY());
-					for(Coordinate i: p) {
-						if(i.get_x() == x2 && i.get_y() == y2) {
-							try {
-								ControllerFacade.make_move(x1, y1, x2, y2);
-								IsInPreMove = false;
-							} catch (CoordinateInvalid e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} // Corrigir erro
-						}
-					}
-					System.out.print("Selecionou posicao errada");
+				System.out.print("Não foi selecionada uma peca\n");
+			}
+//			peca ja foi selecionada
+			else if(possibleMoves.size() > 0) {
+				x2 = pos_to_coord_x(e.getX());
+				y2 = pos_to_coord_y(e.getY());
+				if(x2 == x1 && y2 == y1) {
+					System.out.print("Desmarcou a peca");
+					IsInPreMove = false;
+					possibleMoves.removeAll(possibleMoves);
 					repaint();
+					return;
 				}
 				
+				
+				for(Coordinate i: possibleMoves) {
+					if(i.get_x() == x2 && i.get_y() == y2) {
+						System.out.print("Selecionou uma posicao valida\n");
+						try {
+							ControllerFacade.make_move(x1, y1, x2, y2);
+							piecesInCheck = ControllerFacade.isThereCheck();
+							if(piecesInCheck.size() > 0) {
+								mustMovep1 = ControllerFacade.getMustMoves(1);
+								mustMovep2  = ControllerFacade.getMustMoves(2);
+							}
+							else {
+								mustMovep1 = new ArrayList<Coordinate>();
+								mustMovep2  = new ArrayList<Coordinate>();
+							}
+							possibleMoves.removeAll(possibleMoves);
+							IsInPreMove = false;
+//							repaint();
+						} catch (CoordinateInvalid e1) {
+							e1.printStackTrace();
+						} // Corrigir erro
+						return;
+					}
+				}
+				System.out.print("Selecionou posicao errada");
+				IsInPreMove = false;
+				possibleMoves.removeAll(possibleMoves);
+				repaint();
 			}
-			else if (e.getButton() == 2) {
-				JFileChooser chooser = new JFileChooser(".");
+			
+		}
+		else if (e.getButton() == 2) {
+			System.out.print("OI");
 //				chooser.set
-			}
 		}
-	
-	
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	
-	
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	
-	
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	
-	
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
 	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	
 }

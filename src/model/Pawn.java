@@ -76,4 +76,12 @@ class Pawn extends Piece{
 
 
 
+	@Override
+	protected int isInCheck() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
 }

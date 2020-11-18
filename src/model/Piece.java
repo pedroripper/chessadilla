@@ -20,25 +20,43 @@ abstract class Piece {
 	}
 	protected Color color; // Cor do objeto
 	Coordinate coord;
-	Board board = Board.get_board();
+	Board board = null;
 	ArrayList<Coordinate> moveList;
+	ArrayList<Coordinate> savingList;
 	int owner;
+	Game gInfo = null;
 	
 	char type;
+	public boolean isOut;
 
 	public Piece(Color c, int x, int y, int owner) {
+		this.isOut = false;
 		this.color =  c;
 		this.coord = new Coordinate(x,y);
 		this.owner = owner;
+		this.board = Board.get_board();
+		this.gInfo = Game.get_game();
 	}
 	
 	
-	public boolean check_move(Coordinate c) {
+	public boolean check_move(Coordinate c) throws CoordinateInvalid {
+		this.move_list();
 		for(Coordinate lst: moveList){
-			if(lst.equals(c)) {
+			if(lst.get_x() == c.get_x() && lst.get_y() == c.get_y()) {
 				return true;
 			}
 		}
+		return false;
+	}
+	
+	public boolean blockedMove(Piece foe,Piece savior, Coordinate c, Coordinate destiny) throws CoordinateInvalid  {
+		board.add_fake(savior, c.get_x(), c.get_y());
+		foe.move_list();
+		if(foe.check_move(destiny)) {
+			board.remove_fake(c.get_x(), c.get_y());
+			return true;
+		}
+		board.remove_fake(c.get_x(), c.get_y());
 		return false;
 	}
 	
@@ -48,6 +66,7 @@ abstract class Piece {
 	
 	public abstract ArrayList<Coordinate> move_list() throws CoordinateInvalid;
 	
+	
 	/*
 	movimenta a piece
 	*/
@@ -55,16 +74,23 @@ abstract class Piece {
 		if(check_move(new Coordinate(c.x,c.y))) {
 //			Pode realizar o movimento
 			if(board.get_piece(c.x, c.y) instanceof Piece) {
+//				board.gInfo.updatePieceList(board.get_piece(c.x, c.y), null);
 				board.remove_piece(c.x, c.y);
 			}
 			board.add_piece(this, c.x, c.y);
 			board.remove_piece(this.coord.x, this.coord.y);
 			this.coord = c;
-			
+//			board.gInfo.updatePieceList(this, board.get_piece(c.x, c.y));
+			if(this instanceof King) {
+				System.out.print("Cai aqui");
+			}
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+
+	abstract int isInCheck() throws CoordinateInvalid;
 	
 }

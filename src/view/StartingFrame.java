@@ -13,6 +13,7 @@ import model.CoordinateInvalid;
 
 public class StartingFrame extends JFrame  {
 	private static StartingFrame sFrame = null;
+	ControllerFacade controller = null;
 	JButton b_newGame = new JButton("Novo Jogo");
 	JButton b_loadGame = new JButton("Carregar Jogo");
 	JLabel title = new JLabel("Xadrez");
@@ -25,6 +26,7 @@ public class StartingFrame extends JFrame  {
 			return sFrame;
 		} 
 		sFrame = new StartingFrame();
+		sFrame.controller = ControllerFacade.get_controllerFacade();
 		return  sFrame; 
 	}
 		
@@ -39,16 +41,12 @@ public class StartingFrame extends JFrame  {
 		b_newGame.addActionListener(new ActionListener() {
 	      public void actionPerformed(ActionEvent e)
 	      {
-	       ControllerFacade controllerF = ControllerFacade.get_controllerFacade();
-		       try {
-				controllerF.startGame();
+		    try {
+				sFrame.controller.startGame();
 			} catch (CoordinateInvalid e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-	       GameFrame gameFrame = GameFrame.get_GameFrame();
-	       gameFrame.prepareGUI();
-	       gameFrame.setVisible(true);
 	      }
 	    });
 		

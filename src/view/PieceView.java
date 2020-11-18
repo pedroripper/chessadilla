@@ -17,9 +17,14 @@ class PieceView {
 		setColor(color, type);
 	}
 	
-	Image display_img() throws IOException {
+	Image display_img() {
 		File f = new File(this.get_piece_file());
-		display = ImageIO.read(f);
+		try {
+			display = ImageIO.read(f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return display;
 	}
 	

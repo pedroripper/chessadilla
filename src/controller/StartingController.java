@@ -1,8 +1,9 @@
 package controller;
 
+import Observer.Observer;
 import view.ViewFacade;
 
-class StartingController {
+class StartingController implements Observer{
 	static StartingController sc = null;
 	
 	static StartingController get_starting_controller() {
@@ -16,8 +17,14 @@ class StartingController {
 	 * inicializa a tela
 	 */
 	void start() {
-		ViewFacade view = new ViewFacade();
+		ViewFacade view = ViewFacade.get_viewFacade();
 		view.init_graphics();
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

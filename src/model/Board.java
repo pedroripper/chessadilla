@@ -10,9 +10,10 @@ class Board {
 	protected int x; // Dimensão x do tabuleiro
 	protected int y; // Dimensão y do tabuleiro
 	
-	protected Piece b [][]; // Matriz que representa o tabuleiro
-	private static Board board = null;	
+	Piece b [][]; // Matriz que representa o tabuleiro
 	
+	private static Board board = null;	
+	Game gInfo = null;
 	public static Board get_board(){
 		if(board != null) {
 			return board;
@@ -20,13 +21,10 @@ class Board {
 		board = new Board();
 		board.x = 8;
 		board.y = 8;
+		board.gInfo = Game.get_game();
 		board.b = new Piece[board.x][board.y];
 		return board;
 	}
-	
-	
-	
-	
 	
 	/*
 	 * init_board: inicializa a board com as pieces nas suas posicoes iniciais
@@ -34,12 +32,12 @@ class Board {
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
 			add_piece(new Pawn(Color.white,i,1,1), i, 1);
-			add_piece(new Pawn(Color.black,i,6,1), i, 6);
+			add_piece(new Pawn(Color.black,i,6,2), i, 6);
 		}
 //		Inicializando os rooks
 		add_piece(new Rook(Color.white,0,0,1), 0, 0);
 		add_piece(new Rook(Color.white,7,0,1), 7, 0);
-		add_piece(new Rook(Color.black,0,7,1), 0, 7);
+		add_piece(new Rook(Color.black,0,7,2), 0, 7);
 		add_piece(new Rook(Color.black,7,7,2), 7, 7);
 //		Inicializando os knights
 		add_piece(new Knight(Color.white,1,0,1), 1,0);
@@ -57,6 +55,7 @@ class Board {
 //		Inicializando o king
 		add_piece(new King(Color.white,4,0,1), 4,0);
 		add_piece(new King(Color.black,4,7,2), 4,7);
+		
 	}
 	
 	
@@ -78,7 +77,7 @@ class Board {
 	verify_xy: checa se duas coordenadas sao validas para o tabuleiro
 	*/
 	boolean verify_xy(int x,int y) {
-		if ((x >= 0) && (x < this.x) && (y >= 0) && (y < this.y)) {
+		if ((x >= 0) && (x < board.x) && (y >= 0) && (y < board.y)) {
 			return true;
 		}
 		else {
@@ -93,12 +92,36 @@ class Board {
 	*/
 	void add_piece(Piece p, int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
-			this.b[x][y] = p;
-//			ViewFacade.add_piece(new Coordinate(x,y), p.type , p.color.get_color());
+			board.b[x][y] = p;
+			board.gInfo.addPiece(p);
+			if(p.owner == 1) {
+				board.gInfo.p1_pieces.add(p);
+			} else {
+				board.gInfo.p2_pieces.add(p);
+			}
 		}
 		else {
 			throw new CoordinateInvalid();
 		}
+	}
+	
+	void add_fake(Piece p, int x, int y) throws CoordinateInvalid {
+		if(verify_xy(x,y)) {
+			board.b[x][y] = p;
+		}
+		else {
+			throw new CoordinateInvalid();
+		}
+	}
+	
+	/*
+	 * IsInCheque: 
+	 * retorna 1 se rei encontra-se em cheque
+	 * retorna 2 se rei encontra-se em cheque-mate
+	 * retorna 0 se rei nao esta ameacado
+	 */
+	int isInCheque() {
+		return 1;
 	}
 	
 	/*
@@ -107,7 +130,7 @@ class Board {
 	*/
 	Piece get_piece(int x, int y) throws CoordinateInvalid {
 		if (verify_xy(x,y)) {
-			return this.b[x][y];
+			return board.b[x][y];
 		}
 		else {
 			throw new CoordinateInvalid();
@@ -121,8 +144,14 @@ class Board {
 	Piece remove_piece(int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			if(get_piece(x,y) instanceof Piece) {
-				Piece trash = this.b[x][y];
-				this.b[x][y] = null;
+				Piece trash = board.b[x][y];
+				board.b[x][y] = null;
+				trash.isOut = true;
+				if(trash.owner == 1) {
+					board.gInfo.p1_pieces.remove(trash);
+				} else {
+					board.gInfo.p2_pieces.remove(trash);
+				}
 				return trash;
 			} else {
 				return null;
@@ -132,15 +161,33 @@ class Board {
 		}
 	}
 	
+	void remove_fake(int x, int y) throws CoordinateInvalid {
+		if(verify_xy(x,y)) {
+			if(get_piece(x,y) instanceof Piece) {
+				board.b[x][y] = null;
+			} 
+		} else {
+			throw new CoordinateInvalid();
+		}
+	}
 	
-	void send_pieces() {
+	ArrayList<String> send_pieces() {
+		ArrayList<String> encoded_pieces = new ArrayList<String>();
 		for(int j = 0; j < 8 ; j ++) {
 				for(int i = 0; i < 8 ; i ++) {
-				if(this.b[i][j] instanceof Piece && this.b[i][j] != null) {
-					ViewFacade.add_piece(new Coordinate(i,j), this.b[i][j].type , this.b[i][j].color.get_color());
+				if(board.b[i][j] instanceof Piece && board.b[i][j] != null) {
+					String s = "" + i +""+ j + board.b[i][j].type + board.b[i][j].color.get_color();
+					encoded_pieces.add(s);
 				}
 			}
 		}
-		
+//		System.out.print(encoded_pieces);
+//		System.out.print("Enviando as pecas");
+		return encoded_pieces;
+	}
+	
+	ArrayList<Coordinate> getPossibleMoves(int x, int y) throws CoordinateInvalid{
+		Piece p = board.get_piece(x,y);
+		return p.move_list();
 	}
 }

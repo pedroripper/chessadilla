@@ -30,7 +30,7 @@ class Queen extends Piece{
 		boolean avanca_esq = true;
 		boolean avanca_esq_inf = true; 
 		
-		while(dir_sup && dir_inf && esq_sup && esq_inf ) {
+		while(dir_sup || dir_inf || esq_sup || esq_inf ) {
 			if(sup) {
 				Piece p_sup = board.get_piece(this.coord.x, this.coord.y+i);
 				
@@ -38,13 +38,13 @@ class Queen extends Piece{
 				if(p_sup != null) {
 					// Peca encontrada eh inimiga
 					if(p_sup.color != this.color) {
-						lst.add(new Coordinate(this.coord.x, this.coord.y+1));
+						lst.add(new Coordinate(this.coord.x, this.coord.y+i));
 					} 
 					
 					avanca_sup = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x, this.coord.y+1));
+					lst.add(new Coordinate(this.coord.x, this.coord.y+i));
 				}
 				
 			}
@@ -55,13 +55,13 @@ class Queen extends Piece{
 				if(p_dir != null) {
 					// Peca encontrada eh inimiga
 					if(p_dir.color != this.color) {
-						lst.add(new Coordinate(this.coord.x+1, this.coord.y));
+						lst.add(new Coordinate(this.coord.x+i, this.coord.y));
 					} 
 					
 					avanca_dir = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y));
+					lst.add(new Coordinate(this.coord.x+i, this.coord.y));
 				}
 				
 			}
@@ -72,30 +72,30 @@ class Queen extends Piece{
 				if(p_inf != null) {
 					// Peca encontrada eh inimiga
 					if(p_inf.color != this.color) {
-						lst.add(new Coordinate(this.coord.x, this.coord.y-1));
+						lst.add(new Coordinate(this.coord.x, this.coord.y-i));
 					} 
 					
 					avanca_inf = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x, this.coord.y-1));
+					lst.add(new Coordinate(this.coord.x, this.coord.y-i));
 				}
 				
 			}
 			if(esq) {
-				Piece p_esq = board.get_piece(this.coord.x-1, this.coord.y);
+				Piece p_esq = board.get_piece(this.coord.x-i, this.coord.y);
 				
 				// Encontrou uma peca
 				if(p_esq != null) {
 					// Peca encontrada eh inimiga
 					if(p_esq.color != this.color) {
-						lst.add(new Coordinate(this.coord.x-1, this.coord.y));
+						lst.add(new Coordinate(this.coord.x-i, this.coord.y));
 					} 
 					
 					avanca_esq = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y));
+					lst.add(new Coordinate(this.coord.x-i, this.coord.y));
 				}
 				
 			}
@@ -106,13 +106,13 @@ class Queen extends Piece{
 				if(p_dir_sup != null) {
 					// Peca encontrada eh inimiga
 					if(p_dir_sup.color != this.color) {
-						lst.add(new Coordinate(this.coord.x+1, this.coord.y+1));
+						lst.add(new Coordinate(this.coord.x+i, this.coord.y+i));
 					} 
 					
 					avanca_dir_sup = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y+1));
+					lst.add(new Coordinate(this.coord.x+i, this.coord.y+i));
 				}
 				
 			}
@@ -123,13 +123,13 @@ class Queen extends Piece{
 				if(p_dir_inf != null) {
 					// Peca encontrada eh inimiga
 					if(p_dir_inf.color != this.color) {
-						lst.add(new Coordinate(this.coord.x+1, this.coord.y-1));
+						lst.add(new Coordinate(this.coord.x+i, this.coord.y-i));
 					} 
 					
 					avanca_dir_inf = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y-1));
+					lst.add(new Coordinate(this.coord.x+i, this.coord.y-i));
 				}
 			}
 			if(esq_sup) {
@@ -139,13 +139,13 @@ class Queen extends Piece{
 				if(p_esq_sup != null) {
 					// Peca encontrada eh inimiga
 					if(p_esq_sup.color != this.color) {
-						lst.add(new Coordinate(this.coord.x-1, this.coord.y+1));
+						lst.add(new Coordinate(this.coord.x-i, this.coord.y+i));
 					} 
 					
 					avanca_esq_sup = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y+1));
+					lst.add(new Coordinate(this.coord.x-i, this.coord.y+i));
 				}
 				
 			}
@@ -156,13 +156,13 @@ class Queen extends Piece{
 				if(p_esq_inf != null) {
 					// Peca encontrada eh inimiga
 					if(p_esq_inf.color != this.color) {
-						lst.add(new Coordinate(this.coord.x-1, this.coord.y-1));
+						lst.add(new Coordinate(this.coord.x-i, this.coord.y-i));
 					} 
 					
 					avanca_esq_inf = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y-1));
+					lst.add(new Coordinate(this.coord.x-i, this.coord.y-i));
 				}
 				
 			}
@@ -227,6 +227,12 @@ class Queen extends Piece{
 		}
 		this.moveList = lst;
 		return lst;
+	}
+
+	@Override
+	protected int isInCheck() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

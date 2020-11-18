@@ -6,13 +6,18 @@ import Observer.Observer;
 
 public class ModelFacade {
 	private static ModelFacade mf=  null;
-	private ArrayList<Observer> obs = new ArrayList<Observer>();
-
+	private ArrayList<Observer> obs = null;
+	private Board board = null;
+	private Game gInfo = null;
 	
 	public static ModelFacade getModelFacade() {
-		if(mf == null) {
-			mf = new ModelFacade();
+		if(mf != null) {
+			return  mf;
 		}
+		mf = new ModelFacade();
+		mf.gInfo = Game.get_game();
+		mf.board = Board.get_board();
+		mf.obs = new ArrayList<Observer>();
 		return mf;
 	}
 	
@@ -21,44 +26,35 @@ public class ModelFacade {
 	 * newGame: popula a Board com as pecas
 	 */
 	public void newGame() throws CoordinateInvalid {
-		Board board = Board.get_board();
-		board.init_board();
-	}
-	
-	public void add_observer(Observer o) {
-		this.obs.add(o);
-	}
-	
-	public void remove_observer(Observer o) {
-		this.obs.remove(o);
+		mf.board.init_board();
 	}
 	
 	/*
-	 * get_board_data(): retorna a matriz de posicao das pecas no board
+	 * Adiciona observers
 	 */
-	public static Piece[][] get_board_data(){
-		Board board = Board.get_board();
-		return board.b;
+	public void add_observer(Observer o) {
+		mf.obs.add(o);
+	}
+	/*
+	 * Remove observers
+	 */
+	public void remove_observer(Observer o) {
+		mf.obs.remove(o);
 	}
 	
-	
-	public void pieces_to_display() throws CoordinateInvalid {
-		Board board = Board.get_board();
-		board.send_pieces();
+	/*
+	 * chama a board para enviar as  suas pecas
+	 */
+	public ArrayList<String> pieces_to_display() throws CoordinateInvalid {
+		return mf.board.send_pieces();
 	}
 	
 	/*
 	 * possible_moves: retorna um array de Coordinate mostrando os 
 	 * movimentos possiveis para a piece
 	 */
-	public static ArrayList<Coordinate> possible_moves(int x, int y) throws CoordinateInvalid {
-		Board board = Board.get_board();
-		Coordinate c = new Coordinate(x,y);
-		Piece p = board.get_piece(c.x, c.y);
-		if(p == null) {
-			return null;
-		}
-		return p.move_list();
+	public ArrayList<Coordinate> possible_moves(int x, int y) throws CoordinateInvalid {
+		return mf.board.getPossibleMoves(x,y);
 	}
 	
 	/*
@@ -66,10 +62,10 @@ public class ModelFacade {
 	 * possivel
 	 */
 	public boolean make_move(int x1, int y1, int x2, int y2) throws CoordinateInvalid {
-		Board board = Board.get_board();
+		System.out.print("Realizando movimento \n");
 		Coordinate c1 = new Coordinate(x1,y1);
 		Coordinate c2 = new Coordinate(x2,y2);
-		Piece p = board.get_piece(c1.x, c1.y);
+		Piece p = mf.board.get_piece(c1.x, c1.y);
 		if(p == null) {
 			return false;
 		}
@@ -78,20 +74,61 @@ public class ModelFacade {
 	            ob.update();
 	        }
 		}
+		else {
+			System.out.print("Não foi possivel realizar o movimento");
+		}
 		return true;
 	}
 	
-	
+	/*
+	 * Pega de quem é a vez de jogar
+	 */
 	public int get_turn() {
-		Game game = Game.get_game();
-		return  game.get_turn();
+		return  mf.gInfo.get_turn();
 	}
 	
+	public void toggle_turn() {
+		mf.gInfo.toggle_turn();
+	}
+	
+	/*
+	 * Pega quem é o dono da peca em (x,y)
+	 */
 	public int get_owner(int x, int y) throws CoordinateInvalid {
-		Board board = Board.get_board();
-		Coordinate c = new Coordinate(x,y);
+		return mf.board.get_piece(x, y).owner;
+	}
+	
+	public ArrayList<String> getInCheckPieces() throws CoordinateInvalid {
+		ArrayList<String> checked = new ArrayList<String>();
+		Piece k1 = mf.board.get_piece(mf.gInfo.getKingPos(1).x,mf.gInfo.getKingPos(1).y);
+		if(k1 instanceof King) {
+			String s1;
+			if(k1.isInCheck() == 1) {
+				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"1";
+				checked.add(s1);
+			} else if(k1.isInCheck() == 2) {
+				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"2";
+				checked.add(s1);
+			}
+		}
 		
-		return board.get_piece(x, y).owner;
+		Piece k2 = mf.board.get_piece(mf.gInfo.getKingPos(2).x,mf.gInfo.getKingPos(2).y);
+		if(k2 instanceof King) {
+			String s2;
+			if(k2.isInCheck() == 1) {
+				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"1";
+				checked.add(s2);
+			} else if(k2.isInCheck() == 2) {
+				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"2";
+				checked.add(s2);
+			}
+		}
+		return checked;
+	}
+
+
+	public ArrayList<Coordinate> getMustMoves(int i) {
+		return mf.gInfo.getMustMoves(i);
 	}
 	
 	

@@ -3,35 +3,34 @@ package view;
 import model.Coordinate;
 
 public class ViewFacade {
-	ViewFacade vf= null;
-	private static GameFrame gFrame = null;
+	private static ViewFacade vf= null;
+	private GameFrame gFrame = null;
+	private StartingFrame sFrame = null;
 	
-	public ViewFacade get_vireFacade() {
-		if(vf == null) {
-			vf = new ViewFacade();
+	public static ViewFacade get_viewFacade() {
+		if(vf != null) {
+			return  vf;
 		}
+		vf = new ViewFacade();
+		vf.sFrame = StartingFrame.get_startingFrame();
+		vf.gFrame = GameFrame.get_GameFrame();
+		
 		return vf;
 	}
 	
 	public void init_graphics() {
-		StartingFrame sFrame = StartingFrame.get_startingFrame();
-		sFrame.init_frame();
+		vf.sFrame.init_frame();
+	}
+	
+	public void init_gameFrame() {
+		vf.gFrame.setVisible(true);
+		vf.gFrame.prepareGUI();
+		vf.gFrame.setVisible(true);
+	}
+
+	public void refresh() {
+		vf.gFrame.repaint();
 	}
 	
 	
-	
-	public static void add_piece(Coordinate coord, char type, char color) {
-		if(gFrame == null) {
-			gFrame = GameFrame.get_GameFrame();
-		}
-		gFrame.load_piece(coord, type, color);
-	}
-	/*
-	public int x_to_coord_x(int x) {
-		return gFrame.pos_to_coord_x(x);
-	}
-	
-	public int y_coord_y(int y) {
-		return gFrame.pos_to_coord_y(y);
-	}*/
 }
