@@ -77,7 +77,7 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 			display_possible_moves();
 		}
 		if(piecesInCheck.size() > 0) {
-			System.out.print("ATENCAO");
+//			System.out.print("ATENCAO");
 			displayPieceInCheck();
 		}
 		if(gFrame.controller.get_turn() == 1) {
@@ -151,7 +151,9 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 
 	}
 				
-
+	int charToInt(char c) {
+		return Integer.valueOf(c -  48);
+	}
 	
 	private void displayMustMoves(int player) {
 		gFrame.g2.setColor(Color.BLUE);
@@ -177,11 +179,11 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 			gFrame.g2.setStroke(new BasicStroke(5));
 			if(state == '1') {
 				System.out.print(state);
-				System.out.print("Esta em xeque");
+//				System.out.print("Esta em xeque");
 				gFrame.g2.setColor(Color.YELLOW);
 				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
 			} else {
-				System.out.print(state);
+//				System.out.print(state);
 
 				System.out.print("Esta em xeque-mate");
 				gFrame.g2.setColor(Color.RED);
@@ -258,40 +260,14 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 					y1 = pos_to_coord_y(e.getY());
 					if(gFrame.controller.get_turn() == 1) {
 						if(mustMovep1.size()>0) {
-							if(x1 != mustMovep1.get(0).get_x() || y1 != mustMovep1.get(0).get_y()) {
+							if(!mustMovep1.contains(new Coordinate(x1,y1))) {
 								return;
-//=======
-//		@Override
-//		public void mouseClicked(MouseEvent e) {
-//			// TODO Auto-generated method stub
-//			
-//			if (e.getButton() == MouseEvent.BUTTON1) {
-//				if(!IsInPreMove) {
-//					System.out.print("Selecionado para ver movimentos possiveis");
-//					for(PieceView i: pImages) {
-//						x1 = pos_to_coord_x(e.getX());
-//						y1 = pos_to_coord_y(e.getY());
-//						try {
-//							if(i.contains(e.getX(), e.getY()) && model.get_turn() == model.get_owner(x1, y1)) {
-//								try {
-//									IsInPreMove = true;
-//									p = ControllerFacade.pre_move(x1,y1);
-//									
-//									for(Coordinate j: p) {
-//										System.out.print(""+j.get_x()+" "+j.get_y() + "\n");
-//										display_possible_moves(j);
-//									}
-//								} catch (CoordinateInvalid e1) {
-//									// TODO Auto-generated catch block
-//									e1.printStackTrace();
-//								}
-//>>>>>>> c4b26ede59795bce21fa11948edf6772f45d7621
 							}
 						}
 					}
 					if(gFrame.controller.get_turn() == 2) {
 						if(mustMovep2.size()>0) {
-							if(x1 != mustMovep2.get(0).get_x() || y1 != mustMovep2.get(0).get_y()) {
+							if(!mustMovep2.contains(new Coordinate(x1,y1))) {
 								return;
 							}
 						}
@@ -355,13 +331,12 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 						return;
 					}
 				}
-				System.out.print("Selecionou posicao errada");
+				System.out.print("\nSelecionou posicao errada\n");
 				IsInPreMove = false;
 				possibleMoves.removeAll(possibleMoves);
 				repaint();
 			}
-//<<<<<<< HEAD
-//=======
+
 			else if (e.getButton() == MouseEvent.BUTTON2) {
 				int response;
 				JFileChooser chooser = new JFileChooser();
@@ -376,12 +351,12 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 						file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
 
 						String s = controller.board_data_to_string();
-						System.out.println(s);
+//						System.out.println(s);
 						file.write(s);
 						file.close();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
-						System.out.println("oi");
+//						System.out.println("oi");
 						e1.printStackTrace();
 					}
 				}

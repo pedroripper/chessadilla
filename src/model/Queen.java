@@ -13,14 +13,14 @@ class Queen extends Piece{
 
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
 		int i = 1;
-		boolean sup = board.verify_xy(this.coord.x, this.coord.y + i);
-		boolean dir_sup = board.verify_xy(this.coord.x + i, this.coord.y + i);
-		boolean dir = board.verify_xy(this.coord.x + i, this.coord.y);
-		boolean dir_inf = board.verify_xy(this.coord.x + i, this.coord.y - i);
-		boolean inf = board.verify_xy(this.coord.x, this.coord.y - i);
-		boolean esq_sup = board.verify_xy(this.coord.x - i, this.coord.y + i);
-		boolean esq = board.verify_xy(this.coord.x - i, this.coord.y);
-		boolean esq_inf = board.verify_xy(this.coord.x - i, this.coord.y - i);
+		boolean sup = board.verify_xy(this.getCoord().x, this.getCoord().y + i);
+		boolean dir_sup = board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
+		boolean dir = board.verify_xy(this.getCoord().x + i, this.getCoord().y);
+		boolean dir_inf = board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
+		boolean inf = board.verify_xy(this.getCoord().x, this.getCoord().y - i);
+		boolean esq_sup = board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
+		boolean esq = board.verify_xy(this.getCoord().x - i, this.getCoord().y);
+		boolean esq_inf = board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
 		boolean avanca_sup = true;
 		boolean avanca_dir_sup = true;
 		boolean avanca_dir = true;
@@ -32,137 +32,137 @@ class Queen extends Piece{
 		
 		while(dir_sup || dir_inf || esq_sup || esq_inf ) {
 			if(sup) {
-				Piece p_sup = board.get_piece(this.coord.x, this.coord.y+i);
+				Piece p_sup = board.get_piece(this.getCoord().x, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_sup != null) {
 					// Peca encontrada eh inimiga
 					if(p_sup.color != this.color) {
-						lst.add(new Coordinate(this.coord.x, this.coord.y+i));
+						lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+i));
 					} 
 					
 					avanca_sup = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x, this.coord.y+i));
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+i));
 				}
 				
 			}
 			if(dir) {
-				Piece p_dir = board.get_piece(this.coord.x+i, this.coord.y);
+				Piece p_dir = board.get_piece(this.getCoord().x+i, this.getCoord().y);
 				
 				// Encontrou uma peca
 				if(p_dir != null) {
 					// Peca encontrada eh inimiga
 					if(p_dir.color != this.color) {
-						lst.add(new Coordinate(this.coord.x+i, this.coord.y));
+						lst.add(new Coordinate(this.getCoord().x+i, this.getCoord().y));
 					} 
 					
 					avanca_dir = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x+i, this.coord.y));
+					lst.add(new Coordinate(this.getCoord().x+i, this.getCoord().y));
 				}
 				
 			}
 			if(inf) {
-				Piece p_inf = board.get_piece(this.coord.x, this.coord.y-i);
+				Piece p_inf = board.get_piece(this.getCoord().x, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_inf != null) {
 					// Peca encontrada eh inimiga
 					if(p_inf.color != this.color) {
-						lst.add(new Coordinate(this.coord.x, this.coord.y-i));
+						lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-i));
 					} 
 					
 					avanca_inf = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x, this.coord.y-i));
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-i));
 				}
 				
 			}
 			if(esq) {
-				Piece p_esq = board.get_piece(this.coord.x-i, this.coord.y);
+				Piece p_esq = board.get_piece(this.getCoord().x-i, this.getCoord().y);
 				
 				// Encontrou uma peca
 				if(p_esq != null) {
 					// Peca encontrada eh inimiga
 					if(p_esq.color != this.color) {
-						lst.add(new Coordinate(this.coord.x-i, this.coord.y));
+						lst.add(new Coordinate(this.getCoord().x-i, this.getCoord().y));
 					} 
 					
 					avanca_esq = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x-i, this.coord.y));
+					lst.add(new Coordinate(this.getCoord().x-i, this.getCoord().y));
 				}
 				
 			}
 			if(dir_sup) {
-				Piece p_dir_sup = board.get_piece(this.coord.x+i, this.coord.y+i);
+				Piece p_dir_sup = board.get_piece(this.getCoord().x+i, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_dir_sup != null) {
 					// Peca encontrada eh inimiga
 					if(p_dir_sup.color != this.color) {
-						lst.add(new Coordinate(this.coord.x+i, this.coord.y+i));
+						lst.add(new Coordinate(this.getCoord().x+i, this.getCoord().y+i));
 					} 
 					
 					avanca_dir_sup = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x+i, this.coord.y+i));
+					lst.add(new Coordinate(this.getCoord().x+i, this.getCoord().y+i));
 				}
 				
 			}
 			if(dir_inf) {
-				Piece p_dir_inf = board.get_piece(this.coord.x+i, this.coord.y-i);
+				Piece p_dir_inf = board.get_piece(this.getCoord().x+i, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_dir_inf != null) {
 					// Peca encontrada eh inimiga
 					if(p_dir_inf.color != this.color) {
-						lst.add(new Coordinate(this.coord.x+i, this.coord.y-i));
+						lst.add(new Coordinate(this.getCoord().x+i, this.getCoord().y-i));
 					} 
 					
 					avanca_dir_inf = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x+i, this.coord.y-i));
+					lst.add(new Coordinate(this.getCoord().x+i, this.getCoord().y-i));
 				}
 			}
 			if(esq_sup) {
-				Piece p_esq_sup = board.get_piece(this.coord.x-i, this.coord.y+i);
+				Piece p_esq_sup = board.get_piece(this.getCoord().x-i, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_esq_sup != null) {
 					// Peca encontrada eh inimiga
 					if(p_esq_sup.color != this.color) {
-						lst.add(new Coordinate(this.coord.x-i, this.coord.y+i));
+						lst.add(new Coordinate(this.getCoord().x-i, this.getCoord().y+i));
 					} 
 					
 					avanca_esq_sup = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x-i, this.coord.y+i));
+					lst.add(new Coordinate(this.getCoord().x-i, this.getCoord().y+i));
 				}
 				
 			}
 			if(esq_inf) {
-				Piece p_esq_inf = board.get_piece(this.coord.x-i, this.coord.y-i);
+				Piece p_esq_inf = board.get_piece(this.getCoord().x-i, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_esq_inf != null) {
 					// Peca encontrada eh inimiga
 					if(p_esq_inf.color != this.color) {
-						lst.add(new Coordinate(this.coord.x-i, this.coord.y-i));
+						lst.add(new Coordinate(this.getCoord().x-i, this.getCoord().y-i));
 					} 
 					
 					avanca_esq_inf = false;
 				} // Nao encontrou uma peca
 				else {
-					lst.add(new Coordinate(this.coord.x-i, this.coord.y-i));
+					lst.add(new Coordinate(this.getCoord().x-i, this.getCoord().y-i));
 				}
 				
 			}
@@ -170,56 +170,56 @@ class Queen extends Piece{
 			// Verifica se continua procurando naquela direcao
 			i++;
 			if(avanca_sup) {
-				sup = board.verify_xy(this.coord.x, this.coord.y + i);
+				sup = board.verify_xy(this.getCoord().x, this.getCoord().y + i);
 			}
 			else {
 				sup = false;
 			}
 			
 			if(avanca_dir) {
-				dir = board.verify_xy(this.coord.x + i, this.coord.y);
+				dir = board.verify_xy(this.getCoord().x + i, this.getCoord().y);
 			}
 			else {
 				dir = false;
 			}
 			
 			if(avanca_inf) {
-				inf = board.verify_xy(this.coord.x, this.coord.y - i);
+				inf = board.verify_xy(this.getCoord().x, this.getCoord().y - i);
 			}
 			else {
 				inf = false;
 			}
 			
 			if(avanca_esq) {
-				esq = board.verify_xy(this.coord.x - i, this.coord.y);
+				esq = board.verify_xy(this.getCoord().x - i, this.getCoord().y);
 			}
 			else {
 				esq = false;
 			}
 			
 			if(avanca_dir_sup) {
-				dir_sup = board.verify_xy(this.coord.x + i, this.coord.y + i);
+				dir_sup = board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
 			}
 			else {
 				dir_sup = false;
 			}
 			
 			if(avanca_dir_inf) {
-				dir_inf = board.verify_xy(this.coord.x + i, this.coord.y - i);
+				dir_inf = board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
 			}
 			else {
 				dir_inf = false;
 			}
 			
 			if(avanca_esq_sup) {
-				esq_sup = board.verify_xy(this.coord.x - i, this.coord.y + i);
+				esq_sup = board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
 			}
 			else {
 				esq_sup = false;
 			}
 			
 			if(avanca_esq_inf) {
-				esq_inf = board.verify_xy(this.coord.x - i, this.coord.y - i);
+				esq_inf = board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
 			}
 			else {
 				esq_inf = false;
@@ -230,11 +230,18 @@ class Queen extends Piece{
 	}
 
 	@Override
-	protected int isInCheck() {
+	int testCheck() throws CoordinateInvalid {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
+	int testCheckMate(Piece enemy) throws CoordinateInvalid {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 	
 	
 }

@@ -113,13 +113,13 @@ class Game {
 		if(player == 1) {
 			for(Piece p: p1_pieces) {
 				if(p instanceof King) {
-					return p.coord;
+					return p.getCoord();
 				}
 			}
 		} else {
 			for(Piece p: p2_pieces) {
 				if(p instanceof King) {
-					return p.coord;
+					return p.getCoord();
 				}
 			}		
 		}

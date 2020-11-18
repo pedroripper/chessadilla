@@ -88,7 +88,7 @@ public class ModelFacade {
 	 * possivel
 	 */
 	public boolean make_move(int x1, int y1, int x2, int y2) throws CoordinateInvalid {
-		System.out.print("Realizando movimento \n");
+//		System.out.print("Realizando movimento \n");
 		Coordinate c1 = new Coordinate(x1,y1);
 		Coordinate c2 = new Coordinate(x2,y2);
 		Piece p = mf.board.get_piece(c1.x, c1.y);
@@ -101,7 +101,7 @@ public class ModelFacade {
 	        }
 		}
 		else {
-			System.out.print("Não foi possivel realizar o movimento");
+//			System.out.print("Não foi possivel realizar o movimento");
 		}
 		return true;
 	}
@@ -129,10 +129,10 @@ public class ModelFacade {
 		Piece k1 = mf.board.get_piece(mf.gInfo.getKingPos(1).x,mf.gInfo.getKingPos(1).y);
 		if(k1 instanceof King) {
 			String s1;
-			if(k1.isInCheck() == 1) {
+			if(k1.testCheck() == 1) {
 				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"1";
 				checked.add(s1);
-			} else if(k1.isInCheck() == 2) {
+			} else if(k1.testCheck() == 2) {
 				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"2";
 				checked.add(s1);
 			}
@@ -141,10 +141,10 @@ public class ModelFacade {
 		Piece k2 = mf.board.get_piece(mf.gInfo.getKingPos(2).x,mf.gInfo.getKingPos(2).y);
 		if(k2 instanceof King) {
 			String s2;
-			if(k2.isInCheck() == 1) {
+			if(k2.testCheck() == 1) {
 				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"1";
 				checked.add(s2);
-			} else if(k2.isInCheck() == 2) {
+			} else if(k2.testCheck() == 2) {
 				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"2";
 				checked.add(s2);
 			}

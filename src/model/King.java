@@ -32,256 +32,91 @@ class King extends Piece{
 			}
 			return null;
 		}
-//		// vertical check
-//		for (int i = 0; i < 8; i++) {
-//			Piece p = board.get_piece(c.x, i);
-//			if(p != null && p.color != this.color) {
-//				p.move_list();
-//				if(p.check_move(c)) {
-//					return true;
-//				}
-//			} else if(p != null && p.color == this.color){
-//				break;
-//			}
-//        }
-//		for (int j = 0; j < 8; j++) {
-//			Piece p = board.get_piece(j, c.y);
-//			if(p != null && p.color != this.color) {
-//				p.move_list();
-//				if(p.check_move(c)) {
-//					return true;
-//				}
-//			} else if(p != null && p.color == this.color){
-//				break;
-//			}
-//        }
-//		// Diagonal check
-//		int fx = c.x;
-//		for (int k = c.y; k < 8; k++) {
-//			if(fx >= 8) {
-//				break;
-//			}
-//			Piece p = board.get_piece(fx, k);
-//			if(p != null && p.color != this.color) {
-//				p.move_list();
-//				if(p.check_move(c)) {
-//					return true;
-//				}
-//			}
-//			else if(p != null && p.color == this.color){
-//				break;
-//			}
-//			fx +=1;
-//        }
-//		fx = c.x;
-//		for (int l = c.y; l >= 0; l--) {
-//			if(fx >= 8) {
-//				break;
-//			}
-//			Piece p = board.get_piece(fx, l);
-//			if(p != null && p.color != this.color) {
-//				p.move_list();
-//				if(p.check_move(c)) {
-//					return true;
-//				}
-//			}
-//			else if(p != null && p.color == this.color){
-//				break;
-//			}
-//			fx +=1;
-//        }
-//		fx = c.x;
-//		for (int k = c.y; k < 8; k++) {
-//			if(fx < 0) {
-//				break;
-//			}
-//			Piece p = board.get_piece(fx, k);
-//			if(p != null && p.color != this.color) {
-//				p.move_list();
-//				if(p.check_move(c)) {
-//					return true;
-//				}
-//			} else if(p != null && p.color == this.color){
-//				break;
-//			}
-//			fx -=1;
-//        }
-//		fx = c.x;
-//		for (int k = c.y; k >= 0; k--) {
-//			if(fx < 0) {
-//				break;
-//			}
-//			Piece p = board.get_piece(fx, k);
-//			if(p != null && p.color != this.color) {
-//				p.move_list();
-//				if(p.check_move(c)) {
-//					return true;
-//				}
-//			} else if(p != null && p.color == this.color){
-//				break;
-//			}
-//			fx -=1;
-//        }
-//		// knight check
-//		Piece knight;
-//		if(board.verify_xy(c.x+1, c.y+2)) {
-//			knight = board.get_piece(c.x+1, c.y+2);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x-1, c.y+2)) {
-//			knight = board.get_piece(c.x-1, c.y+2);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x+1, c.y-2)) {
-//			knight = board.get_piece(c.x+1, c.y-2);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x-1, c.y-2)) {
-//			knight = board.get_piece(c.x-1, c.y-2);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x+2, c.y+1)) {
-//			knight = board.get_piece(c.x+2, c.y+1);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x+2, c.y-1)) {
-//			knight = board.get_piece(c.x+2, c.y-1);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x-2, c.y-1)) {
-//			knight = board.get_piece(c.x-2, c.y-1);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//		if(board.verify_xy(c.x-2, c.y+1)) {
-//			knight = board.get_piece(c.x-2, c.y+1);
-//			if(knight != null && knight.color != this.color && knight instanceof Knight) {
-//				knight.move_list();
-//				if(knight.check_move(c)) {
-//					return true;
-//				}
-//			}
-//		}
-//
-//		
+
 	}
 
 
 	
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
-		if(board.verify_xy(this.coord.x+1, this.coord.y)) {
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x+1, this.coord.y);
+			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x+1, this.coord.y));
+				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x+1, this.coord.y));
+				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
 			}
 		}
-		if(board.verify_xy(this.coord.x+1, this.coord.y+1)) {
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+1)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x+1, this.coord.y+1);
+			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y+1);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x+1, this.coord.y+1));
+				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x+1, this.coord.y+1));
+				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
 			}
 		}
-		if(board.verify_xy(this.coord.x, this.coord.y+1)) {
+		if(board.verify_xy(this.getCoord().x, this.getCoord().y+1)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x, this.coord.y+1);
+			Piece p = board.get_piece(this.getCoord().x, this.getCoord().y+1);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x, this.coord.y+1));
+				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x, this.coord.y+1));
+				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
 			}
 		}
-		if(board.verify_xy(this.coord.x-1, this.coord.y+1)) {
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y+1)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x-1, this.coord.y+1);
+			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y+1);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x-1, this.coord.y+1));
+				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x-1, this.coord.y+1));
+				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
 			}
 		}
-		if(board.verify_xy(this.coord.x-1, this.coord.y)) {
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x-1, this.coord.y);
+			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x-1, this.coord.y));
+				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x-1, this.coord.y));
+				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
 			}
 		}
-		if(board.verify_xy(this.coord.x-1, this.coord.y-1)) {
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-1)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x-1, this.coord.y-1);
+			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-1);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x-1, this.coord.y-1));
+				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x-1, this.coord.y-1));
+				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
 			}
 		}
-		if(board.verify_xy(this.coord.x, this.coord.y-1)) {
+		if(board.verify_xy(this.getCoord().x, this.getCoord().y-1)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x, this.coord.y-1);
+			Piece p = board.get_piece(this.getCoord().x, this.getCoord().y-1);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x, this.coord.y-1));
+				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x, this.coord.y-1));
+				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
 			}
 		}
-		if(board.verify_xy(this.coord.x+1, this.coord.y-1)) {
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y-1)) {
 			// movimento no L em pe superior direita
-			Piece p = board.get_piece(this.coord.x+1, this.coord.y-1);
+			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y-1);
 			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.coord.x+1, this.coord.y-1));
+				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
 			} 
 			else if(p == null) {
-				lst.add(new Coordinate(this.coord.x+1, this.coord.y-1));
+				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
 			}
 		}
 		this.moveList = lst;
@@ -296,7 +131,7 @@ class King extends Piece{
 					board.remove_piece(x, y);
 				}
 				board.add_piece(this, x, y);
-				board.remove_piece(this.coord.x, this.coord.y);
+				board.remove_piece(this.getCoord().x, this.getCoord().y);
 				return true;
 			}
 			else {
@@ -307,86 +142,97 @@ class King extends Piece{
 		}
 	}
 	
-	int isInCheck() throws CoordinateInvalid {
+	int testCheckMate(Piece enemy) throws CoordinateInvalid {
 		ArrayList<Coordinate> mlist = this.move_list();
 		ArrayList<Coordinate> saveMove = new ArrayList<Coordinate>();
 		int nMoves = mlist.size();
 		int blockedMoves = 0;
-		if(this.enemy_inline(this.coord) != null) {
-			System.out.print("\nExiste enemy inline\n");
-			for(Coordinate c: mlist) {
-				Piece enemy = enemy_inline(c);
-				if(enemy != null) {
-					ArrayList <Coordinate> enemyMoves = enemy.move_list();
-//					for(Coordinate enemyCoord: enemyMoves) {
-						
-					
-					if(this.owner == 1) {
-						for(Piece[] pl: board.b) {
-							for(Piece p: pl) {
-								if(p != null) {
-								if(p.owner == 2) {
-									continue;
-								}
-	//						System.out.print(p.type+"\n");
-							
-								if(p instanceof King) {
-									continue;
-								}
-								if(board.get_piece(p.coord.get_x(), p.coord.get_y()) ==  null) {
-									continue;
-								}
-								p.move_list();
-								for(Coordinate pc: p.moveList) {
-									if(enemy.check_move(pc)) {
-										if(blockedMove(enemy, p, pc, this.coord)) {
-											
-											System.out.print("Tem alguem pra salvar o rei \n");
-											System.out.print("O tipo -> " + p.type +" \n");
-	
-											System.out.print(p.type+p.owner+p.coord.get_x()+p.coord.get_y()+"\n");
-											saveMove.add(p.coord);
-											saveMove.add(pc);
-											blockedMoves --;
-											board.gInfo.mustMove_p1 = saveMove;
-											return 1;
-										}
-									}
-								}
-							}
-							}
-						}
-					} else {
-//						for(Piece p: board.gInfo.p2_pieces) {
-//							if(p != null) {
-//								if(p instanceof King) {
-//									continue;
-//								}
-//								for(Coordinate pc: p.moveList) {
-//									if(enemy.blockedMove(enemy,p, pc, c)) {
-//										System.out.print("Tem alguem pra salvar o rei");
-//										saveMove.add(p.coord);
-//										saveMove.add(pc);
-//										blockedMoves --;
-//										board.gInfo.mustMove_p1 = saveMove;
-//										return 1;
-//									}
-//								}
-//							}
-//						}
-					}
-					
-//				}
-					}
+		
+		enemy.move_list();
+		ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
+		sini.add(this.getCoord());
+		for(Coordinate esc: mlist) {
+			if(enemy.check_move(esc)) {
 				blockedMoves ++;
-			} 
+			} else {
+				sini.add(esc);
+			}
 		}
-		System.out.print("Movimentos bloqueados -> " +  blockedMoves + "\n");
-		if(nMoves <= blockedMoves && nMoves != 0) {
-
-		return 2;
+		
+		if(blockedMoves == nMoves) {
+			return 2;
+		}
+		else {
+			saveMove = sini;
+			if(this.get_owner()  == 1) {
+				this.board.gInfo.mustMove_p1 = saveMove;
+			} else {
+				this.board.gInfo.mustMove_p2 = saveMove;
+			}
+			
+			return 1;
+		}
+	
+	}
+	
+	
+	int testCheck() throws CoordinateInvalid {
+		ArrayList<Coordinate> saveMove = new ArrayList<Coordinate>();
+		int blockedMoves = 0;
+		Piece enemy  = this.enemy_inline(this.getCoord());
+		if(enemy != null){
+			if(this.get_owner()  == 1) {
+				for(Piece p: this.board.gInfo.p1_pieces) {
+					if(p == this) {
+						continue;
+					}
+					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
+					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
+					sini.add(p.getCoord());
+					for(Coordinate pc: p.move_list()) {
+						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
+							sfim.add(p.getCoord());
+						}
+					}
+					sini.addAll(sfim);
+					if(sini.size() > 2) {
+						saveMove.addAll(sini);
+					}
+				}
+				if(saveMove.size() != 0) {
+					this.board.gInfo.mustMove_p1 = saveMove;
+					return 1;
+				} else  {
+					return testCheckMate(enemy);
+				}
+			}
+			else {
+				for(Piece p: this.board.gInfo.p2_pieces) {
+					if(p == this) {
+						continue;
+					}
+					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
+					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
+					sini.add(p.getCoord());
+					for(Coordinate pc: p.move_list()) {
+						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
+							sfim.add(p.getCoord());
+						}
+					}
+					sini.addAll(sfim);
+					if(sini.size() > 1) {
+						saveMove.addAll(sini);
+					}
+				}
+				if(saveMove.size() != 0) {
+					return 1;
+				} else  {
+					return testCheckMate(enemy);
+				}
+			}
 		}
 		return 0;
 	}
+
 
 }

@@ -11,84 +11,84 @@ class Knight extends Piece{
 
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
-			if(board.verify_xy(this.coord.x+1, this.coord.y+2)) {
+			if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+2)) {
 				// movimento no L em pe superior direita
-				Piece p = board.get_piece(this.coord.x+1, this.coord.y+2);
+				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y+2);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y+2));
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+2));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y+2));
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+2));
 				}
 			}
-			if(board.verify_xy(this.coord.x-1, this.coord.y+2)) {
+			if(board.verify_xy(this.getCoord().x-1, this.getCoord().y+2)) {
 				// movimento no L em pe superior esquerda
-				Piece p = board.get_piece(this.coord.x-1, this.coord.y+2);
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y+2);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y+2));
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+2));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y+2));
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+2));
 				}
 			}
-			if(board.verify_xy(this.coord.x-1, this.coord.y-2)) {
+			if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-2)) {
 				// movimento no L em pe inferior esquerda
-				Piece p = board.get_piece(this.coord.x-1, this.coord.y-2);
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-2);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y-2));
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-2));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x-1, this.coord.y-2));
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-2));
 				}
 			}
-			if(board.verify_xy(this.coord.x+1, this.coord.y-2)) {
+			if(board.verify_xy(this.getCoord().x+1, this.getCoord().y-2)) {
 				// movimento no L em pe inferior direita
-				Piece p = board.get_piece(this.coord.x+1, this.coord.y-2);
+				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y-2);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y-2));
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-2));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x+1, this.coord.y-2));
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-2));
 				}
 			}
-			if(board.verify_xy(this.coord.x+2, this.coord.y+1)) {
+			if(board.verify_xy(this.getCoord().x+2, this.getCoord().y+1)) {
 				// movimento no L deitado superior direita
-				Piece p = board.get_piece(this.coord.x+2, this.coord.y+1);
+				Piece p = board.get_piece(this.getCoord().x+2, this.getCoord().y+1);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x+2, this.coord.y+1));
+					lst.add(new Coordinate(this.getCoord().x+2, this.getCoord().y+1));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x+2, this.coord.y+1));
+					lst.add(new Coordinate(this.getCoord().x+2, this.getCoord().y+1));
 				}
 			}
-			if(board.verify_xy(this.coord.x-2, this.coord.y+1)) {
+			if(board.verify_xy(this.getCoord().x-2, this.getCoord().y+1)) {
 				// movimento no L deitado superior esquerda
-				Piece p = board.get_piece(this.coord.x-2, this.coord.y+1);
+				Piece p = board.get_piece(this.getCoord().x-2, this.getCoord().y+1);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x-2, this.coord.y+1));
+					lst.add(new Coordinate(this.getCoord().x-2, this.getCoord().y+1));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x-2, this.coord.y+1));
+					lst.add(new Coordinate(this.getCoord().x-2, this.getCoord().y+1));
 				}
 			}
-			if(board.verify_xy(this.coord.x-2, this.coord.y-1)) {
+			if(board.verify_xy(this.getCoord().x-2, this.getCoord().y-1)) {
 				// movimento no L deitado inferior esquerda
-				Piece p = board.get_piece(this.coord.x-2, this.coord.y-1);
+				Piece p = board.get_piece(this.getCoord().x-2, this.getCoord().y-1);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x-2, this.coord.y-1));
+					lst.add(new Coordinate(this.getCoord().x-2, this.getCoord().y-1));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x-2, this.coord.y-1));
+					lst.add(new Coordinate(this.getCoord().x-2, this.getCoord().y-1));
 				}
 			}
-			if(board.verify_xy(this.coord.x+2, this.coord.y-1)) {
+			if(board.verify_xy(this.getCoord().x+2, this.getCoord().y-1)) {
 				// movimento no L deitado inferior direita
-				Piece p = board.get_piece(this.coord.x+2, this.coord.y-1);
+				Piece p = board.get_piece(this.getCoord().x+2, this.getCoord().y-1);
 				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.coord.x+2, this.coord.y-1));
+					lst.add(new Coordinate(this.getCoord().x+2, this.getCoord().y-1));
 				} 
 				else if(p == null) {
-					lst.add(new Coordinate(this.coord.x+2, this.coord.y-1));
+					lst.add(new Coordinate(this.getCoord().x+2, this.getCoord().y-1));
 				}
 			}
 		moveList = lst;
@@ -96,9 +96,17 @@ class Knight extends Piece{
 	}
 
 	@Override
-	protected int isInCheck() {
+	int testCheck() throws CoordinateInvalid {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	int testCheckMate(Piece enemy) throws CoordinateInvalid {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 
 }

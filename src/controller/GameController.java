@@ -29,7 +29,7 @@ class GameController implements Observer{
 
 	@Override
 	public void update() {
-		System.out.print("Update");
+		System.out.print("\n Update \n");
 		gController.view.refresh();
 	}
 	

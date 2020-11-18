@@ -19,7 +19,7 @@ abstract class Piece {
 		
 	}
 	protected Color color; // Cor do objeto
-	Coordinate coord;
+	private Coordinate coord;
 	Board board = null;
 	ArrayList<Coordinate> moveList;
 	ArrayList<Coordinate> savingList;
@@ -82,15 +82,24 @@ abstract class Piece {
 			this.coord = c;
 //			board.gInfo.updatePieceList(this, board.get_piece(c.x, c.y));
 			if(this instanceof King) {
-				System.out.print("Cai aqui");
+//				System.out.print("Cai aqui");
 			}
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-
-	abstract int isInCheck() throws CoordinateInvalid;
 	
+	void setCoord(Coordinate c) {
+		this.coord = c;
+	}
+	
+	Coordinate getCoord() {
+		return this.coord;
+	}
+
+
+	abstract int testCheck() throws CoordinateInvalid;
+	abstract int testCheckMate(Piece enemy) throws CoordinateInvalid;
+
 }
