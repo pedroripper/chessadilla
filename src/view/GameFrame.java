@@ -215,7 +215,7 @@ class GameFrame extends Frame implements Observer {
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
-			if (e.getButton() == MouseEvent.BUTTON2) {
+			if (e.getButton() == MouseEvent.BUTTON1) {
 				if(!IsInPreMove) {
 					System.out.print("Selecionado para ver movimentos possiveis");
 					for(PieceView i: pImages) {
@@ -261,7 +261,7 @@ class GameFrame extends Frame implements Observer {
 				}
 				
 			}
-			else if (e.getButton() == MouseEvent.BUTTON1) {
+			else if (e.getButton() == MouseEvent.BUTTON2) {
 				int response;
 				JFileChooser chooser = new JFileChooser();
 				//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
