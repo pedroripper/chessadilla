@@ -61,10 +61,6 @@ public class ControllerFacade {
 		return cf.gc.isThereCheck();
 	}
 
-	public static ArrayList<Coordinate> getMustMoves(int i) {
-		return cf.gc.getMustMoves(i);
-	}
-
 	public String board_data_to_string() {
 		return cf.gc.model.board_data_to_string(cf.gc.model.get_board_data());
 	}

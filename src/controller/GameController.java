@@ -12,7 +12,7 @@ import model.ModelFacade;
 import view.ViewFacade;
 
 class GameController implements Observer{
-	static GameController gController = null;
+	static GameController gController;
 	ModelFacade model = null;
 	ViewFacade view = null;
 	
@@ -23,19 +23,18 @@ class GameController implements Observer{
 		gController = new GameController();
 		gController.model = ModelFacade.getModelFacade();
 		gController.view = ViewFacade.get_viewFacade();
-		gController.model.add_observer(gController);
 		return gController;
 	}
 
 	@Override
 	public void update() {
-		System.out.print("\n Update \n");
+		System.out.print("\n Update Aqui\n");
 		gController.view.refresh();
 	}
 	
 	void startGame() throws CoordinateInvalid {
-		gController.model.newGame();
 		gController.model.add_observer(gController);
+		gController.model.newGame();
 		gController.view.init_gameFrame();
 	}
 	
@@ -72,9 +71,5 @@ class GameController implements Observer{
 		return piecesInCheck;
 	}
 
-	public ArrayList<Coordinate> getMustMoves(int i) {
-		return gController.model.getMustMoves(i);
-	}
-	
 	
 }

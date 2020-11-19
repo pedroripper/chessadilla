@@ -33,7 +33,9 @@ public class ModelFacade {
 	 * Adiciona observers
 	 */
 	public void add_observer(Observer o) {
+		System.out.print(o.getClass());
 		mf.obs.add(o);
+		System.out.print("Tamanho do observer ->  " + obs.size() + "\n");
 	}
 	/*
 	 * Remove observers
@@ -129,6 +131,7 @@ public class ModelFacade {
 		Piece k1 = mf.board.get_piece(mf.gInfo.getKingPos(1).x,mf.gInfo.getKingPos(1).y);
 		if(k1 instanceof King) {
 			String s1;
+//			System.out.print("\n Antes de pedir o test ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
 			if(k1.testCheck() == 1) {
 				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"1";
 				checked.add(s1);
@@ -152,10 +155,5 @@ public class ModelFacade {
 		return checked;
 	}
 
-
-	public ArrayList<Coordinate> getMustMoves(int i) {
-		return mf.gInfo.getMustMoves(i);
-	}
-	
 	
 }

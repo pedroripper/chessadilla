@@ -13,8 +13,9 @@ class King extends Piece{
 	
 	
 	private Piece enemy_inline(Coordinate c) throws CoordinateInvalid {
+//		System.out.print("\n Realizando o enemy inline ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
 		if(this.owner == 1) {
-			ArrayList<Piece> enemies = this.board.gInfo.p2_pieces;
+			ArrayList<Piece> enemies = this.board.getPlayerPieces(2);
 			for(Piece e: enemies) {
 				e.move_list();
 				if(e.check_move(c)) {
@@ -23,7 +24,7 @@ class King extends Piece{
 			}
 			return null;
 		} else {
-			ArrayList<Piece> enemies = this.board.gInfo.p1_pieces;
+			ArrayList<Piece> enemies = this.board.getPlayerPieces(1);
 			for(Piece e: enemies) {
 				e.move_list();
 				if(e.check_move(c)) {
@@ -144,93 +145,131 @@ class King extends Piece{
 	
 	int testCheckMate(Piece enemy) throws CoordinateInvalid {
 		ArrayList<Coordinate> mlist = this.move_list();
-		ArrayList<Coordinate> saveMove = new ArrayList<Coordinate>();
 		int nMoves = mlist.size();
 		int blockedMoves = 0;
 		
 		enemy.move_list();
-		ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
-		sini.add(this.getCoord());
 		for(Coordinate esc: mlist) {
 			if(enemy.check_move(esc)) {
 				blockedMoves ++;
-			} else {
-				sini.add(esc);
-			}
+			} 
 		}
 		
 		if(blockedMoves == nMoves) {
 			return 2;
 		}
 		else {
-			saveMove = sini;
-			if(this.get_owner()  == 1) {
-				this.board.gInfo.mustMove_p1 = saveMove;
-			} else {
-				this.board.gInfo.mustMove_p2 = saveMove;
-			}
-			
 			return 1;
 		}
 	
 	}
 	
 	
+//	int testCheck__() throws CoordinateInvalid {
+//		ArrayList<Coordinate> saveMove = new ArrayList<Coordinate>();
+//		int blockedMoves = 0;
+//		Piece enemy  = this.enemy_inline(this.getCoord());
+//		if(enemy != null){
+//			if(this.get_owner()  == 1) {
+//				for(Piece p: this.board.getPlayerPieces(1)) {
+//					if(p == this) {
+//						continue;
+//					}
+//					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
+//					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
+//					sini.add(p.getCoord());
+//					for(Coordinate pc: p.move_list()) {
+//						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
+//							sfim.add(p.getCoord());
+//						}
+//					}
+//					sini.addAll(sfim);
+//					if(sini.size() > 2) {
+//						saveMove.addAll(sini);
+//					}
+//				}
+//				if(saveMove.size() != 0) {
+//					this.board.gInfo.mustMove_p1 = saveMove;
+////					System.out.print("\n Depois de realizar o test Check ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
+//					System.out.print("\n  Comparando com o board ==> "+ this.board.numPiece() +  " \n");
+//
+//					return 1;
+//				} else  {
+//					return testCheckMate(enemy);
+//				}
+//			}
+//			else {
+//				for(Piece p: this.board.getPlayerPieces(2)) {
+//					if(p == this) {
+//						continue;
+//					}
+//					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
+//					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
+//					sini.add(p.getCoord());
+//					for(Coordinate pc: p.move_list()) {
+//						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
+//							sfim.add(p.getCoord());
+//						}
+//					}
+//					sini.addAll(sfim);
+//					if(sini.size() > 1) {
+//						saveMove.addAll(sini);
+//					} else {
+//						sini.removeAll(sini);
+//						sfim.removeAll(sini);
+//					}
+//				}
+//				if(saveMove.size() != 0) {
+//					return 1;
+//				} else  {
+//					return testCheckMate(enemy);
+//				}
+//			}
+//		}
+//		return 0;
+//	}
+//	
+	
+	
+	
 	int testCheck() throws CoordinateInvalid {
-		ArrayList<Coordinate> saveMove = new ArrayList<Coordinate>();
-		int blockedMoves = 0;
+//		this.board.gInfo.p1_foe = null;
+//		this.board.gInfo.p2_foe = null;
+		int savingMoves = 0;
 		Piece enemy  = this.enemy_inline(this.getCoord());
 		if(enemy != null){
-			if(this.get_owner()  == 1) {
-				for(Piece p: this.board.gInfo.p1_pieces) {
-					if(p == this) {
-						continue;
-					}
-					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
-					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
-					sini.add(p.getCoord());
-					for(Coordinate pc: p.move_list()) {
-						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
-							sfim.add(p.getCoord());
-						}
-					}
-					sini.addAll(sfim);
-					if(sini.size() > 2) {
-						saveMove.addAll(sini);
-					}
+			if(this.get_owner() == 1) {
+				this.board.gInfo.isP1inCheck = true;
+			} else {
+				this.board.gInfo.isP2inCheck = true;
+			}
+			if(this.owner == 1) {
+				this.board.gInfo.p1_foe = enemy;
+			} else {
+				this.board.gInfo.p2_foe = enemy;
+			}
+			for(Piece p: this.board.getPlayerPieces(this.owner)) {
+				if(p == this) {
+					continue;
 				}
-				if(saveMove.size() != 0) {
-					this.board.gInfo.mustMove_p1 = saveMove;
-					return 1;
-				} else  {
-					return testCheckMate(enemy);
+				for(Coordinate pc: p.move_list()) {
+					if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
+						savingMoves ++;
+					}
 				}
 			}
-			else {
-				for(Piece p: this.board.gInfo.p2_pieces) {
-					if(p == this) {
-						continue;
-					}
-					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
-					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
-					sini.add(p.getCoord());
-					for(Coordinate pc: p.move_list()) {
-						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
-							sfim.add(p.getCoord());
-						}
-					}
-					sini.addAll(sfim);
-					if(sini.size() > 1) {
-						saveMove.addAll(sini);
-					}
-				}
-				if(saveMove.size() != 0) {
-					return 1;
-				} else  {
-					return testCheckMate(enemy);
-				}
+			if(savingMoves > 0) {
+				return 1;
+			} else  {
+				return testCheckMate(enemy);
 			}
 		}
+		if(this.get_owner() == 1) {
+			this.board.gInfo.isP1inCheck = false;
+		} else {
+			this.board.gInfo.isP2inCheck = false;
+		}
+			
 		return 0;
 	}
 

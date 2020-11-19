@@ -13,6 +13,7 @@ class Board {
 	Piece b [][]; // Matriz que representa o tabuleiro
 	
 	private static Board board = null;	
+	ModelFacade model = null;
 	Game gInfo = null;
 	public static Board get_board(){
 		if(board != null) {
@@ -21,6 +22,7 @@ class Board {
 		board = new Board();
 		board.x = 8;
 		board.y = 8;
+		board.model = ModelFacade.getModelFacade();
 		board.gInfo = Game.get_game();
 		board.b = new Piece[board.x][board.y];
 		return board;
@@ -55,23 +57,10 @@ class Board {
 //		Inicializando o king
 		add_piece(new King(Color.white,4,0,1), 4,0);
 		add_piece(new King(Color.black,4,7,2), 4,7);
-		
+		board.gInfo.c_k1 = new Coordinate(4,0);
+		board.gInfo.c_k2 = new Coordinate(4,7);
 	}
-	
-	
-	/*
-	get_xdim: retorna a dimensao no eixo x do board
-	*/
-	private int get_xdim() {
-		return this.x;
-	}
-	
-	/*
-	get_ydim: retorna a dimensao no eixo y do board
-	*/
-	private int get_ydim() {
-		return this.y;
-	}
+
 	
 	/*
 	verify_xy: checa se duas coordenadas sao validas para o tabuleiro
@@ -93,12 +82,8 @@ class Board {
 	void add_piece(Piece p, int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			board.b[x][y] = p;
-			board.gInfo.addPiece(p);
-			if(p.owner == 1) {
-				board.gInfo.p1_pieces.add(p);
-			} else {
-				board.gInfo.p2_pieces.add(p);
-			}
+			System.out.print("\n  AQUI ==> "+ numPiece() +  " \n");
+
 		}
 		else {
 			throw new CoordinateInvalid();
@@ -124,12 +109,24 @@ class Board {
 		return 1;
 	}
 	
+	int numPiece() throws CoordinateInvalid {
+		int num = 0;
+		for(int j = 0; j< 8; j++) {
+			for(int i = 0; i < 8; i ++) {
+				if(board.get_piece(i, j)!= null) {
+					num ++;
+				}
+			}
+		}
+		return num;
+	}
+	
 	/*
 	get_piece: recebe coordenadas x e y. Retorna uma piece se ela existir nas coordenadas.
 	caso contrario retorna null
 	*/
 	Piece get_piece(int x, int y) throws CoordinateInvalid {
-		if (verify_xy(x,y)) {
+		if (board.verify_xy(x,y)) {
 			return board.b[x][y];
 		}
 		else {
@@ -144,14 +141,8 @@ class Board {
 	Piece remove_piece(int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			if(get_piece(x,y) instanceof Piece) {
-				Piece trash = board.b[x][y];
+				Piece trash = board.get_piece(x, y);
 				board.b[x][y] = null;
-				trash.isOut = true;
-				if(trash.owner == 1) {
-					board.gInfo.p1_pieces.remove(trash);
-				} else {
-					board.gInfo.p2_pieces.remove(trash);
-				}
 				return trash;
 			} else {
 				return null;
@@ -171,11 +162,21 @@ class Board {
 		}
 	}
 	
-	ArrayList<String> send_pieces() {
+	ArrayList<String> send_pieces() throws CoordinateInvalid {
 		ArrayList<String> encoded_pieces = new ArrayList<String>();
 		for(int j = 0; j < 8 ; j ++) {
 				for(int i = 0; i < 8 ; i ++) {
-				if(board.b[i][j] instanceof Piece && board.b[i][j] != null) {
+				Piece p = board.get_piece(i, j);
+				if(i== 6 && j ==2) {
+					if(p != null) {
+						System.out.print("Hej\n");
+					} else {
+						System.out.print("tak\n");
+					}
+					
+				}
+				
+				if(p != null) {
 					String s = "" + i +""+ j + board.b[i][j].type + board.b[i][j].color.get_color();
 					encoded_pieces.add(s);
 				}
@@ -188,6 +189,67 @@ class Board {
 	
 	ArrayList<Coordinate> getPossibleMoves(int x, int y) throws CoordinateInvalid{
 		Piece p = board.get_piece(x,y);
+		if(p == null) {
+			return null;
+		}
+		boolean isInCheck;
+		if(p.get_owner() == 1) {
+			isInCheck =  board.gInfo.isP1inCheck = true;
+		} else {
+			isInCheck = board.gInfo.isP2inCheck = true;
+		}
+		if(isInCheck) {
+		if(board.model.getInCheckPieces().size() > 0) {
+			if(p instanceof King) {
+				p.move_list();
+				Piece enemy;
+				if(p.owner == 1) {
+					enemy = board.gInfo.p1_foe;
+				} else { 
+					enemy = board.gInfo.p1_foe;
+				}
+				ArrayList<Coordinate> savingMoves = new ArrayList<Coordinate>(); 
+				for(Coordinate move: p.moveList) {
+					if(!enemy.check_move(move)) {
+						savingMoves.add(move);
+					}
+				}
+				return savingMoves;
+			} else {
+				ArrayList<Coordinate> savingMoves = new ArrayList<Coordinate>(); 
+				p.move_list();
+				Piece enemy;
+				if(p.owner == 1) {
+					enemy = board.gInfo.p1_foe;
+				} else { 
+					enemy = board.gInfo.p2_foe;
+				}
+
+				for(Coordinate move: p.moveList) {
+					System.out.print(""+board.gInfo.getKingPos(p.owner).x +" " + board.gInfo.getKingPos(p.owner).y + "\n");
+					if(enemy.blockedMove(enemy, p, move, board.gInfo.getKingPos(p.owner))) {
+						savingMoves.add(move);
+					}
+				}
+				return savingMoves;
+			}
+		}
+		}
 		return p.move_list();
 	}
+	
+	ArrayList<Piece> getPlayerPieces(int player) throws CoordinateInvalid{
+		ArrayList<Piece> lst = new ArrayList<Piece>();
+		for(int j = 0; j < 8; j ++) {
+			for(int i = 0; i < 8; i ++) {
+				Piece p = board.get_piece(i, j);
+				if(p!=null && p.owner == player) {
+					lst.add(p);
+				}
+			}
+		}
+		return lst;
+	}
+	
+	
 }

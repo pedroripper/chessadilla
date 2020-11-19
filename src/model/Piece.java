@@ -52,7 +52,7 @@ abstract class Piece {
 	public boolean blockedMove(Piece foe,Piece savior, Coordinate c, Coordinate destiny) throws CoordinateInvalid  {
 		board.add_fake(savior, c.get_x(), c.get_y());
 		foe.move_list();
-		if(foe.check_move(destiny)) {
+		if(!foe.check_move(destiny)) {
 			board.remove_fake(c.get_x(), c.get_y());
 			return true;
 		}
@@ -72,17 +72,30 @@ abstract class Piece {
 	*/
 	public boolean move(Coordinate c) throws CoordinateInvalid{
 		if(check_move(new Coordinate(c.x,c.y))) {
-//			Pode realizar o movimento
-			if(board.get_piece(c.x, c.y) instanceof Piece) {
-//				board.gInfo.updatePieceList(board.get_piece(c.x, c.y), null);
-				board.remove_piece(c.x, c.y);
+			this.board = Board.get_board();
+			//			Pode realizar o movimento
+			if(this.board.get_piece(c.x, c.y) instanceof Piece) {
+				this.board.remove_piece(c.x, c.y);
 			}
-			board.add_piece(this, c.x, c.y);
-			board.remove_piece(this.coord.x, this.coord.y);
-			this.coord = c;
-//			board.gInfo.updatePieceList(this, board.get_piece(c.x, c.y));
+			Piece p  =  this;
+			this.board.remove_piece(this.coord.x, this.coord.y);
+			p.coord = c;
+			
+			this.board.add_piece(p, c.x, c.y);
+
+			if(p instanceof Queen) {
+				System.out.print("Olha oq  temos aqui  \n");
+				System.out.print(p.coord.x +  "  "+ p.coord.y +"\n");
+				System.out.print(this.board.get_piece(p.coord.x, p.coord.y));
+				System.out.print((p != null) + "\n");
+
+			}
 			if(this instanceof King) {
-//				System.out.print("Cai aqui");
+				if(this.owner == 1) {
+					this.board.gInfo.c_k1 = c;
+				} else {
+					this.board.gInfo.c_k2 =c;
+				}
 			}
 			return true;
 		} else {

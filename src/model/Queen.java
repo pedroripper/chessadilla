@@ -30,7 +30,7 @@ class Queen extends Piece{
 		boolean avanca_esq = true;
 		boolean avanca_esq_inf = true; 
 		
-		while(dir_sup || dir_inf || esq_sup || esq_inf ) {
+		while(dir_sup || dir_inf || esq_sup || esq_inf|| sup || inf ||  dir || esq) {
 			if(sup) {
 				Piece p_sup = board.get_piece(this.getCoord().x, this.getCoord().y+i);
 				

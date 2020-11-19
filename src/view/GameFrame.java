@@ -12,11 +12,10 @@ import javax.swing.JFrame;
 import Observer.Observer;
 import model.Coordinate;
 import model.CoordinateInvalid;
-import model.ModelFacade;
 //import model.Piece;
 import controller.ControllerFacade;
 
-class GameFrame extends JFrame implements Observer, MouseListener {
+class GameFrame extends JFrame implements MouseListener {
 	private static GameFrame gFrame = null;
 //	private ModelFacade model = null;
 	ControllerFacade controller = null;
@@ -26,8 +25,8 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 	private boolean IsInPreMove = false;
 	ArrayList<Coordinate> possibleMoves = new ArrayList<Coordinate>();
 	ArrayList<String> piecesInCheck = new ArrayList<String>();
-	ArrayList<Coordinate> mustMovep1  = new ArrayList<Coordinate>();
-	ArrayList<Coordinate> mustMovep2  = new ArrayList<Coordinate>();
+//	ArrayList<Coordinate> mustMovep1  = new ArrayList<Coordinate>();
+//	ArrayList<Coordinate> mustMovep2  = new ArrayList<Coordinate>();
 	
 	public static GameFrame get_GameFrame(){
 		if(gFrame != null) {
@@ -39,13 +38,6 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 		return gFrame;
 	}
 	
-	
-	
-
-	@Override
-	public void update() {
-		repaint();
-	}
 	
 	/*
 	 * prepareGUI: set da tela do jogo
@@ -80,16 +72,16 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 //			System.out.print("ATENCAO");
 			displayPieceInCheck();
 		}
-		if(gFrame.controller.get_turn() == 1) {
-			if(mustMovep1.size()>0) {
-				displayMustMoves(1);
-			}
-		}
-		if(gFrame.controller.get_turn() == 2) {
-			if(mustMovep2.size()>0) {
-				displayMustMoves(2);
-			}
-		}
+//		if(gFrame.controller.get_turn() == 1) {
+//			if(mustMovep1.size()>0) {
+//				displayMustMoves(1);
+//			}
+//		}
+//		if(gFrame.controller.get_turn() == 2) {
+//			if(mustMovep2.size()>0) {
+//				displayMustMoves(2);
+//			}
+//		}
 		
 		update_status_display();
 		
@@ -155,21 +147,25 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 		return Integer.valueOf(c -  48);
 	}
 	
-	private void displayMustMoves(int player) {
-		gFrame.g2.setColor(Color.BLUE);
-		gFrame.g2.setStroke(new BasicStroke(5));
-		if(player == 1) {
-			System.out.print("\np1 -->"+mustMovep1.get(0).get_x() + coord_to_pos_x(mustMovep1.get(0).get_y())+"\n");
-			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(0).get_x()), coord_to_pos_x(mustMovep1.get(0).get_y()), 55, 55);
-			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(1).get_x()),coord_to_pos_x(mustMovep1.get(1).get_y()), 55, 55);
-		}
-		if(player == 2) {
-			System.out.print("P2"+ mustMovep2.get(0).get_x() + coord_to_pos_x(mustMovep2.get(0).get_y())+"\n");
-
-			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(0).get_x()),coord_to_pos_x(mustMovep2.get(0).get_y()), 55, 55);
-			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(1).get_x()), coord_to_pos_x(mustMovep2.get(1).get_y()), 55, 55);
-		}
-	}
+//	private void displayMustMoves(int player) {
+////		for(Coordinate t: mustMovep1) {
+////			System.out.print(t.get_x() +  "" + t.get_y() + "\n");
+////		}
+//		
+//		gFrame.g2.setColor(Color.BLUE);
+//		gFrame.g2.setStroke(new BasicStroke(5));
+//		if(player == 1) {
+//			System.out.print("\np1 -->"+mustMovep1.get(0).get_x() + (mustMovep1.get(0).get_y())+"\n");
+//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(0).get_x()), coord_to_pos_y(mustMovep1.get(0).get_y()), 55, 55);
+//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(1).get_x()),coord_to_pos_y(mustMovep1.get(1).get_y()), 55, 55);
+//		}
+//		if(player == 2) {
+//			System.out.print("P2"+ mustMovep2.get(0).get_x() + coord_to_pos_x(mustMovep2.get(0).get_y())+"\n");
+//
+//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(0).get_x()),coord_to_pos_y(mustMovep2.get(0).get_y()), 55, 55);
+//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(1).get_x()), coord_to_pos_y(mustMovep2.get(1).get_y()), 55, 55);
+//		}
+//	}
 	
 	void displayPieceInCheck() {
 		for(String cod: piecesInCheck) {
@@ -178,14 +174,9 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 			char state = cod.charAt(2);
 			gFrame.g2.setStroke(new BasicStroke(5));
 			if(state == '1') {
-				System.out.print(state);
-//				System.out.print("Esta em xeque");
 				gFrame.g2.setColor(Color.YELLOW);
 				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
 			} else {
-//				System.out.print(state);
-
-				System.out.print("Esta em xeque-mate");
 				gFrame.g2.setColor(Color.RED);
 				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
 			}
@@ -258,27 +249,14 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 				for(PieceView i: pImages) {
 					x1 = pos_to_coord_x(e.getX());
 					y1 = pos_to_coord_y(e.getY());
-					if(gFrame.controller.get_turn() == 1) {
-						if(mustMovep1.size()>0) {
-							if(!mustMovep1.contains(new Coordinate(x1,y1))) {
-								return;
-							}
-						}
-					}
-					if(gFrame.controller.get_turn() == 2) {
-						if(mustMovep2.size()>0) {
-							if(!mustMovep2.contains(new Coordinate(x1,y1))) {
-								return;
-							}
-						}
-					}
+//					
 					try {
 						if(i.contains(e.getX(), e.getY()) && gFrame.controller.get_turn() == gFrame.controller.get_owner(x1, y1)) {
-							System.out.print("Selecionado para ver movimentos possiveis \n");
+							System.out.print("\nSelecionado para ver movimentos possiveis \n");
 							IsInPreMove = true;
 							possibleMoves = ControllerFacade.pre_move(x1,y1);
 							if(possibleMoves.size() == 0) {
-								System.out.print("Não há movimentos possiveis para  essa peca \n");
+								System.out.print("\nNão há movimentos possiveis para  essa peca \n");
 								IsInPreMove = false;
 								return;
 							}
@@ -293,7 +271,7 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 						e1.printStackTrace();
 					}
 				}
-				System.out.print("Não foi selecionada uma peca\n");
+				System.out.print("\nNão foi selecionada uma peca\n");
 			}
 //			peca ja foi selecionada
 			else if(possibleMoves.size() > 0) {
@@ -314,14 +292,6 @@ class GameFrame extends JFrame implements Observer, MouseListener {
 						try {
 							ControllerFacade.make_move(x1, y1, x2, y2);
 							piecesInCheck = ControllerFacade.isThereCheck();
-							if(piecesInCheck.size() > 0) {
-								mustMovep1 = ControllerFacade.getMustMoves(1);
-								mustMovep2  = ControllerFacade.getMustMoves(2);
-							}
-							else {
-								mustMovep1 = new ArrayList<Coordinate>();
-								mustMovep2  = new ArrayList<Coordinate>();
-							}
 							possibleMoves.removeAll(possibleMoves);
 							IsInPreMove = false;
 //							repaint();
