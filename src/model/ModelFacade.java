@@ -7,7 +7,7 @@ import Observer.Observer;
 public class ModelFacade {
 	private static ModelFacade mf=  null;
 	private ArrayList<Observer> obs = null;
-	private Board board = null;
+	Board board = null;
 	private Game gInfo = null;
 	
 	public static ModelFacade getModelFacade() {
@@ -94,11 +94,23 @@ public class ModelFacade {
 		Coordinate c1 = new Coordinate(x1,y1);
 		Coordinate c2 = new Coordinate(x2,y2);
 		Piece p = mf.board.get_piece(c1.x, c1.y);
+		Piece p2 =  mf.board.get_piece(c2.x, c2.y);
 		if(p == null) {
 			return false;
 		}
+	
+//		if(p2 !=  null) {
+//			if(p.owner == p2.owner) {
+//				if((p.type == 'k' && p2.type  == 'r') || (p2.type  == 'k' && p.type == 'r')) {
+//					((King) p).Castling(c2);
+//					for (Observer ob : mf.obs) {
+//			            ob.update();
+//			        }
+//				}
+//			}	
+//		}
 		if(p.move(c2) == true) {
-			for (Observer ob : this.obs) {
+			for (Observer ob : mf.obs) {
 	            ob.update();
 	        }
 		}
@@ -129,25 +141,25 @@ public class ModelFacade {
 	public ArrayList<String> getInCheckPieces() throws CoordinateInvalid {
 		ArrayList<String> checked = new ArrayList<String>();
 		Piece k1 = mf.board.get_piece(mf.gInfo.getKingPos(1).x,mf.gInfo.getKingPos(1).y);
-		if(k1 instanceof King) {
+		if(k1.type == 'k') {
 			String s1;
 //			System.out.print("\n Antes de pedir o test ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
-			if(k1.testCheck() == 1) {
+			if(((King) k1).testCheck() == 1) {
 				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"1";
 				checked.add(s1);
-			} else if(k1.testCheck() == 2) {
+			} else if(((King) k1).testCheck() == 2) {
 				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"2";
 				checked.add(s1);
 			}
 		}
 		
 		Piece k2 = mf.board.get_piece(mf.gInfo.getKingPos(2).x,mf.gInfo.getKingPos(2).y);
-		if(k2 instanceof King) {
+		if(k2.type == 'k') {
 			String s2;
-			if(k2.testCheck() == 1) {
+			if(((King) k2).testCheck() == 1) {
 				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"1";
 				checked.add(s2);
-			} else if(k2.testCheck() == 2) {
+			} else if(((King) k2).testCheck() == 2) {
 				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"2";
 				checked.add(s2);
 			}

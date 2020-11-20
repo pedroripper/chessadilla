@@ -4,16 +4,15 @@ import java.util.ArrayList;
 
 class King extends Piece{
 
-	public King(Color c, int x, int y, int o) {
-		super(c, x, y, o);
+	public King(Color c, int x, int y, int o, char type) {
+		super(c, x, y, o, type);
 //		gInfo.updateKingPos(new Coordinate(4,0), 1);
 //		gInfo.updateKingPos(new Coordinate(4,7), 2);
-		type = 'k';
+		nMoves = 0;
 	}
 	
 	
 	private Piece enemy_inline(Coordinate c) throws CoordinateInvalid {
-//		System.out.print("\n Realizando o enemy inline ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
 		if(this.owner == 1) {
 			ArrayList<Piece> enemies = this.board.getPlayerPieces(2);
 			for(Piece e: enemies) {
@@ -165,73 +164,6 @@ class King extends Piece{
 	}
 	
 	
-//	int testCheck__() throws CoordinateInvalid {
-//		ArrayList<Coordinate> saveMove = new ArrayList<Coordinate>();
-//		int blockedMoves = 0;
-//		Piece enemy  = this.enemy_inline(this.getCoord());
-//		if(enemy != null){
-//			if(this.get_owner()  == 1) {
-//				for(Piece p: this.board.getPlayerPieces(1)) {
-//					if(p == this) {
-//						continue;
-//					}
-//					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
-//					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
-//					sini.add(p.getCoord());
-//					for(Coordinate pc: p.move_list()) {
-//						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
-//							sfim.add(p.getCoord());
-//						}
-//					}
-//					sini.addAll(sfim);
-//					if(sini.size() > 2) {
-//						saveMove.addAll(sini);
-//					}
-//				}
-//				if(saveMove.size() != 0) {
-//					this.board.gInfo.mustMove_p1 = saveMove;
-////					System.out.print("\n Depois de realizar o test Check ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
-//					System.out.print("\n  Comparando com o board ==> "+ this.board.numPiece() +  " \n");
-//
-//					return 1;
-//				} else  {
-//					return testCheckMate(enemy);
-//				}
-//			}
-//			else {
-//				for(Piece p: this.board.getPlayerPieces(2)) {
-//					if(p == this) {
-//						continue;
-//					}
-//					ArrayList<Coordinate> sini = new ArrayList<Coordinate>();
-//					ArrayList<Coordinate> sfim = new ArrayList<Coordinate>();
-//					sini.add(p.getCoord());
-//					for(Coordinate pc: p.move_list()) {
-//						if(enemy.blockedMove(enemy, p, pc, this.getCoord())) {
-//							sfim.add(p.getCoord());
-//						}
-//					}
-//					sini.addAll(sfim);
-//					if(sini.size() > 1) {
-//						saveMove.addAll(sini);
-//					} else {
-//						sini.removeAll(sini);
-//						sfim.removeAll(sini);
-//					}
-//				}
-//				if(saveMove.size() != 0) {
-//					return 1;
-//				} else  {
-//					return testCheckMate(enemy);
-//				}
-//			}
-//		}
-//		return 0;
-//	}
-//	
-	
-	
-	
 	int testCheck() throws CoordinateInvalid {
 //		this.board.gInfo.p1_foe = null;
 //		this.board.gInfo.p2_foe = null;
@@ -273,5 +205,37 @@ class King extends Piece{
 		return 0;
 	}
 
+	
+	boolean canCastling(Coordinate c) throws CoordinateInvalid {
+		if(!(this.type == 'k') || !(this.type == 'r')) {
+			return false;
+		}
+		if(this.nMoves > 0) {
+			return false;
+		}
+		Piece rook = this.board.get_piece(c.get_x(), c.get_y());
+		if(!(rook instanceof Rook) || rook.nMoves > 0) {
+			return false;
+		}
+		int xini = this.getCoord().get_x();
+		int yini = this.getCoord().get_y();
+		int xfim = rook.getCoord().get_x();
+		if(xfim > xini) {
+			while(xini < xfim) {
+				xini ++;
+				if(this.board.get_piece(xini, yini) != null) {
+					return false;
+				}
+			}
+		} else {
+			while(xini > xfim) {
+				xini --;
+				if(this.board.get_piece(xini, yini) != null) {
+					return false;
+				}
+			}
+		}
+		return true;	
+	}
 
 }

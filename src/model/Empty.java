@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 class Empty extends Piece{
 
-	public Empty(Color c, int x, int y, int owner) {
-		super(c, x, y, owner);
+	public Empty(Color c, int x, int y, int owner, char type) {
+		super(c, x, y, owner, type);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -15,18 +15,6 @@ class Empty extends Piece{
 		return null;
 	}
 
-	@Override
-	int testCheck() throws CoordinateInvalid {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	int testCheckMate(Piece enemy) throws CoordinateInvalid {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	
 
 }

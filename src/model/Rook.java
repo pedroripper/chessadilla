@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 class Rook extends Piece{
 
-	public Rook(Color c, int x, int y, int o) {
-		super(c, x, y, o);
+	public Rook(Color c, int x, int y, int o, char type) {
+		super(c, x, y, o,type);
 		type = 'r';
 	}
 
@@ -20,18 +20,18 @@ class Rook extends Piece{
 		};
 		while (i < 4) {
 			int j = 1;
-			while ( board.verify_xy(this.getCoord().x + j*orientation[i][0],
+			while ( this.board.verify_xy(this.getCoord().x + j*orientation[i][0],
 								   this.getCoord().y + j*orientation[i][1])) {
-				if (board.get_piece(this.getCoord().x + j*orientation[i][0], 
-								   this.getCoord().y + j*orientation[i][1]) != null && board.get_piece(this.getCoord().x + j*orientation[i][0], 
+				if (this.board.get_piece(this.getCoord().x + j*orientation[i][0], 
+								   this.getCoord().y + j*orientation[i][1]) != null && this.board.get_piece(this.getCoord().x + j*orientation[i][0], 
 										   this.getCoord().y + j*orientation[i][1]).color == this.color) {
 					break;
 				}
 				lst.add(new Coordinate(this.getCoord().x + j*orientation[i][0],
 									   this.getCoord().y + j*orientation[i][1]));
 				
-				if(board.get_piece(this.getCoord().x + j*orientation[i][0], 
-								   this.getCoord().y + j*orientation[i][1]) != null && board.get_piece(this.getCoord().x + j*orientation[i][0], 
+				if(this.board.get_piece(this.getCoord().x + j*orientation[i][0], 
+								   this.getCoord().y + j*orientation[i][1]) != null && this.board.get_piece(this.getCoord().x + j*orientation[i][0], 
 										   this.getCoord().y + j*orientation[i][1]).color != this.color) {
 					break;
 				}
@@ -43,20 +43,45 @@ class Rook extends Piece{
 		this.moveList = lst;
 		return lst;
 	}
-
-	@Override
-	int testCheck() throws CoordinateInvalid {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	int testCheckMate(Piece enemy) throws CoordinateInvalid {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	
+	
+	boolean canCastling(Coordinate c) throws CoordinateInvalid {
+		if(this.nMoves > 0) {
+			return false;
+		}
+		Piece king = this.board.get_piece(c.get_x(), c.get_y());
+		if(!(king instanceof King) || king.nMoves > 0) {
+			return false;
+		}
+		int xini = king.getCoord().get_x();
+		int yini = king.getCoord().get_y();
+		int xfim = this.getCoord().get_x();
+		if(xfim > xini) {
+			while(xini < xfim) {
+				xini ++;
+				if(this.board.get_piece(xini, yini) != null) {
+					return false;
+				}
+			}
+		} else {
+			while(xini > xfim) {
+				xini --;
+				if(this.board.get_piece(xini, yini) != null) {
+					return false;
+				}
+			}
+		}
+		return true;	
+	}
+
+	int testCheck() throws CoordinateInvalid {
+		return 0;
+	}
+
+
+	int testCheckMate(Piece enemy) throws CoordinateInvalid {
+		return 0;
+	}
 
 
 }

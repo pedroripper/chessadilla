@@ -3,9 +3,8 @@ package model;
 import java.util.ArrayList;
 
 class Bishop extends Piece{
-	public Bishop(Color c, int x, int y, int o) {
-		super(c, x, y, o);
-		type = 'b';
+	public Bishop(Color c, int x, int y, int o, char type) {
+		super(c, x, y, o, type);
 	}
 
 
@@ -16,10 +15,10 @@ class Bishop extends Piece{
 
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
 		int i = 1;
-		boolean dir_sup = board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
-		boolean dir_inf = board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
-		boolean esq_sup = board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
-		boolean esq_inf = board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
+		boolean dir_sup = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
+		boolean dir_inf = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
+		boolean esq_sup = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
+		boolean esq_inf = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
 		boolean avanca_dir_sup = true;
 		boolean avanca_dir_inf = true; 
 		boolean avanca_esq_sup = true; 
@@ -27,7 +26,7 @@ class Bishop extends Piece{
 		
 		while(dir_sup || dir_inf || esq_sup || esq_inf ) {
 			if(dir_sup) {
-				Piece p_dir_sup = board.get_piece(this.getCoord().x+i, this.getCoord().y+i);
+				Piece p_dir_sup = this.board.get_piece(this.getCoord().x+i, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_dir_sup != null) {
@@ -44,7 +43,7 @@ class Bishop extends Piece{
 				
 			}
 			if(dir_inf) {
-				Piece p_dir_inf = board.get_piece(this.getCoord().x+i, this.getCoord().y-i);
+				Piece p_dir_inf = this.board.get_piece(this.getCoord().x+i, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_dir_inf != null) {
@@ -60,7 +59,7 @@ class Bishop extends Piece{
 				}
 			}
 			if(esq_sup) {
-				Piece p_esq_sup = board.get_piece(this.getCoord().x-i, this.getCoord().y+i);
+				Piece p_esq_sup = this.board.get_piece(this.getCoord().x-i, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_esq_sup != null) {
@@ -77,7 +76,7 @@ class Bishop extends Piece{
 				
 			}
 			if(esq_inf) {
-				Piece p_esq_inf = board.get_piece(this.getCoord().x-i, this.getCoord().y-i);
+				Piece p_esq_inf = this.board.get_piece(this.getCoord().x-i, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_esq_inf != null) {
@@ -97,28 +96,28 @@ class Bishop extends Piece{
 			// Verifica se continua procurando naquela direcao
 			i++;
 			if(avanca_dir_sup) {
-				dir_sup = board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
+				dir_sup = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
 			}
 			else {
 				dir_sup = false;
 			}
 			
 			if(avanca_dir_inf) {
-				dir_inf = board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
+				dir_inf = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
 			}
 			else {
 				dir_inf = false;
 			}
 			
 			if(avanca_esq_sup) {
-				esq_sup = board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
+				esq_sup = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
 			}
 			else {
 				esq_sup = false;
 			}
 			
 			if(avanca_esq_inf) {
-				esq_inf = board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
+				esq_inf = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
 			}
 			else {
 				esq_inf = false;
@@ -127,27 +126,6 @@ class Bishop extends Piece{
 		this.moveList = lst;
 		return lst;
 	}
-
-
-
-
-
-	@Override
-	int testCheck() throws CoordinateInvalid {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-
-
-
-	@Override
-	int testCheckMate(Piece enemy) throws CoordinateInvalid {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 
 }

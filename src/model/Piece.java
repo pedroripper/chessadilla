@@ -20,22 +20,23 @@ abstract class Piece {
 	}
 	protected Color color; // Cor do objeto
 	private Coordinate coord;
-	Board board = null;
 	ArrayList<Coordinate> moveList;
 	ArrayList<Coordinate> savingList;
+	Board board;
 	int owner;
-	Game gInfo = null;
-	
+	int nMoves;
+
 	char type;
 	public boolean isOut;
 
-	public Piece(Color c, int x, int y, int owner) {
+	public Piece(Color c, int x, int y, int owner, char type) {
 		this.isOut = false;
 		this.color =  c;
 		this.coord = new Coordinate(x,y);
 		this.owner = owner;
 		this.board = Board.get_board();
-		this.gInfo = Game.get_game();
+		this.nMoves = 0;
+		this.type = type;
 	}
 	
 	
@@ -49,14 +50,91 @@ abstract class Piece {
 		return false;
 	}
 	
-	public boolean blockedMove(Piece foe,Piece savior, Coordinate c, Coordinate destiny) throws CoordinateInvalid  {
-		board.add_fake(savior, c.get_x(), c.get_y());
-		foe.move_list();
-		if(!foe.check_move(destiny)) {
-			board.remove_fake(c.get_x(), c.get_y());
-			return true;
+	ArrayList<Coordinate> getPath(Piece p, Coordinate destiny){
+		ArrayList <Coordinate> path = new ArrayList<Coordinate>();
+		if(p.type == 'c') {
+			return null;
 		}
-		board.remove_fake(c.get_x(), c.get_y());
+//		Caminho vertical
+		if(destiny.get_x() == p.coord.get_x()  && destiny.get_y() != p.coord.get_y()) {
+			if(destiny.get_y() > p.coord.get_y()) {
+				for(int i = p.coord.get_y(); i < destiny.get_y(); i++) {
+					path.add(new Coordinate(destiny.get_x(),i));
+				}
+				return path;
+			} 
+			else {
+				for(int i = destiny.get_y(); i < p.coord.get_y(); i++) {
+					path.add(new Coordinate(destiny.get_x(),i));
+				}
+				return path;
+			} 
+		}
+//		Caminho horizontal
+		else if(destiny.get_x() != p.coord.get_x()  && destiny.get_y() == p.coord.get_y()) {
+			if(destiny.get_x() > p.coord.get_x()) {
+				for(int i = p.coord.get_x(); i < destiny.get_x(); i++) {
+					path.add(new Coordinate(i,destiny.get_y()));
+				}
+				return path;
+			} 
+			else {
+				for(int i = destiny.get_x(); i < p.coord.get_x(); i++) {
+					path.add(new Coordinate(i,destiny.get_y()));
+				}
+				return path;
+			} 
+		}
+//		Caminho diagonal superior direito
+		else if(destiny.get_x() > p.coord.get_x()  && destiny.get_y() > p.coord.get_y()) {
+			int j = p.coord.get_y();
+			for(int i = p.coord.get_x(); i < destiny.get_x(); i++) {
+				path.add(new Coordinate(i,j));
+				j++;
+			}
+			return path;
+		}
+//		Caminho diagonal superior esquerdo
+		else if(destiny.get_x() < p.coord.get_x()  && destiny.get_y() > p.coord.get_y()) {
+			int j = p.coord.get_y();
+			for(int i = p.coord.get_x(); i > destiny.get_x(); i--) {
+				path.add(new Coordinate(i,j));
+				j++;
+			}
+			return path;
+		}
+//		Caminho diagonal inferior esquerdo
+		else if(destiny.get_x() < p.coord.get_x()  && destiny.get_y() < p.coord.get_y()) {
+			int j = p.coord.get_y();
+			for(int i = p.coord.get_x(); i > destiny.get_x(); i--) {
+				path.add(new Coordinate(i,j));
+				j--;
+			}
+			return path;
+		}
+//		Caminho  diagonal inferior direito
+		else if(destiny.get_x() > p.coord.get_x()  && destiny.get_y() < p.coord.get_y()) {
+			int j = p.coord.get_y();
+			for(int i = p.coord.get_x(); i < destiny.get_x(); i++) {
+				path.add(new Coordinate(i,j));
+				j--;
+			}
+			return path;
+		}
+		
+		return null;
+	}
+	
+	public boolean blockedMove(Piece foe,Piece savior, Coordinate c, Coordinate destiny) throws CoordinateInvalid  {
+		ArrayList<Coordinate> path = getPath(foe,destiny);
+		savior.move_list();
+		for(Coordinate coord: path) {
+			
+			if(c.get_x() == coord.get_x() && c.get_y()  == coord.get_y()) {
+				
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -71,17 +149,17 @@ abstract class Piece {
 	movimenta a piece
 	*/
 	public boolean move(Coordinate c) throws CoordinateInvalid{
+		Board board = this.board;
 		if(check_move(new Coordinate(c.x,c.y))) {
-			this.board = Board.get_board();
+			board = Board.get_board();
 			//			Pode realizar o movimento
-			if(this.board.get_piece(c.x, c.y) instanceof Piece) {
-				this.board.remove_piece(c.x, c.y);
-			}
-			Piece p  =  this;
-			this.board.remove_piece(this.coord.x, this.coord.y);
-			p.coord = c;
 			
-			this.board.add_piece(p, c.x, c.y);
+			Piece p  =  this;
+			board.remove_piece(this.coord.x, this.coord.y);
+			p.coord = c;
+			p.nMoves ++;
+
+			board.add_piece(p, c.x, c.y);
 
 			if(p instanceof Queen) {
 				System.out.print("Olha oq  temos aqui  \n");
@@ -103,6 +181,8 @@ abstract class Piece {
 		}
 	}
 	
+	
+	
 	void setCoord(Coordinate c) {
 		this.coord = c;
 	}
@@ -111,8 +191,5 @@ abstract class Piece {
 		return this.coord;
 	}
 
-
-	abstract int testCheck() throws CoordinateInvalid;
-	abstract int testCheckMate(Piece enemy) throws CoordinateInvalid;
 
 }

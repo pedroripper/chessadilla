@@ -33,30 +33,30 @@ class Board {
 	 */
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-			add_piece(new Pawn(Color.white,i,1,1), i, 1);
-			add_piece(new Pawn(Color.black,i,6,2), i, 6);
+			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
+			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
 		}
 //		Inicializando os rooks
-		add_piece(new Rook(Color.white,0,0,1), 0, 0);
-		add_piece(new Rook(Color.white,7,0,1), 7, 0);
-		add_piece(new Rook(Color.black,0,7,2), 0, 7);
-		add_piece(new Rook(Color.black,7,7,2), 7, 7);
+		add_piece(new Rook(Color.white,0,0,1,'r'), 0, 0);
+		add_piece(new Rook(Color.white,7,0,1,'r'), 7, 0);
+		add_piece(new Rook(Color.black,0,7,2,'r'), 0, 7);
+		add_piece(new Rook(Color.black,7,7,2,'r'), 7, 7);
 //		Inicializando os knights
-		add_piece(new Knight(Color.white,1,0,1), 1,0);
-		add_piece(new Knight(Color.white,6,0,1), 6, 0);
-		add_piece(new Knight(Color.black,1,7,2), 1, 7);
-		add_piece(new Knight(Color.black,6,7,2), 6, 7);
+		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
+		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
+		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
+		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
 //		Inicializando os bishops
-		add_piece(new Bishop(Color.white,2,0,1), 2,0);
-		add_piece(new Bishop(Color.white,5,0,1), 5,0);
-		add_piece(new Bishop(Color.black,2,7,2), 2,7);
-		add_piece(new Bishop(Color.black,5,7,2), 5,7);
+		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
+		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
+		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
+		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
 //		Inicializando a queen
-		add_piece(new Queen(Color.white,3,0,1), 3,0);
-		add_piece(new Queen(Color.black,3,7,2), 3,7);
+		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
+		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
 //		Inicializando o king
-		add_piece(new King(Color.white,4,0,1), 4,0);
-		add_piece(new King(Color.black,4,7,2), 4,7);
+		add_piece(new King(Color.white,4,0,1,'k'), 4,0);
+		add_piece(new King(Color.black,4,7,2,'k'), 4,7);
 		board.gInfo.c_k1 = new Coordinate(4,0);
 		board.gInfo.c_k2 = new Coordinate(4,7);
 	}
@@ -82,6 +82,7 @@ class Board {
 	void add_piece(Piece p, int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			board.b[x][y] = p;
+//			p.setCoord(new Coordinate(x,y));
 			System.out.print("\n  AQUI ==> "+ numPiece() +  " \n");
 
 		}
@@ -141,8 +142,11 @@ class Board {
 	Piece remove_piece(int x, int y) throws CoordinateInvalid {
 		if(verify_xy(x,y)) {
 			if(get_piece(x,y) instanceof Piece) {
-				Piece trash = board.get_piece(x, y);
-				board.b[x][y] = null;
+				Piece trash = this.model.board.get_piece(x, y);
+				this.model.board.b[x][y] = null;
+				
+				System.out.print("\n Removendo -- " + trash.type +  "\n");
+				
 				return trash;
 			} else {
 				return null;
@@ -192,11 +196,14 @@ class Board {
 		if(p == null) {
 			return null;
 		}
+		
+		System.out.print("A peça selecionada tem o tipo ==> "+ p.type + "\n");
+		
 		boolean isInCheck;
 		if(p.get_owner() == 1) {
-			isInCheck =  board.gInfo.isP1inCheck = true;
+			isInCheck =  board.gInfo.isP1inCheck;
 		} else {
-			isInCheck = board.gInfo.isP2inCheck = true;
+			isInCheck = board.gInfo.isP2inCheck;
 		}
 		if(isInCheck) {
 		if(board.model.getInCheckPieces().size() > 0) {

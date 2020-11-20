@@ -4,23 +4,22 @@ import java.util.ArrayList;
 
 class Queen extends Piece{
 
-	public Queen(Color c, int x, int y, int o) {
-		super(c, x, y, o);
-		type = 'q';
+	public Queen(Color c, int x, int y, int o, char type) {
+		super(c, x, y, o,type);
 	}
 
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
 		int i = 1;
-		boolean sup = board.verify_xy(this.getCoord().x, this.getCoord().y + i);
-		boolean dir_sup = board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
-		boolean dir = board.verify_xy(this.getCoord().x + i, this.getCoord().y);
-		boolean dir_inf = board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
-		boolean inf = board.verify_xy(this.getCoord().x, this.getCoord().y - i);
-		boolean esq_sup = board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
-		boolean esq = board.verify_xy(this.getCoord().x - i, this.getCoord().y);
-		boolean esq_inf = board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
+		boolean sup = this.board.verify_xy(this.getCoord().x, this.getCoord().y + i);
+		boolean dir_sup = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
+		boolean dir = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y);
+		boolean dir_inf = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
+		boolean inf = this.board.verify_xy(this.getCoord().x, this.getCoord().y - i);
+		boolean esq_sup = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
+		boolean esq = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y);
+		boolean esq_inf = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
 		boolean avanca_sup = true;
 		boolean avanca_dir_sup = true;
 		boolean avanca_dir = true;
@@ -32,7 +31,7 @@ class Queen extends Piece{
 		
 		while(dir_sup || dir_inf || esq_sup || esq_inf|| sup || inf ||  dir || esq) {
 			if(sup) {
-				Piece p_sup = board.get_piece(this.getCoord().x, this.getCoord().y+i);
+				Piece p_sup = this.board.get_piece(this.getCoord().x, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_sup != null) {
@@ -49,7 +48,7 @@ class Queen extends Piece{
 				
 			}
 			if(dir) {
-				Piece p_dir = board.get_piece(this.getCoord().x+i, this.getCoord().y);
+				Piece p_dir = this.board.get_piece(this.getCoord().x+i, this.getCoord().y);
 				
 				// Encontrou uma peca
 				if(p_dir != null) {
@@ -66,7 +65,7 @@ class Queen extends Piece{
 				
 			}
 			if(inf) {
-				Piece p_inf = board.get_piece(this.getCoord().x, this.getCoord().y-i);
+				Piece p_inf = this.board.get_piece(this.getCoord().x, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_inf != null) {
@@ -83,7 +82,7 @@ class Queen extends Piece{
 				
 			}
 			if(esq) {
-				Piece p_esq = board.get_piece(this.getCoord().x-i, this.getCoord().y);
+				Piece p_esq = this.board.get_piece(this.getCoord().x-i, this.getCoord().y);
 				
 				// Encontrou uma peca
 				if(p_esq != null) {
@@ -100,7 +99,7 @@ class Queen extends Piece{
 				
 			}
 			if(dir_sup) {
-				Piece p_dir_sup = board.get_piece(this.getCoord().x+i, this.getCoord().y+i);
+				Piece p_dir_sup = this.board.get_piece(this.getCoord().x+i, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_dir_sup != null) {
@@ -117,7 +116,7 @@ class Queen extends Piece{
 				
 			}
 			if(dir_inf) {
-				Piece p_dir_inf = board.get_piece(this.getCoord().x+i, this.getCoord().y-i);
+				Piece p_dir_inf = this.board.get_piece(this.getCoord().x+i, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_dir_inf != null) {
@@ -133,7 +132,7 @@ class Queen extends Piece{
 				}
 			}
 			if(esq_sup) {
-				Piece p_esq_sup = board.get_piece(this.getCoord().x-i, this.getCoord().y+i);
+				Piece p_esq_sup = this.board.get_piece(this.getCoord().x-i, this.getCoord().y+i);
 				
 				// Encontrou uma peca
 				if(p_esq_sup != null) {
@@ -150,7 +149,7 @@ class Queen extends Piece{
 				
 			}
 			if(esq_inf) {
-				Piece p_esq_inf = board.get_piece(this.getCoord().x-i, this.getCoord().y-i);
+				Piece p_esq_inf = this.board.get_piece(this.getCoord().x-i, this.getCoord().y-i);
 				
 				// Encontrou uma peca
 				if(p_esq_inf != null) {
@@ -170,56 +169,56 @@ class Queen extends Piece{
 			// Verifica se continua procurando naquela direcao
 			i++;
 			if(avanca_sup) {
-				sup = board.verify_xy(this.getCoord().x, this.getCoord().y + i);
+				sup = this.board.verify_xy(this.getCoord().x, this.getCoord().y + i);
 			}
 			else {
 				sup = false;
 			}
 			
 			if(avanca_dir) {
-				dir = board.verify_xy(this.getCoord().x + i, this.getCoord().y);
+				dir = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y);
 			}
 			else {
 				dir = false;
 			}
 			
 			if(avanca_inf) {
-				inf = board.verify_xy(this.getCoord().x, this.getCoord().y - i);
+				inf = this.board.verify_xy(this.getCoord().x, this.getCoord().y - i);
 			}
 			else {
 				inf = false;
 			}
 			
 			if(avanca_esq) {
-				esq = board.verify_xy(this.getCoord().x - i, this.getCoord().y);
+				esq = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y);
 			}
 			else {
 				esq = false;
 			}
 			
 			if(avanca_dir_sup) {
-				dir_sup = board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
+				dir_sup = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y + i);
 			}
 			else {
 				dir_sup = false;
 			}
 			
 			if(avanca_dir_inf) {
-				dir_inf = board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
+				dir_inf = this.board.verify_xy(this.getCoord().x + i, this.getCoord().y - i);
 			}
 			else {
 				dir_inf = false;
 			}
 			
 			if(avanca_esq_sup) {
-				esq_sup = board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
+				esq_sup = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y + i);
 			}
 			else {
 				esq_sup = false;
 			}
 			
 			if(avanca_esq_inf) {
-				esq_inf = board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
+				esq_inf = this.board.verify_xy(this.getCoord().x - i, this.getCoord().y - i);
 			}
 			else {
 				esq_inf = false;
@@ -229,19 +228,17 @@ class Queen extends Piece{
 		return lst;
 	}
 
-	@Override
+	boolean canCastling(Coordinate c) throws CoordinateInvalid {
+		return false;
+	}
+
 	int testCheck() throws CoordinateInvalid {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	int testCheckMate(Piece enemy) throws CoordinateInvalid {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	
-	
 	
 }
