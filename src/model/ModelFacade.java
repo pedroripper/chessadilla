@@ -99,16 +99,7 @@ public class ModelFacade {
 			return false;
 		}
 	
-//		if(p2 !=  null) {
-//			if(p.owner == p2.owner) {
-//				if((p.type == 'k' && p2.type  == 'r') || (p2.type  == 'k' && p.type == 'r')) {
-//					((King) p).Castling(c2);
-//					for (Observer ob : mf.obs) {
-//			            ob.update();
-//			        }
-//				}
-//			}	
-//		}
+
 		if(p.move(c2) == true) {
 			for (Observer ob : mf.obs) {
 	            ob.update();
@@ -165,6 +156,19 @@ public class ModelFacade {
 			}
 		}
 		return checked;
+	}
+
+
+	public boolean make_castling(int x1, int x2, int y1, int y2) throws CoordinateInvalid {
+		Piece p1 = mf.board.get_piece(x1, y1);
+		if(p1.Castling(new Coordinate(x1,y1), new Coordinate(x2,y2))) {
+			for (Observer ob : mf.obs) {
+	            ob.update();
+	        }
+			return true;
+		} 
+//		System.out.print("");
+		return false;
 	}
 
 	

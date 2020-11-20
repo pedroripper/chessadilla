@@ -151,6 +151,17 @@ abstract class Piece {
 	public boolean move(Coordinate c) throws CoordinateInvalid{
 		Board board = this.board;
 		if(check_move(new Coordinate(c.x,c.y))) {
+			if(this instanceof King) {
+				
+				if(this.coord.get_x() > c.get_x()+1 || this.coord.get_x() < c.get_x()-1) {
+					if(this.Castling(this.coord, c)) {
+						
+						return true;
+					}
+				}
+				
+				
+			}
 			board = Board.get_board();
 			//			Pode realizar o movimento
 			
@@ -161,24 +172,63 @@ abstract class Piece {
 
 			board.add_piece(p, c.x, c.y);
 
-			if(p instanceof Queen) {
-				System.out.print("Olha oq  temos aqui  \n");
-				System.out.print(p.coord.x +  "  "+ p.coord.y +"\n");
-				System.out.print(this.board.get_piece(p.coord.x, p.coord.y));
-				System.out.print((p != null) + "\n");
-
-			}
-			if(this instanceof King) {
-				if(this.owner == 1) {
-					this.board.gInfo.c_k1 = c;
-				} else {
-					this.board.gInfo.c_k2 =c;
-				}
+			return true;
+		} 
+		return false;
+	}
+	
+	boolean Castling(Coordinate c1, Coordinate c2) throws CoordinateInvalid {
+		Piece p1 = this.board.get_piece(c1.get_x(), c1.get_y());
+		Piece p2 = this.board.get_piece(c2.get_x(), c2.get_y());
+		King k;
+		Rook r;
+		if(p1 instanceof King) {
+			k = ((King)p1);
+			r  = ((Rook)p2);
+		} else {
+			k = ((King)p2);
+			r  = ((Rook)p1);
+		}
+		if(k.getCoord().get_x() > r.getCoord().get_x()) {
+			Piece pTemp1 = k;
+			board.remove_piece(k.getCoord().get_x(), k.getCoord().get_y());
+			pTemp1.coord = new Coordinate(2,pTemp1.getCoord().get_y());
+			pTemp1.nMoves ++;
+			board.add_piece(pTemp1, 2, pTemp1.getCoord().get_y());
+			
+			Piece pTemp2 = r;
+			board.remove_piece(r.getCoord().get_x(), r.getCoord().get_y());
+			pTemp2.coord = new Coordinate(3,pTemp2.getCoord().get_y());
+			pTemp2.nMoves ++;
+			board.add_piece(pTemp2, 3, pTemp2.getCoord().get_y());
+			
+			if(this.owner == 1) {
+				this.board.gInfo.c_k1 = new Coordinate(2, pTemp1.getCoord().get_y());
+			} else {
+				this.board.gInfo.c_k2 = new Coordinate(2, pTemp1.getCoord().get_y());
 			}
 			return true;
 		} else {
-			return false;
+			Piece pTemp1 = k;
+			board.remove_piece(k.getCoord().get_x(), k.getCoord().get_y());
+			pTemp1.coord = new Coordinate(6,pTemp1.getCoord().get_y());
+			pTemp1.nMoves ++;
+			board.add_piece(pTemp1, 6, pTemp1.getCoord().get_y());
+			
+			Piece pTemp2 = r;
+			board.remove_piece(r.getCoord().get_x(), r.getCoord().get_y());
+			pTemp2.coord = new Coordinate(5,pTemp2.getCoord().get_y());
+			pTemp2.nMoves ++;
+			board.add_piece(pTemp2, 5, pTemp2.getCoord().get_y());
+			
+			if(this.owner == 1) {
+				this.board.gInfo.c_k1 = new Coordinate(6, pTemp1.getCoord().get_y());
+			} else {
+				this.board.gInfo.c_k2 = new Coordinate(6, pTemp1.getCoord().get_y());
+			}
+			return true;
 		}
+//		return false;
 	}
 	
 	

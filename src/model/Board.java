@@ -42,18 +42,18 @@ class Board {
 		add_piece(new Rook(Color.black,0,7,2,'r'), 0, 7);
 		add_piece(new Rook(Color.black,7,7,2,'r'), 7, 7);
 //		Inicializando os knights
-		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
-		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
-		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
-		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
-//		Inicializando os bishops
-		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
-		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
-		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
-		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
-//		Inicializando a queen
-		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
-		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
+//		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
+//		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
+//		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
+//		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
+////		Inicializando os bishops
+//		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
+//		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
+//		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
+//		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
+////		Inicializando a queen
+//		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
+//		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
 //		Inicializando o king
 		add_piece(new King(Color.white,4,0,1,'k'), 4,0);
 		add_piece(new King(Color.black,4,7,2,'k'), 4,7);

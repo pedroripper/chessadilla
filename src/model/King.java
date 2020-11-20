@@ -40,7 +40,6 @@ class King extends Piece{
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
@@ -50,7 +49,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+1)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y+1);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
@@ -60,7 +58,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x, this.getCoord().y+1)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x, this.getCoord().y+1);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
@@ -70,7 +67,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y+1)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y+1);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
@@ -80,7 +76,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
@@ -90,7 +85,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-1)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-1);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
@@ -100,7 +94,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x, this.getCoord().y-1)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x, this.getCoord().y-1);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
@@ -110,7 +103,6 @@ class King extends Piece{
 			}
 		}
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y-1)) {
-			// movimento no L em pe superior direita
 			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y-1);
 			if(p != null && p.color != this.color) { 
 				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
@@ -119,6 +111,13 @@ class King extends Piece{
 				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
 			}
 		}
+		if(canCastling(new Coordinate(0, this.getCoord().get_y()))) {
+			lst.add(new Coordinate(0, this.getCoord().get_y()));
+		}
+		if(canCastling(new Coordinate(7, this.getCoord().get_y()))) {
+			lst.add(new Coordinate(7, this.getCoord().get_y()));
+		}
+		
 		this.moveList = lst;
 		return lst;
 	}
@@ -207,32 +206,37 @@ class King extends Piece{
 
 	
 	boolean canCastling(Coordinate c) throws CoordinateInvalid {
-		if(!(this.type == 'k') || !(this.type == 'r')) {
+		if(!(this.type == 'k')) {
+			System.out.print("Cai aqui 1\n");
 			return false;
 		}
 		if(this.nMoves > 0) {
+			System.out.print("Cai aqui 2\n");
 			return false;
 		}
 		Piece rook = this.board.get_piece(c.get_x(), c.get_y());
 		if(!(rook instanceof Rook) || rook.nMoves > 0) {
 			return false;
 		}
+		System.out.print("Cai aqui 3\n");
 		int xini = this.getCoord().get_x();
 		int yini = this.getCoord().get_y();
 		int xfim = rook.getCoord().get_x();
 		if(xfim > xini) {
+			xini ++;
 			while(xini < xfim) {
-				xini ++;
 				if(this.board.get_piece(xini, yini) != null) {
 					return false;
 				}
+				xini ++;
 			}
 		} else {
+			xini --;
 			while(xini > xfim) {
-				xini --;
 				if(this.board.get_piece(xini, yini) != null) {
 					return false;
 				}
+				xini --;
 			}
 		}
 		return true;	

@@ -71,5 +71,9 @@ class GameController implements Observer{
 		return piecesInCheck;
 	}
 
+	public boolean make_castling(int x1, int x2, int y1, int y2) throws CoordinateInvalid {
+		return gController.model.make_castling( x1,  x2,  y1,  y2);
+	}
+
 	
 }

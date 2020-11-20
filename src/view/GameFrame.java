@@ -299,8 +299,9 @@ class GameFrame extends JFrame implements MouseListener {
 							e1.printStackTrace();
 						} // Corrigir erro
 						return;
-					}
+					} 
 				}
+				
 				System.out.print("\nSelecionou posicao errada\n");
 				IsInPreMove = false;
 				possibleMoves.removeAll(possibleMoves);
