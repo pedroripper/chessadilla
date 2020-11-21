@@ -65,10 +65,11 @@ public class ControllerFacade {
 		return cf.gc.model.board_data_to_string(cf.gc.model.get_board_data());
 	}
 
-	public boolean make_castling(int x1, int x2, int y1, int y2) throws CoordinateInvalid {
-		return cf.gc.make_castling(x1, x2, y1, y2);
+	public void promote(char c) throws CoordinateInvalid {
+		cf.gc.promote(c);
+		
 	}
-	
+
 	
 
 	

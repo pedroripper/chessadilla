@@ -7,15 +7,15 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
-import Observer.Observer;
 import model.Coordinate;
 import model.CoordinateInvalid;
 //import model.Piece;
 import controller.ControllerFacade;
 
-class GameFrame extends JFrame implements MouseListener {
+class GameFrame extends Frame implements MouseListener {
 	private static GameFrame gFrame = null;
 //	private ModelFacade model = null;
 	ControllerFacade controller = null;
@@ -25,8 +25,8 @@ class GameFrame extends JFrame implements MouseListener {
 	private boolean IsInPreMove = false;
 	ArrayList<Coordinate> possibleMoves = new ArrayList<Coordinate>();
 	ArrayList<String> piecesInCheck = new ArrayList<String>();
-//	ArrayList<Coordinate> mustMovep1  = new ArrayList<Coordinate>();
-//	ArrayList<Coordinate> mustMovep2  = new ArrayList<Coordinate>();
+
+	boolean shouldDisplayPromotion;
 	
 	public static GameFrame get_GameFrame(){
 		if(gFrame != null) {
@@ -35,6 +35,7 @@ class GameFrame extends JFrame implements MouseListener {
 		gFrame = new GameFrame();
 		gFrame.addMouseListener(gFrame);
 		gFrame.controller = ControllerFacade.get_controllerFacade();
+		gFrame.shouldDisplayPromotion = false;
 		return gFrame;
 	}
 	
@@ -54,6 +55,8 @@ class GameFrame extends JFrame implements MouseListener {
 	
 	public void paint(Graphics g) {
 		super.paint(g);
+		
+		System.out.print("Cheguei  aqui 22\n");
 		gFrame.g2 = (Graphics2D)g;
 		drawBoardFrame();
 		drawBoard();
@@ -72,22 +75,89 @@ class GameFrame extends JFrame implements MouseListener {
 //			System.out.print("ATENCAO");
 			displayPieceInCheck();
 		}
-//		if(gFrame.controller.get_turn() == 1) {
-//			if(mustMovep1.size()>0) {
-//				displayMustMoves(1);
-//			}
-//		}
-//		if(gFrame.controller.get_turn() == 2) {
-//			if(mustMovep2.size()>0) {
-//				displayMustMoves(2);
-//			}
-//		}
+		if(gFrame.shouldDisplayPromotion) {
+			displayPromotion();
+		}
 		
 		update_status_display();
 		
 	}
 
 
+	void togglePromotion() {
+		gFrame.shouldDisplayPromotion = !gFrame.shouldDisplayPromotion;
+	}
+
+	void displayPromotion() {
+		JPopupMenu popup =  new JPopupMenu();
+		JMenuItem rookOption = new JMenuItem("Torre");
+		rookOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					popup.setVisible(false);
+					gFrame.remove(popup);
+					gFrame.togglePromotion();
+					gFrame.controller.promote('r');
+				} catch (CoordinateInvalid e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JMenuItem bishopOption = new JMenuItem("Bispo");
+		bishopOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					popup.setVisible(false);
+					gFrame.remove(popup);
+					gFrame.togglePromotion();
+					gFrame.controller.promote('b');
+				} catch (CoordinateInvalid e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JMenuItem knightOption = new JMenuItem("Cavaleiro");
+		knightOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					popup.setVisible(false);
+					gFrame.remove(popup);
+					gFrame.togglePromotion();
+					gFrame.controller.promote('c');
+				} catch (CoordinateInvalid e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JMenuItem queenOption = new JMenuItem("Rainha");
+		queenOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					popup.setVisible(false);
+					gFrame.remove(popup);
+					gFrame.togglePromotion();
+					gFrame.controller.promote('q');
+				} catch (CoordinateInvalid e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		popup.add(rookOption);
+		popup.add(bishopOption);
+		popup.add(queenOption);
+		popup.add(knightOption);
+		System.out.print("Deveria estar mostrando a promocao\n");
+		popup.setVisible(true);
+		
+	}
 
 
 	/*
@@ -147,25 +217,6 @@ class GameFrame extends JFrame implements MouseListener {
 		return Integer.valueOf(c -  48);
 	}
 	
-//	private void displayMustMoves(int player) {
-////		for(Coordinate t: mustMovep1) {
-////			System.out.print(t.get_x() +  "" + t.get_y() + "\n");
-////		}
-//		
-//		gFrame.g2.setColor(Color.BLUE);
-//		gFrame.g2.setStroke(new BasicStroke(5));
-//		if(player == 1) {
-//			System.out.print("\np1 -->"+mustMovep1.get(0).get_x() + (mustMovep1.get(0).get_y())+"\n");
-//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(0).get_x()), coord_to_pos_y(mustMovep1.get(0).get_y()), 55, 55);
-//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep1.get(1).get_x()),coord_to_pos_y(mustMovep1.get(1).get_y()), 55, 55);
-//		}
-//		if(player == 2) {
-//			System.out.print("P2"+ mustMovep2.get(0).get_x() + coord_to_pos_x(mustMovep2.get(0).get_y())+"\n");
-//
-//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(0).get_x()),coord_to_pos_y(mustMovep2.get(0).get_y()), 55, 55);
-//			gFrame.g2.drawRect(coord_to_pos_x(mustMovep2.get(1).get_x()), coord_to_pos_y(mustMovep2.get(1).get_y()), 55, 55);
-//		}
-//	}
 	
 	void displayPieceInCheck() {
 		for(String cod: piecesInCheck) {
@@ -240,8 +291,7 @@ class GameFrame extends JFrame implements MouseListener {
 	
 		int x1,y1,x2,y2;
 
-//<<<<<<< HEAD
-	@Override
+
 	public void mouseClicked(MouseEvent e) {		
 		if (e.getButton() == 1) {
 //			Nenhuma peca foi selecionada ainda
@@ -292,6 +342,7 @@ class GameFrame extends JFrame implements MouseListener {
 						try {
 							ControllerFacade.make_move(x1, y1, x2, y2);
 							piecesInCheck = ControllerFacade.isThereCheck();
+							System.out.print("EU passso \n");
 							possibleMoves.removeAll(possibleMoves);
 							IsInPreMove = false;
 //							repaint();

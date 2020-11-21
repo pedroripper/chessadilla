@@ -57,23 +57,28 @@ class GameController implements Observer{
 		}
 	}
 	
-	void runGame() {
-		
-	}
 
-	public int get_owner(int x1, int y1) throws CoordinateInvalid {
+	int get_owner(int x1, int y1) throws CoordinateInvalid {
 		return gController.model.get_owner(x1, y1);
 	}
 
-	public ArrayList<String> isThereCheck() throws CoordinateInvalid {
+	ArrayList<String> isThereCheck() throws CoordinateInvalid {
 		ArrayList<String> piecesInCheck = new ArrayList<String>();
 		piecesInCheck = gController.model.getInCheckPieces();
 		return piecesInCheck;
 	}
+	
 
-	public boolean make_castling(int x1, int x2, int y1, int y2) throws CoordinateInvalid {
-		return gController.model.make_castling( x1,  x2,  y1,  y2);
+	void promote(char c) throws CoordinateInvalid {
+		gController.model.promote(c);
 	}
+
+	@Override
+	public void pawnPromotion() {
+		gController.view.togglePromotion();
+		
+	}
+
 
 	
 }

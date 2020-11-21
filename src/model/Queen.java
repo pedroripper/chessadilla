@@ -228,9 +228,7 @@ class Queen extends Piece{
 		return lst;
 	}
 
-	boolean canCastling(Coordinate c) throws CoordinateInvalid {
-		return false;
-	}
+
 
 	int testCheck() throws CoordinateInvalid {
 		return 0;

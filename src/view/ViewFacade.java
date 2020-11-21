@@ -31,6 +31,10 @@ public class ViewFacade {
 	public void refresh() {
 		vf.gFrame.repaint();
 	}
+
+	public void togglePromotion() {
+		vf.gFrame.togglePromotion();
+	}
 	
 	
 }

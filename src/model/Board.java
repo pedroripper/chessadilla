@@ -42,18 +42,18 @@ class Board {
 		add_piece(new Rook(Color.black,0,7,2,'r'), 0, 7);
 		add_piece(new Rook(Color.black,7,7,2,'r'), 7, 7);
 //		Inicializando os knights
-//		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
-//		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
-//		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
-//		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
-////		Inicializando os bishops
-//		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
-//		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
-//		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
-//		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
-////		Inicializando a queen
-//		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
-//		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
+		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
+		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
+		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
+		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
+//		Inicializando os bishops
+		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
+		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
+		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
+		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
+//		Inicializando a queen
+		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
+		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
 //		Inicializando o king
 		add_piece(new King(Color.white,4,0,1,'k'), 4,0);
 		add_piece(new King(Color.black,4,7,2,'k'), 4,7);
@@ -91,14 +91,6 @@ class Board {
 		}
 	}
 	
-	void add_fake(Piece p, int x, int y) throws CoordinateInvalid {
-		if(verify_xy(x,y)) {
-			board.b[x][y] = p;
-		}
-		else {
-			throw new CoordinateInvalid();
-		}
-	}
 	
 	/*
 	 * IsInCheque: 
@@ -151,16 +143,6 @@ class Board {
 			} else {
 				return null;
 			}
-		} else {
-			throw new CoordinateInvalid();
-		}
-	}
-	
-	void remove_fake(int x, int y) throws CoordinateInvalid {
-		if(verify_xy(x,y)) {
-			if(get_piece(x,y) instanceof Piece) {
-				board.b[x][y] = null;
-			} 
 		} else {
 			throw new CoordinateInvalid();
 		}
@@ -256,6 +238,40 @@ class Board {
 			}
 		}
 		return lst;
+	}
+
+	public void promotePiece(char c) throws CoordinateInvalid {
+		Piece p = null;
+		for(int i = 0; i < 8; i ++) {
+			p = board.get_piece(i, 0);
+			if(p instanceof Pawn) {
+				break;
+			} else {
+				p = board.get_piece(i, 7);
+				if(p instanceof Pawn) {
+					break;
+				}
+			}
+		}
+		
+		Coordinate coord = p.getCoord();
+		int owner = p.get_owner();
+		Color color = p.color;
+		
+		board.remove_piece(coord.get_x(), coord.get_y());
+		if(c == 'q') {
+			board.add_piece(new Queen(color, coord.get_x(), coord.get_y(), owner, c), coord.get_x(), coord.get_y());
+		}
+		if(c == 'b') {
+			board.add_piece(new Bishop(color, coord.get_x(), coord.get_y(), owner, c), coord.get_x(), coord.get_y());
+		}
+		if(c == 'c') {
+			board.add_piece(new Knight(color, coord.get_x(), coord.get_y(), owner, c), coord.get_x(), coord.get_y());
+		}
+		if(c == 'r') {
+			board.add_piece(new Rook(color, coord.get_x(), coord.get_y(), owner, c), coord.get_x(), coord.get_y());
+		}
+		
 	}
 	
 	

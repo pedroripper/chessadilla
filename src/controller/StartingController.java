@@ -3,7 +3,7 @@ package controller;
 import Observer.Observer;
 import view.ViewFacade;
 
-class StartingController implements Observer{
+class StartingController {
 	static StartingController sc = null;
 	
 	static StartingController get_starting_controller() {
@@ -21,11 +21,6 @@ class StartingController implements Observer{
 		view.init_graphics();
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }

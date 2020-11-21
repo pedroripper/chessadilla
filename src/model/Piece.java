@@ -151,8 +151,7 @@ abstract class Piece {
 	public boolean move(Coordinate c) throws CoordinateInvalid{
 		Board board = this.board;
 		if(check_move(new Coordinate(c.x,c.y))) {
-			if(this instanceof King) {
-				
+			if(this.type == 'k') {
 				if(this.coord.get_x() > c.get_x()+1 || this.coord.get_x() < c.get_x()-1) {
 					if(this.Castling(this.coord, c)) {
 						
@@ -171,6 +170,12 @@ abstract class Piece {
 			p.nMoves ++;
 
 			board.add_piece(p, c.x, c.y);
+			
+			if(c.get_y() == 0 || c.get_y() == 7) {
+				if(p instanceof Pawn) {
+					this.board.model.togglePromotion();
+				}
+			}
 
 			return true;
 		} 

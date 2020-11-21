@@ -131,27 +131,33 @@ public class ModelFacade {
 	
 	public ArrayList<String> getInCheckPieces() throws CoordinateInvalid {
 		ArrayList<String> checked = new ArrayList<String>();
-		Piece k1 = mf.board.get_piece(mf.gInfo.getKingPos(1).x,mf.gInfo.getKingPos(1).y);
+		
+		Coordinate  king1Pos = mf.gInfo.getKingPos(1);
+		Coordinate king2Pos =  mf.gInfo.getKingPos(2);
+		Piece k1 = mf.board.get_piece(king1Pos.x,king1Pos.y);
+
 		if(k1.type == 'k') {
 			String s1;
-//			System.out.print("\n Antes de pedir o test ==> "+this.board.gInfo.p1_pieces.size()+ "\n");
-			if(((King) k1).testCheck() == 1) {
-				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"1";
+			System.out.print("OOOOOO\n");
+			int test = ((King) k1).testCheck();
+			System.out.print("ILARIA\n");
+			if(test == 1) {
+				s1 = ""+king1Pos.x+""+king1Pos.y+"1";
 				checked.add(s1);
-			} else if(((King) k1).testCheck() == 2) {
-				s1 = ""+mf.gInfo.getKingPos(1).x+""+mf.gInfo.getKingPos(1).y+"2";
+			} else if(test == 2) {
+				s1 = ""+king1Pos.x+""+king1Pos.y+"2";
 				checked.add(s1);
 			}
 		}
-		
-		Piece k2 = mf.board.get_piece(mf.gInfo.getKingPos(2).x,mf.gInfo.getKingPos(2).y);
+		Piece k2 = mf.board.get_piece(king2Pos.x,king2Pos.y);
 		if(k2.type == 'k') {
 			String s2;
-			if(((King) k2).testCheck() == 1) {
-				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"1";
+			int test = ((King) k2).testCheck();
+			if(test == 1) {
+				s2 = ""+king2Pos.x+""+king2Pos.y+"1";
 				checked.add(s2);
-			} else if(((King) k2).testCheck() == 2) {
-				s2 = ""+mf.gInfo.getKingPos(2).x+""+mf.gInfo.getKingPos(2).y+"2";
+			} else if(test == 2) {
+				s2 = ""+king2Pos.x+""+king2Pos.y+"2";
 				checked.add(s2);
 			}
 		}
@@ -171,5 +177,24 @@ public class ModelFacade {
 		return false;
 	}
 
+
+	public void promote(char c) throws CoordinateInvalid {
+		mf.board.promotePiece(c);
+		for (Observer ob : mf.obs) {
+            ob.update();
+        }
+		
+	}
+
+
+	public void togglePromotion() {
+		for (Observer ob : mf.obs) {
+            ob.pawnPromotion();
+        }
+		
+	}
+
+	}
+
 	
-}
+

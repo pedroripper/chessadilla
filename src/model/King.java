@@ -13,10 +13,17 @@ class King extends Piece{
 	
 	
 	private Piece enemy_inline(Coordinate c) throws CoordinateInvalid {
+		int x = c.get_x();
+		int y = c.get_y();
+		
+//		check horizontal
+		
+		
+		
+		
 		if(this.owner == 1) {
 			ArrayList<Piece> enemies = this.board.getPlayerPieces(2);
 			for(Piece e: enemies) {
-				e.move_list();
 				if(e.check_move(c)) {
 					return e;
 				}
@@ -25,7 +32,6 @@ class King extends Piece{
 		} else {
 			ArrayList<Piece> enemies = this.board.getPlayerPieces(1);
 			for(Piece e: enemies) {
-				e.move_list();
 				if(e.check_move(c)) {
 					return e;
 				}
@@ -179,7 +185,9 @@ class King extends Piece{
 			} else {
 				this.board.gInfo.p2_foe = enemy;
 			}
-			for(Piece p: this.board.getPlayerPieces(this.owner)) {
+			ArrayList <Piece> pieces = this.board.getPlayerPieces(this.owner);
+
+			for(Piece p:pieces) {
 				if(p == this) {
 					continue;
 				}
@@ -206,7 +214,7 @@ class King extends Piece{
 
 	
 	boolean canCastling(Coordinate c) throws CoordinateInvalid {
-		if(!(this.type == 'k')) {
+		if((this.type != 'k')) {
 			System.out.print("Cai aqui 1\n");
 			return false;
 		}
@@ -214,6 +222,25 @@ class King extends Piece{
 			System.out.print("Cai aqui 2\n");
 			return false;
 		}
+		
+		/*
+		 * GERANDO STACK OVERFLOW
+		 */
+		
+		
+//		if(c.get_x() == 7) {
+//			if(this.enemy_inline(new Coordinate(6,this.getCoord().get_y())) != null) {
+//				return  false;
+//			}
+//		}
+//		System.out.print("---> 1 \n");
+//		if(c.get_x() == 0) {
+//			if(this.enemy_inline(new Coordinate(2,this.getCoord().get_y())) != null) {
+//				return  false;
+//			}
+//		}
+		System.out.print("---> 2 \n");
+
 		Piece rook = this.board.get_piece(c.get_x(), c.get_y());
 		if(!(rook instanceof Rook) || rook.nMoves > 0) {
 			return false;
@@ -222,14 +249,18 @@ class King extends Piece{
 		int xini = this.getCoord().get_x();
 		int yini = this.getCoord().get_y();
 		int xfim = rook.getCoord().get_x();
+		System.out.print("---> 3 \n");
+
 		if(xfim > xini) {
 			xini ++;
-			while(xini < xfim) {
-				if(this.board.get_piece(xini, yini) != null) {
-					return false;
-				}
-				xini ++;
+			while(xfim > xini) {
+			if(this.board.get_piece(xini, yini) != null) {
+				return false;
 			}
+			xini ++;
+			}
+			
+
 		} else {
 			xini --;
 			while(xini > xfim) {
