@@ -49,8 +49,8 @@ public class ControllerFacade {
 		return cf.gc.get_turn();
 	}
 	
-	public static void make_move(int x1, int y1, int x2,int y2) throws CoordinateInvalid {
-		cf.gc.make_move(x1,y1,x2,y2);
+	public static boolean make_move(int x1, int y1, int x2,int y2) throws CoordinateInvalid {
+		return cf.gc.make_move(x1,y1,x2,y2);
 	}
 
 	public int get_owner(int x1, int y1) throws CoordinateInvalid {

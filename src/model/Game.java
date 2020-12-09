@@ -29,6 +29,8 @@ class Game {
 		g.n_p2 = 16;
 		g.round = 0;
 		g.turn = 1;
+		g.c_k1 = new Coordinate(0,0);
+		g.c_k2 = new Coordinate(0,0);
 		g.isP2inCheck = false;
 		g.isP1inCheck = false;
 		return g;
@@ -72,7 +74,13 @@ class Game {
 		g.n_p2 --;
 	}
 
-	
+	void setKingCoord(int player, Coordinate c) {
+		if(player == 1) {
+			g.c_k1 = c;
+		} else {
+			g.c_k2 = c;
+		}
+	}
 
 	Coordinate getKingPos(int player) {
 		if(player == 1) {

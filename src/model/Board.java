@@ -33,8 +33,8 @@ class Board {
 	 */
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
-			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
+//			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
+//			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
 		}
 //		Inicializando os rooks
 		add_piece(new Rook(Color.white,0,0,1,'r'), 0, 0);
@@ -57,8 +57,8 @@ class Board {
 //		Inicializando o king
 		add_piece(new King(Color.white,4,0,1,'k'), 4,0);
 		add_piece(new King(Color.black,4,7,2,'k'), 4,7);
-		board.gInfo.c_k1 = new Coordinate(4,0);
-		board.gInfo.c_k2 = new Coordinate(4,7);
+		board.gInfo.setKingCoord(1, new Coordinate(4,0));
+		board.gInfo.setKingCoord(2, new Coordinate(4,7));
 	}
 
 	
@@ -83,7 +83,6 @@ class Board {
 		if(verify_xy(x,y)) {
 			board.b[x][y] = p;
 //			p.setCoord(new Coordinate(x,y));
-			System.out.print("\n  AQUI ==> "+ numPiece() +  " \n");
 
 		}
 		else {
@@ -135,10 +134,7 @@ class Board {
 		if(verify_xy(x,y)) {
 			if(get_piece(x,y) instanceof Piece) {
 				Piece trash = this.model.board.get_piece(x, y);
-				this.model.board.b[x][y] = null;
-				
-				System.out.print("\n Removendo -- " + trash.type +  "\n");
-				
+				this.model.board.b[x][y] = null;				
 				return trash;
 			} else {
 				return null;
@@ -155,9 +151,7 @@ class Board {
 				Piece p = board.get_piece(i, j);
 				if(i== 6 && j ==2) {
 					if(p != null) {
-						System.out.print("Hej\n");
 					} else {
-						System.out.print("tak\n");
 					}
 					
 				}
@@ -168,8 +162,6 @@ class Board {
 				}
 			}
 		}
-//		System.out.print(encoded_pieces);
-//		System.out.print("Enviando as pecas");
 		return encoded_pieces;
 	}
 	
@@ -179,7 +171,6 @@ class Board {
 			return null;
 		}
 		
-		System.out.print("A peça selecionada tem o tipo ==> "+ p.type + "\n");
 		
 		boolean isInCheck;
 		if(p.get_owner() == 1) {
@@ -187,21 +178,34 @@ class Board {
 		} else {
 			isInCheck = board.gInfo.isP2inCheck;
 		}
+
 		if(isInCheck) {
+
 		if(board.model.getInCheckPieces().size() > 0) {
 			if(p instanceof King) {
 				p.move_list();
+
 				Piece enemy;
 				if(p.owner == 1) {
 					enemy = board.gInfo.p1_foe;
 				} else { 
-					enemy = board.gInfo.p1_foe;
+					enemy = board.gInfo.p2_foe;
 				}
+
 				ArrayList<Coordinate> savingMoves = new ArrayList<Coordinate>(); 
 				for(Coordinate move: p.moveList) {
-					if(!enemy.check_move(move)) {
+					
+					if(move.get_x() == enemy.getCoord().get_x() && move.get_y() == enemy.getCoord().get_y()) {
 						savingMoves.add(move);
+						continue;
 					}
+					if(!enemy.check_move(move)) {
+
+						savingMoves.add(move);
+
+//						continue;
+					}
+
 				}
 				return savingMoves;
 			} else {
@@ -215,7 +219,6 @@ class Board {
 				}
 
 				for(Coordinate move: p.moveList) {
-					System.out.print(""+board.gInfo.getKingPos(p.owner).x +" " + board.gInfo.getKingPos(p.owner).y + "\n");
 					if(enemy.blockedMove(enemy, p, move, board.gInfo.getKingPos(p.owner))) {
 						savingMoves.add(move);
 					}
@@ -224,6 +227,7 @@ class Board {
 			}
 		}
 		}
+
 		return p.move_list();
 	}
 	

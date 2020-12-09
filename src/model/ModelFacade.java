@@ -33,10 +33,9 @@ public class ModelFacade {
 	 * Adiciona observers
 	 */
 	public void add_observer(Observer o) {
-		System.out.print(o.getClass());
 		mf.obs.add(o);
-		System.out.print("Tamanho do observer ->  " + obs.size() + "\n");
 	}
+	
 	/*
 	 * Remove observers
 	 */
@@ -90,7 +89,6 @@ public class ModelFacade {
 	 * possivel
 	 */
 	public boolean make_move(int x1, int y1, int x2, int y2) throws CoordinateInvalid {
-//		System.out.print("Realizando movimento \n");
 		Coordinate c1 = new Coordinate(x1,y1);
 		Coordinate c2 = new Coordinate(x2,y2);
 		Piece p = mf.board.get_piece(c1.x, c1.y);
@@ -104,11 +102,15 @@ public class ModelFacade {
 			for (Observer ob : mf.obs) {
 	            ob.update();
 	        }
+			return true;
 		}
 		else {
-//			System.out.print("Não foi possivel realizar o movimento");
-		}
-		return true;
+			for (Observer ob : mf.obs) {
+	            ob.update();
+	        }
+			return false;
+			}
+	
 	}
 	
 	/*
@@ -134,13 +136,14 @@ public class ModelFacade {
 		
 		Coordinate  king1Pos = mf.gInfo.getKingPos(1);
 		Coordinate king2Pos =  mf.gInfo.getKingPos(2);
+		
 		Piece k1 = mf.board.get_piece(king1Pos.x,king1Pos.y);
+		
+		
 
 		if(k1.type == 'k') {
 			String s1;
-			System.out.print("OOOOOO\n");
 			int test = ((King) k1).testCheck();
-			System.out.print("ILARIA\n");
 			if(test == 1) {
 				s1 = ""+king1Pos.x+""+king1Pos.y+"1";
 				checked.add(s1);
@@ -173,7 +176,6 @@ public class ModelFacade {
 	        }
 			return true;
 		} 
-//		System.out.print("");
 		return false;
 	}
 

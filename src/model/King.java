@@ -12,15 +12,10 @@ class King extends Piece{
 	}
 	
 	
-	private Piece enemy_inline(Coordinate c) throws CoordinateInvalid {
+	Piece enemy_inline(Coordinate c) throws CoordinateInvalid {
 		int x = c.get_x();
 		int y = c.get_y();
-		
-//		check horizontal
-		
-		
-		
-		
+			
 		if(this.owner == 1) {
 			ArrayList<Piece> enemies = this.board.getPlayerPieces(2);
 			for(Piece e: enemies) {
@@ -42,80 +37,114 @@ class King extends Piece{
 	}
 
 
-	
+	/*
+	 * Checa os movimentos possiveis para o rei
+	 */
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y)) {
-			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y));
+				}
+//			}
 		}
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+1)) {
-			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y+1);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y+1)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y+1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
+				}
+//			}
 		}
 		if(board.verify_xy(this.getCoord().x, this.getCoord().y+1)) {
-			Piece p = board.get_piece(this.getCoord().x, this.getCoord().y+1);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
-			}
-		}
+//			if(enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y+1)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x, this.getCoord().y+1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y+1));
+				}
+//			}
+		} 
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y+1)) {
-			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y+1);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y+1)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y+1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
+				}
+//			}
 		}
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y)) {
-			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
+				}
+//			}
 		}
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-1)) {
-			Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-1);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y-1)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
+				}
+//			}
 		}
 		if(board.verify_xy(this.getCoord().x, this.getCoord().y-1)) {
-			Piece p = board.get_piece(this.getCoord().x, this.getCoord().y-1);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y-1)) != null) {
+//			} 
+//			else {
+				Piece p = board.get_piece(this.getCoord().x, this.getCoord().y-1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
+				}
+//			}
 		}
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y-1)) {
-			Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y-1);
-			if(p != null && p.color != this.color) { 
-				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
-			} 
-			else if(p == null) {
-				lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
-			}
+//			if(enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y-1)) != null) {
+//			}
+//			else {
+				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y-1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
+				}
+//			}
 		}
 		if(canCastling(new Coordinate(0, this.getCoord().get_y()))) {
 			lst.add(new Coordinate(0, this.getCoord().get_y()));
@@ -123,28 +152,8 @@ class King extends Piece{
 		if(canCastling(new Coordinate(7, this.getCoord().get_y()))) {
 			lst.add(new Coordinate(7, this.getCoord().get_y()));
 		}
-		
 		this.moveList = lst;
 		return lst;
-	}
-	
-	public boolean move(int x, int y) throws CoordinateInvalid{
-		if(check_move(new Coordinate(x,y))) {
-			if(enemy_inline(new Coordinate(x,y))  == null) {
-//				Pode realizar o movimento
-				if(board.get_piece(x, y) instanceof Piece) {
-					board.remove_piece(x, y);
-				}
-				board.add_piece(this, x, y);
-				board.remove_piece(this.getCoord().x, this.getCoord().y);
-				return true;
-			}
-			else {
-				return false;
-			}
-		} else {
-			return false;
-		}
 	}
 	
 	int testCheckMate(Piece enemy) throws CoordinateInvalid {
@@ -158,6 +167,7 @@ class King extends Piece{
 				blockedMoves ++;
 			} 
 		}
+	
 		
 		if(blockedMoves == nMoves) {
 			return 2;
@@ -209,17 +219,16 @@ class King extends Piece{
 			this.board.gInfo.isP2inCheck = false;
 		}
 			
+		
 		return 0;
 	}
 
 	
 	boolean canCastling(Coordinate c) throws CoordinateInvalid {
 		if((this.type != 'k')) {
-			System.out.print("Cai aqui 1\n");
 			return false;
 		}
 		if(this.nMoves > 0) {
-			System.out.print("Cai aqui 2\n");
 			return false;
 		}
 		
@@ -239,17 +248,14 @@ class King extends Piece{
 //				return  false;
 //			}
 //		}
-		System.out.print("---> 2 \n");
 
 		Piece rook = this.board.get_piece(c.get_x(), c.get_y());
 		if(!(rook instanceof Rook) || rook.nMoves > 0) {
 			return false;
 		}
-		System.out.print("Cai aqui 3\n");
 		int xini = this.getCoord().get_x();
 		int yini = this.getCoord().get_y();
 		int xfim = rook.getCoord().get_x();
-		System.out.print("---> 3 \n");
 
 		if(xfim > xini) {
 			xini ++;

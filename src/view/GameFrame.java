@@ -54,9 +54,8 @@ class GameFrame extends Frame implements MouseListener {
 	
 	
 	public void paint(Graphics g) {
-		super.paint(g);
+//		super.paint(g);
 		
-		System.out.print("Cheguei  aqui 22\n");
 		gFrame.g2 = (Graphics2D)g;
 		drawBoardFrame();
 		drawBoard();
@@ -72,7 +71,6 @@ class GameFrame extends Frame implements MouseListener {
 			display_possible_moves();
 		}
 		if(piecesInCheck.size() > 0) {
-//			System.out.print("ATENCAO");
 			displayPieceInCheck();
 		}
 		if(gFrame.shouldDisplayPromotion) {
@@ -196,10 +194,8 @@ class GameFrame extends Frame implements MouseListener {
 		for(String encod : encoded_pieces) {
 			int i = Integer.valueOf(encod.charAt(0) - 48);
 			int j = Integer.valueOf(encod.charAt(1) - 48);
-//			System.out.print(encod + "\n");
 			char type = encod.charAt(2);
 			char color = encod.charAt(3);
-//			System.out.print(i + " " + j +  "\n");
 			PieceView p = new PieceView(coord_to_pos_x(i), coord_to_pos_y(j), color, type);
 			pImages.add(p);
 		}
@@ -340,11 +336,17 @@ class GameFrame extends Frame implements MouseListener {
 					if(i.get_x() == x2 && i.get_y() == y2) {
 						System.out.print("Selecionou uma posicao valida\n");
 						try {
-							ControllerFacade.make_move(x1, y1, x2, y2);
-							piecesInCheck = ControllerFacade.isThereCheck();
-							System.out.print("EU passso \n");
-							possibleMoves.removeAll(possibleMoves);
-							IsInPreMove = false;
+							boolean move = ControllerFacade.make_move(x1, y1, x2, y2);
+							if(move) {
+								piecesInCheck = ControllerFacade.isThereCheck();
+								possibleMoves.removeAll(possibleMoves);
+								IsInPreMove = false;
+							} else {
+								System.out.print("O movimento não pode ser realizado\n");
+								possibleMoves.removeAll(possibleMoves);
+								IsInPreMove = false;
+							}
+							
 //							repaint();
 						} catch (CoordinateInvalid e1) {
 							e1.printStackTrace();
@@ -367,18 +369,14 @@ class GameFrame extends Frame implements MouseListener {
 				response = chooser.showSaveDialog(null);
 				
 				if(response == JFileChooser.APPROVE_OPTION) {
-					//System.out.println(chooser.getSelectedFile());
 					FileWriter file;
 					try {
 						file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
 
 						String s = controller.board_data_to_string();
-//						System.out.println(s);
 						file.write(s);
 						file.close();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-//						System.out.println("oi");
 						e1.printStackTrace();
 					}
 				}

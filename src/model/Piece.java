@@ -149,19 +149,54 @@ abstract class Piece {
 	movimenta a piece
 	*/
 	public boolean move(Coordinate c) throws CoordinateInvalid{
-		Board board = this.board;
+		board = Board.get_board();
 		if(check_move(new Coordinate(c.x,c.y))) {
+
 			if(this.type == 'k') {
-				if(this.coord.get_x() > c.get_x()+1 || this.coord.get_x() < c.get_x()-1) {
+				if(this.coord.get_x() +2 == c.get_x()|| this.coord.get_x() -4 == c.get_x()) {
 					if(this.Castling(this.coord, c)) {
-						
 						return true;
 					}
 				}
+				King k = (King) this;
+				Piece e = k.enemy_inline(new Coordinate(c.get_x(),c.get_y()));
+				if(e != null) {
+						return false;
+				}
+				else if(board.get_piece(c.get_x(),c.get_y()) == null) {
+
+					if(board.get_piece(c.get_x(),c.get_y()) instanceof Piece) {
+						board.remove_piece(c.get_x(),c.get_y());
+					}
+
+					board.add_piece(this, c.get_x(),c.get_y());
+					board.remove_piece(this.getCoord().x, this.getCoord().y);
+					this.setCoord(c);
+
+					board.gInfo.setKingCoord(this.owner, c);
+					
+					return true;
+				}
+				else if(board.get_piece(c.get_x(),c.get_y()).owner != this.owner || e == null) {
+//					Pode realizar o movimento
+
+					if(board.get_piece(c.get_x(),c.get_y()) instanceof Piece) {
+						board.remove_piece(c.get_x(),c.get_y());
+					}
+
+					board.add_piece(this, c.get_x(),c.get_y());
+					board.remove_piece(this.getCoord().x, this.getCoord().y);
+					this.setCoord(c);
+
+					board.gInfo.setKingCoord(this.owner, c);
+					
+					return true;
+				}
 				
 				
-			}
-			board = Board.get_board();
+			} else {
+				
+
 			//			Pode realizar o movimento
 			
 			Piece p  =  this;
@@ -178,7 +213,9 @@ abstract class Piece {
 			}
 
 			return true;
-		} 
+			}
+		}
+
 		return false;
 	}
 	
