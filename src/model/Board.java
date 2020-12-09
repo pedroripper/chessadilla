@@ -33,8 +33,8 @@ class Board {
 	 */
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-//			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
-//			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
+			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
+			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
 		}
 //		Inicializando os rooks
 		add_piece(new Rook(Color.white,0,0,1,'r'), 0, 0);
