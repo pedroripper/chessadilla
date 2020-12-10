@@ -149,6 +149,8 @@ abstract class Piece {
 	movimenta a piece
 	*/
 	public boolean move(Coordinate c) throws CoordinateInvalid{
+		System.out.print("tO AQIU \n");
+
 		board = Board.get_board();
 		if(check_move(new Coordinate(c.x,c.y))) {
 
@@ -159,8 +161,13 @@ abstract class Piece {
 					}
 				}
 				King k = (King) this;
-				Piece e = k.enemy_inline(new Coordinate(c.get_x(),c.get_y()));
-				if(e != null) {
+				System.out.print("PETER\n");
+
+				ArrayList<Piece> e = k.enemy_inline(new Coordinate(c.get_x(),c.get_y()));
+				
+				System.out.print("PARKER\n");
+
+				if(e.size() > 0) {
 						return false;
 				}
 				else if(board.get_piece(c.get_x(),c.get_y()) == null) {

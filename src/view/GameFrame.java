@@ -27,6 +27,7 @@ class GameFrame extends Frame implements MouseListener {
 	ArrayList<String> piecesInCheck = new ArrayList<String>();
 
 	boolean shouldDisplayPromotion;
+	boolean isFrozen;
 	
 	public static GameFrame get_GameFrame(){
 		if(gFrame != null) {
@@ -36,6 +37,7 @@ class GameFrame extends Frame implements MouseListener {
 		gFrame.addMouseListener(gFrame);
 		gFrame.controller = ControllerFacade.get_controllerFacade();
 		gFrame.shouldDisplayPromotion = false;
+		gFrame.isFrozen = false;
 		return gFrame;
 	}
 	
@@ -59,6 +61,7 @@ class GameFrame extends Frame implements MouseListener {
 		gFrame.g2 = (Graphics2D)g;
 		drawBoardFrame();
 		drawBoard();
+		update_status_display(false);
 //		gFrame.model.add_observer(gFrame);
 		try {
 			ArrayList<String> encoded_pieces = gFrame.controller.get_piecesToDisplay();
@@ -77,7 +80,6 @@ class GameFrame extends Frame implements MouseListener {
 			displayPromotion();
 		}
 		
-		update_status_display();
 		
 	}
 
@@ -226,6 +228,7 @@ class GameFrame extends Frame implements MouseListener {
 			} else {
 				gFrame.g2.setColor(Color.RED);
 				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
+				update_status_display(true);
 			}
 		}
 	}
@@ -277,19 +280,25 @@ class GameFrame extends Frame implements MouseListener {
 		
 	}
 	
-	void update_status_display() {
+	void update_status_display(boolean isOver) {
 		g2.setColor(Color.BLACK);
 		Font font = new Font ("Courier New", 1, 30);
 		g2.setFont(font);
-		String status = "Vez do jogador " + gFrame.controller.get_turn();
-		g2.drawString(status, 5, 55);
+		if(isOver) {
+			String status = "Xeque mate";
+			g2.drawString(status, 5, 55);
+			isFrozen = true;
+		} else {
+			String status = "Vez do jogador " + gFrame.controller.get_turn();
+			g2.drawString(status, 5, 55);
+		}
 	}
 	
 		int x1,y1,x2,y2;
 
 
 	public void mouseClicked(MouseEvent e) {		
-		if (e.getButton() == 1) {
+		if (e.getButton() == 1 && !isFrozen) {
 //			Nenhuma peca foi selecionada ainda
 			if(!IsInPreMove) {
 				for(PieceView i: pImages) {
