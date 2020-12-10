@@ -122,8 +122,6 @@ class Board {
 	caso contrario retorna null
 	*/
 	Piece get_piece(int x, int y) throws CoordinateInvalid {
-		System.out.print("tO AQIU -- \n");
-
 		if (board.verify_xy(x,y)) {
 			return board.b[x][y];
 		}

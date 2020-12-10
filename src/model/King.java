@@ -299,6 +299,37 @@ class King extends Piece{
 		
 
 	}
+	
+	boolean checkForQRB(ArrayList<Piece> enemies, char mode, Coordinate c) {
+		for(Piece enemy: enemies) {
+			if(mode == 'h') {
+				if(enemy instanceof Queen || enemy instanceof Rook) {
+					if(enemy.getCoord().get_y() == c.get_y()) {
+						return true;
+					}
+				}
+			}
+			if(mode == 'v') {
+				if(enemy instanceof Queen || enemy instanceof Rook) {
+					if(enemy.getCoord().get_x() == c.get_x()) {
+						return true;
+					}
+				}
+			}
+			if(mode == 'd' || mode == 'e') {
+				if(enemy instanceof Queen || enemy instanceof Bishop) {
+					if(Math.abs(enemy.getCoord().get_x()-c.get_x()) == Math.abs(enemy.getCoord().get_y()-c.get_y())) {
+						return true;
+					}
+				}
+			}
+			
+			if(enemy instanceof Queen || enemy instanceof Rook || enemy instanceof Bishop) {
+				
+			}
+		}
+		return false;
+	}
 
 
 
@@ -307,9 +338,70 @@ class King extends Piece{
 	 */
 	public ArrayList<Coordinate> move_list() throws CoordinateInvalid {
 		ArrayList<Coordinate> lst = new ArrayList<Coordinate>();
+		boolean blockedHor = false;
+		boolean blockedVertical = false;
+		boolean blockedDiagDir = false;
+		boolean blockedDiagEsq= false;
+		
+//		Check for enemies
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y)).size() > 0) {
+			ArrayList<Piece> enemies = enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y));
+			if(checkForQRB(enemies, 'h', new Coordinate(this.getCoord().x+1, this.getCoord().y))) {
+				blockedHor = true;
 			}
+		}
+		
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y)) {
+			ArrayList<Piece> enemies = enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y));
+			if(checkForQRB(enemies, 'h', new Coordinate(this.getCoord().x-1, this.getCoord().y))) {
+				blockedHor = true;
+			}
+		}
+		
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+1)) {
+			ArrayList<Piece> enemies = enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y+1));
+			if(checkForQRB(enemies,'d',new Coordinate(this.getCoord().x+1, this.getCoord().y+1))) {
+				blockedDiagDir = true;
+			}
+		}
+		
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-1)) {
+			ArrayList<Piece> enemies = enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
+			if(checkForQRB(enemies, 'd',new Coordinate(this.getCoord().x-1, this.getCoord().y-1))) {
+				blockedDiagDir = true;
+			}
+		}
+		
+		if(board.verify_xy(this.getCoord().x, this.getCoord().y+1)) {
+			ArrayList<Piece> enemies =  enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y+1));
+			if(checkForQRB(enemies, 'v', new Coordinate(this.getCoord().x, this.getCoord().y+1))) {
+				blockedVertical = true;
+			}
+		}
+		if(board.verify_xy(this.getCoord().x, this.getCoord().y-1)) {
+			ArrayList<Piece> enemies = enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y-1));
+			if(checkForQRB(enemies, 'v', new Coordinate(this.getCoord().x, this.getCoord().y-1))) {
+				blockedVertical = true;
+			} 
+		}
+		
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y+1)) {
+			ArrayList<Piece> enemies = enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y+1));
+			if(checkForQRB(enemies, 'e', new Coordinate(this.getCoord().x-1, this.getCoord().y+1))) {
+				blockedDiagEsq = true;
+			} 
+		}
+		
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y-1)) {
+			ArrayList<Piece> enemies =  enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y-1));
+			if(checkForQRB(enemies, 'e', new Coordinate(this.getCoord().x+1, this.getCoord().y-1))) {
+				blockedDiagEsq = true;
+			}
+		}
+		
+		
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y)) {
+			if(blockedHor || enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y)).size()>0) {}
 			else {
 				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y);
 				if(p != null && p.color != this.color) { 
@@ -320,9 +412,22 @@ class King extends Piece{
 				}
 			}
 		}
-		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+1)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y+1)).size() > 0) {
+		
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y)) {
+			if(blockedHor || enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y)).size() > 0) {}
+			else {
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
+				}
 			}
+		}
+		
+		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y+1)) {
+			if(blockedDiagDir || enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y+1)).size() > 0) {}
 			else {
 				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y+1);
 				if(p != null && p.color != this.color) { 
@@ -333,9 +438,22 @@ class King extends Piece{
 				}
 			}
 		}
-		if(board.verify_xy(this.getCoord().x, this.getCoord().y+1)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y+1)).size() > 0) {
+		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-1)) {
+			if(blockedDiagDir || enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y-1)).size() > 0) {}
+			else {
+				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
+				}
 			}
+		}
+		
+		
+		if(board.verify_xy(this.getCoord().x, this.getCoord().y+1)) {
+			if(blockedVertical || enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y+1)).size() > 0) {}
 			else {
 				Piece p = board.get_piece(this.getCoord().x, this.getCoord().y+1);
 				if(p != null && p.color != this.color) { 
@@ -346,8 +464,21 @@ class King extends Piece{
 				}
 			}
 		} 
+		if(board.verify_xy(this.getCoord().x, this.getCoord().y-1)) {
+			if(blockedVertical  || enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y-1)).size() > 0) {} 
+			else {
+				Piece p = board.get_piece(this.getCoord().x, this.getCoord().y-1);
+				if(p != null && p.color != this.color) { 
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
+				} 
+				else if(p == null) {
+					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
+				}
+			}
+		}
+		
 		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y+1)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y+1)).size() > 0) {
+			if(blockedDiagEsq || enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y+1)).size() > 0) {
 			}
 			else {
 				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y+1);
@@ -359,47 +490,9 @@ class King extends Piece{
 				}
 			}
 		}
-		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y)).size() > 0) {
-			}
-			else {
-				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y);
-				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
-				} 
-				else if(p == null) {
-					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y));
-				}
-			}
-		}
-		if(board.verify_xy(this.getCoord().x-1, this.getCoord().y-1)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x-1, this.getCoord().y-1)).size() > 0) {
-			}
-			else {
-				Piece p = board.get_piece(this.getCoord().x-1, this.getCoord().y-1);
-				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
-				} 
-				else if(p == null) {
-					lst.add(new Coordinate(this.getCoord().x-1, this.getCoord().y-1));
-				}
-			}
-		}
-		if(board.verify_xy(this.getCoord().x, this.getCoord().y-1)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x, this.getCoord().y-1)).size() > 0) {
-			} 
-			else {
-				Piece p = board.get_piece(this.getCoord().x, this.getCoord().y-1);
-				if(p != null && p.color != this.color) { 
-					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
-				} 
-				else if(p == null) {
-					lst.add(new Coordinate(this.getCoord().x, this.getCoord().y-1));
-				}
-			}
-		}
+		
 		if(board.verify_xy(this.getCoord().x+1, this.getCoord().y-1)) {
-			if(enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y-1)).size() > 0) {
+			if(blockedDiagEsq || enemy_inline(new Coordinate(this.getCoord().x+1, this.getCoord().y-1)).size() > 0) {
 			}
 			else {
 				Piece p = board.get_piece(this.getCoord().x+1, this.getCoord().y-1);

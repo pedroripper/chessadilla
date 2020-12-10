@@ -149,7 +149,6 @@ abstract class Piece {
 	movimenta a piece
 	*/
 	public boolean move(Coordinate c) throws CoordinateInvalid{
-		System.out.print("tO AQIU \n");
 
 		board = Board.get_board();
 		if(check_move(new Coordinate(c.x,c.y))) {
