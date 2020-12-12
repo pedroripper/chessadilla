@@ -1,5 +1,7 @@
 package model;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Observer.Observer;
@@ -62,7 +64,56 @@ class Board {
 		board.gInfo.setKingCoord(1, new Coordinate(4,0));
 		board.gInfo.setKingCoord(2, new Coordinate(4,7));
 	}
-
+	
+	void load_board(FileReader file) throws CoordinateInvalid {
+		int i,linha,coluna;
+		linha = 0;
+		coluna = 0;
+		try {
+			while((i = file.read())!=-1) {
+				char c = (char)i;
+				//System.out.print(c);
+				if(c == '1') {
+					c = (char)file.read();
+					if(c == 'r') add_piece(new Rook(Color.white,coluna,linha,1,'r'), coluna, linha);
+					if(c == 'p') add_piece(new Pawn(Color.white,coluna,linha,1,'p'), coluna, linha);
+					if(c == 'c') add_piece(new Knight(Color.white,coluna,linha,1,'c'), coluna, linha);
+					if(c == 'b') add_piece(new Bishop(Color.white,coluna,linha,1,'b'),coluna, linha);
+					if(c == 'k') add_piece(new King(Color.white,coluna,linha,1,'k'), coluna, linha);
+					if(c == 'q') add_piece(new Queen(Color.white,coluna,linha,1,'q'), coluna, linha);
+					System.out.print("1");
+					System.out.print(c);
+					System.out.print(coluna);
+					System.out.print(linha);
+					System.out.print("\n");
+				}
+				if(c == '2') {
+					c = (char)file.read();
+					if(c == 'r') add_piece(new Rook(Color.black,coluna,linha,1,'r'), coluna, linha);
+					if(c == 'p') add_piece(new Pawn(Color.black,coluna,linha,1,'p'), coluna, linha);
+					if(c == 'c') add_piece(new Knight(Color.black,coluna,linha,1,'c'),coluna, linha);
+					if(c == 'b') add_piece(new Bishop(Color.black,coluna,linha,1,'b'), coluna, linha);
+					if(c == 'k') add_piece(new King(Color.black,coluna,linha,1,'k'), coluna, linha);
+					if(c == 'q') add_piece(new Queen(Color.black,coluna,linha,1,'q'), coluna, linha);
+					System.out.print("2");
+					System.out.print(c);
+					System.out.print(coluna);
+					System.out.print(linha);
+					System.out.print("\n");
+				}
+				if(linha < 8 && coluna == 8) {
+					linha += 1;
+					coluna = 0;
+				}
+				else if (coluna <= 7) {
+					coluna++;
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/*
 	verify_xy: checa se duas coordenadas sao validas para o tabuleiro

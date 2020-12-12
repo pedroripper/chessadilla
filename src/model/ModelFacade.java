@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import Observer.Observer;
@@ -27,6 +28,10 @@ public class ModelFacade {
 	 */
 	public void newGame() throws CoordinateInvalid {
 		mf.board.init_board();
+	}
+	
+	public void oldGame(FileReader file) throws CoordinateInvalid {
+		mf.board.load_board(file);
 	}
 	
 	/*
@@ -60,21 +65,21 @@ public class ModelFacade {
 	 */
 	public String board_data_to_string(Piece[][] bp) {
 		String s = "";
-		
-		for(Piece[] i: bp) {
-			for(Piece j: i) {
-				if (j == null) {
+		int col,linha;
+		for(linha = 0;linha < 8; linha++) {
+			for(col = 0;col < 8; col++) {
+				if (bp[col][linha] == null) {
 					s = s + "-";
 				}
 				else {
-					//char c = (char) j.owner;
-					String aux1 = String.valueOf(j.owner);  
-					s = s + (aux1 + j.type);
+					String aux1 = String.valueOf(bp[col][linha].owner);
+					s = s + (aux1 + bp[col][linha].type);
 				}
 			}
 			s = s + "\n";
 		}
 		return s;
+		
 	}
 	
 

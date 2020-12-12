@@ -383,9 +383,8 @@ class GameFrame extends Frame implements MouseListener {
 				repaint();
 			}
 			
-		
-		}
-		else if (e.getButton() == MouseEvent.BUTTON3) {
+	
+		}else if (e.getButton() == MouseEvent.BUTTON3) {
 			int response;
 			JFileChooser chooser = new JFileChooser();
 			//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -397,6 +396,7 @@ class GameFrame extends Frame implements MouseListener {
 				try {
 					file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
 
+//>>>>>>> e007e491f47ae9701559753b3d161575859e7729
 					String s = controller.board_data_to_string();
 					file.write(s);
 					file.close();

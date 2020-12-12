@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 
 //import java.util.ArrayList;
@@ -34,6 +35,12 @@ class GameController implements Observer{
 	void startGame() throws CoordinateInvalid {
 		gController.model.add_observer(gController);
 		gController.model.newGame();
+		gController.view.init_gameFrame();
+	}
+	
+	void loadGame(FileReader file) throws CoordinateInvalid {
+		gController.model.add_observer(gController);
+		gController.model.oldGame(file);
 		gController.view.init_gameFrame();
 	}
 	
