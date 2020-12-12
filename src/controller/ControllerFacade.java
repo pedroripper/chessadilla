@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import model.Coordinate;
@@ -32,6 +33,10 @@ public class ControllerFacade {
 
 	public void startGame() throws CoordinateInvalid {
 		cf.gc.startGame();
+	}
+	
+	public void loadGame(FileReader file) throws CoordinateInvalid {
+		cf.gc.loadGame(file);
 	}
 	
 	

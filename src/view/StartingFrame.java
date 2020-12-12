@@ -42,6 +42,7 @@ public class StartingFrame extends JFrame  {
 	      public void actionPerformed(ActionEvent e)
 	      {
 		    try {
+		    	
 				sFrame.controller.startGame();
 			} catch (CoordinateInvalid e1) {
 				// TODO Auto-generated catch block
@@ -52,6 +53,34 @@ public class StartingFrame extends JFrame  {
 		
 		
 		p.add(b_loadGame);
+		b_loadGame.addActionListener(new ActionListener() {
+	      public void actionPerformed(ActionEvent e)
+	      {
+		    try {
+				//sFrame.controller.startGame();
+		    	int response;
+				JFileChooser chooser = new JFileChooser();
+				//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				chooser.setDialogTitle("Escolha um arquivo para salvar");
+				response = chooser.showSaveDialog(null);
+				
+				if(response == JFileChooser.APPROVE_OPTION) {
+					try {
+						FileReader file = new FileReader(chooser.getSelectedFile().getAbsoluteFile());
+						
+						controller.loadGame(file);
+						//file.write(s);
+						//file.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			} catch (CoordinateInvalid e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	      }
+	    });
 		p.setBackground(Color.WHITE);
 		getContentPane().add(p); 
 		setSize(400,500);
