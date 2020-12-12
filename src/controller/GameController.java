@@ -40,8 +40,8 @@ class GameController implements Observer{
 	
 	void loadGame(FileReader file) throws CoordinateInvalid {
 		gController.model.add_observer(gController);
-		gController.model.oldGame(file);
 		gController.view.init_gameFrame();
+		gController.model.oldGame(file);
 	}
 	
 	/*

@@ -191,7 +191,7 @@ class Board {
 			return board.b[x][y];
 		}
 		else {
-			throw new CoordinateInvalid();
+			return null;
 		}
 	}
 	

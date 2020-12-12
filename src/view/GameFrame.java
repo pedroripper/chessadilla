@@ -56,12 +56,15 @@ class GameFrame extends Frame implements MouseListener {
 	
 	
 	public void paint(Graphics g) {
-//		super.paint(g);
+		try {
+			piecesInCheck = ControllerFacade.isThereCheck();
+		} catch (CoordinateInvalid e1) {
+			e1.printStackTrace();
+		}
 		
 		gFrame.g2 = (Graphics2D)g;
 		drawBoardFrame();
 		drawBoard();
-//		gFrame.model.add_observer(gFrame);
 		try {
 			ArrayList<String> encoded_pieces = gFrame.controller.get_piecesToDisplay();
 			decode_pieces(encoded_pieces);
@@ -317,8 +320,6 @@ class GameFrame extends Frame implements MouseListener {
 					x1 = pos_to_coord_x(e.getX());
 					y1 = pos_to_coord_y(e.getY());
 					try {
-						System.out.print("--> "+x1+y1+gFrame.controller.get_turn() + gFrame.controller.get_owner(x1, y1) +"\n");
-
 						if(i.contains(e.getX(), e.getY()) && gFrame.controller.get_turn() == gFrame.controller.get_owner(x1, y1)) {
 							System.out.print("\nSelecionado para ver movimentos possiveis \n");
 							IsInPreMove = true;
@@ -360,7 +361,7 @@ class GameFrame extends Frame implements MouseListener {
 						try {
 							boolean move = ControllerFacade.make_move(x1, y1, x2, y2);
 							if(move) {
-								piecesInCheck = ControllerFacade.isThereCheck();
+//								piecesInCheck = ControllerFacade.isThereCheck();
 								isFrozen = ControllerFacade.isFrozen();
 								possibleMoves.removeAll(possibleMoves);
 								IsInPreMove = false;

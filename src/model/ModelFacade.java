@@ -32,6 +32,9 @@ public class ModelFacade {
 	
 	public void oldGame(FileReader file) throws CoordinateInvalid {
 		mf.board.load_board(file);
+		for (Observer ob : mf.obs) {
+            ob.update();
+        }
 	}
 	
 	/*
