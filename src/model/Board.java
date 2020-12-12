@@ -1,5 +1,6 @@
 package model;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,15 +67,30 @@ class Board {
 	}
 	
 	void load_board(FileReader file) throws CoordinateInvalid {
+		BufferedReader buffered_reader = new BufferedReader(file);
 		int i,linha,coluna;
 		linha = 0;
 		coluna = 0;
 		try {
-			while((i = file.read())!=-1) {
+			gInfo.set_np1(Integer.parseInt(buffered_reader.readLine()));
+			gInfo.set_np2(Integer.parseInt(buffered_reader.readLine()));
+			gInfo.set_round(Integer.parseInt(buffered_reader.readLine()));
+			gInfo.set_turn(Integer.parseInt(buffered_reader.readLine()));
+			String aux = buffered_reader.readLine();
+			gInfo.set_c_k1(new Coordinate(
+								Integer.parseInt(String.valueOf(aux.charAt(0))),
+								Integer.parseInt(String.valueOf(aux.charAt(2)))));
+			aux = buffered_reader.readLine();
+			gInfo.set_c_k2(new Coordinate(
+								Integer.parseInt(String.valueOf(aux.charAt(0))),
+								Integer.parseInt(String.valueOf(aux.charAt(2)))));
+			gInfo.set_isP1inCheck(Boolean.parseBoolean(buffered_reader.readLine()));
+			gInfo.set_isP2inCheck(Boolean.parseBoolean(buffered_reader.readLine()));
+			
+			while((i = buffered_reader.read())!=-1) {
 				char c = (char)i;
-				//System.out.print(c);
 				if(c == '1') {
-					c = (char)file.read();
+					c = (char)buffered_reader.read();
 					if(c == 'r') add_piece(new Rook(Color.white,coluna,linha,1,'r'), coluna, linha);
 					if(c == 'p') add_piece(new Pawn(Color.white,coluna,linha,1,'p'), coluna, linha);
 					if(c == 'c') add_piece(new Knight(Color.white,coluna,linha,1,'c'), coluna, linha);
@@ -88,7 +104,7 @@ class Board {
 					System.out.print("\n");
 				}
 				if(c == '2') {
-					c = (char)file.read();
+					c = (char)buffered_reader.read();
 					if(c == 'r') add_piece(new Rook(Color.black,coluna,linha,1,'r'), coluna, linha);
 					if(c == 'p') add_piece(new Pawn(Color.black,coluna,linha,1,'p'), coluna, linha);
 					if(c == 'c') add_piece(new Knight(Color.black,coluna,linha,1,'c'),coluna, linha);

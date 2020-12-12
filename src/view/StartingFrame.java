@@ -7,6 +7,7 @@ import java.io.*;
 
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.ControllerFacade;
 import model.CoordinateInvalid;
@@ -60,9 +61,12 @@ public class StartingFrame extends JFrame  {
 				//sFrame.controller.startGame();
 		    	int response;
 				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		    	        "Arquivo de texto", "txt");
+		    	chooser.setFileFilter(filter);
 				//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				chooser.setDialogTitle("Escolha um arquivo para salvar");
-				response = chooser.showSaveDialog(null);
+				chooser.setDialogTitle("Escolha um arquivo para carregar");
+				response = chooser.showOpenDialog(null);
 				
 				if(response == JFileChooser.APPROVE_OPTION) {
 					try {
