@@ -105,12 +105,12 @@ class Board {
 				}
 				if(c == '2') {
 					c = (char)buffered_reader.read();
-					if(c == 'r') add_piece(new Rook(Color.black,coluna,linha,1,'r'), coluna, linha);
-					if(c == 'p') add_piece(new Pawn(Color.black,coluna,linha,1,'p'), coluna, linha);
-					if(c == 'c') add_piece(new Knight(Color.black,coluna,linha,1,'c'),coluna, linha);
-					if(c == 'b') add_piece(new Bishop(Color.black,coluna,linha,1,'b'), coluna, linha);
-					if(c == 'k') add_piece(new King(Color.black,coluna,linha,1,'k'), coluna, linha);
-					if(c == 'q') add_piece(new Queen(Color.black,coluna,linha,1,'q'), coluna, linha);
+					if(c == 'r') add_piece(new Rook(Color.black,coluna,linha,2,'r'), coluna, linha);
+					if(c == 'p') add_piece(new Pawn(Color.black,coluna,linha,2,'p'), coluna, linha);
+					if(c == 'c') add_piece(new Knight(Color.black,coluna,linha,2,'c'),coluna, linha);
+					if(c == 'b') add_piece(new Bishop(Color.black,coluna,linha,2,'b'), coluna, linha);
+					if(c == 'k') add_piece(new King(Color.black,coluna,linha,2,'k'), coluna, linha);
+					if(c == 'q') add_piece(new Queen(Color.black,coluna,linha,2,'q'), coluna, linha);
 					System.out.print("2");
 					System.out.print(c);
 					System.out.print(coluna);
@@ -227,6 +227,7 @@ class Board {
 				
 				if(p != null) {
 					String s = "" + i +""+ j + board.b[i][j].type + board.b[i][j].color.get_color();
+					System.out.print(s +  "\n");
 					encoded_pieces.add(s);
 				}
 			}
