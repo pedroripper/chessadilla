@@ -14,8 +14,8 @@ class Game {
 	Coordinate c_k1;
 	Coordinate  c_k2;
 	
-	Piece p1_foe;
-	Piece p2_foe;
+	ArrayList<Piece> p1_foe;
+	ArrayList<Piece> p2_foe;
 	
 	boolean isP1inCheck;
 	boolean isP2inCheck;

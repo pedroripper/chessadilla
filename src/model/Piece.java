@@ -127,7 +127,7 @@ abstract class Piece {
 	
 	public boolean blockedMove(Piece foe,Piece savior, Coordinate c, Coordinate destiny) throws CoordinateInvalid  {
 		ArrayList<Coordinate> path = getPath(foe,destiny);
-		savior.move_list();
+//		savior.move_list();
 		for(Coordinate coord: path) {
 			
 			if(c.get_x() == coord.get_x() && c.get_y()  == coord.get_y()) {
@@ -146,29 +146,28 @@ abstract class Piece {
 	
 	
 	/*
-	movimenta a piece
-	*/
+	 * movimenta a piece
+	 */
 	public boolean move(Coordinate c) throws CoordinateInvalid{
 
 		board = Board.get_board();
 		if(check_move(new Coordinate(c.x,c.y))) {
 
 			if(this.type == 'k') {
-				if(this.coord.get_x() +2 == c.get_x()|| this.coord.get_x() -4 == c.get_x()) {
-					if(this.Castling(this.coord, c)) {
+				King k = (King) this;
+				if(this.coord.get_x() +3 == c.get_x()|| this.coord.get_x() -4 == c.get_x()) {
+					if(k.Castling(this.coord, c)) {
 						return true;
 					}
 				}
-				King k = (King) this;
-				System.out.print("PETER\n");
-
+				
 				ArrayList<Piece> e = k.enemy_inline(new Coordinate(c.get_x(),c.get_y()));
 				
-				System.out.print("PARKER\n");
 
 				if(e.size() > 0) {
 						return false;
 				}
+				
 				else if(board.get_piece(c.get_x(),c.get_y()) == null) {
 
 					if(board.get_piece(c.get_x(),c.get_y()) instanceof Piece) {
@@ -257,23 +256,28 @@ abstract class Piece {
 			}
 			return true;
 		} else {
+			System.out.print("1\n");
 			Piece pTemp1 = k;
 			board.remove_piece(k.getCoord().get_x(), k.getCoord().get_y());
 			pTemp1.coord = new Coordinate(6,pTemp1.getCoord().get_y());
 			pTemp1.nMoves ++;
 			board.add_piece(pTemp1, 6, pTemp1.getCoord().get_y());
-			
+			System.out.print("2\n");
+
 			Piece pTemp2 = r;
 			board.remove_piece(r.getCoord().get_x(), r.getCoord().get_y());
 			pTemp2.coord = new Coordinate(5,pTemp2.getCoord().get_y());
 			pTemp2.nMoves ++;
 			board.add_piece(pTemp2, 5, pTemp2.getCoord().get_y());
-			
+			System.out.print("3\n");
+
 			if(this.owner == 1) {
 				this.board.gInfo.c_k1 = new Coordinate(6, pTemp1.getCoord().get_y());
 			} else {
 				this.board.gInfo.c_k2 = new Coordinate(6, pTemp1.getCoord().get_y());
 			}
+			System.out.print("4\n");
+
 			return true;
 		}
 //		return false;

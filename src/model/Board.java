@@ -35,30 +35,28 @@ class Board {
 	 */
 	void init_board() throws CoordinateInvalid {
 		for(int i = 0; i < 8; i ++) {
-//			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
-//			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
+			add_piece(new Pawn(Color.white,i,1,1,'p'), i, 1);
+			add_piece(new Pawn(Color.black,i,6,2,'p'), i, 6);
 		}
 //		Inicializando os rooks
-//		add_piece(new Rook(Color.white,0,0,1,'r'), 0, 0);
-//		add_piece(new Rook(Color.white,7,0,1,'r'), 7, 0);
+		add_piece(new Rook(Color.white,0,0,1,'r'), 0, 0);
+		add_piece(new Rook(Color.white,7,0,1,'r'), 7, 0);
 		add_piece(new Rook(Color.black,0,7,2,'r'), 0, 7);
 		add_piece(new Rook(Color.black,7,7,2,'r'), 7, 7);
 //		Inicializando os knights
-//		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
-//		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
-//		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
-//		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
+		add_piece(new Knight(Color.white,1,0,1,'c'), 1,0);
+		add_piece(new Knight(Color.white,6,0,1,'c'), 6, 0);
+		add_piece(new Knight(Color.black,1,7,2,'c'), 1, 7);
+		add_piece(new Knight(Color.black,6,7,2,'c'), 6, 7);
 //		Inicializando os bishops
-//		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
-//		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
+		add_piece(new Bishop(Color.white,2,0,1,'b'), 2,0);
+		add_piece(new Bishop(Color.white,5,0,1,'b'), 5,0);
 		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
 		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
 //		Inicializando a queen
-//		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
+		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
 		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
-		add_piece(new Queen(Color.black,2,6,2,'q'), 2,6);
 
-		add_piece(new Queen(Color.black,3,6,2,'q'), 3,6);
 
 //		Inicializando o king
 		add_piece(new King(Color.white,4,0,1,'k'), 4,0);
@@ -226,39 +224,44 @@ class Board {
 			return null;
 		}
 		
-		
+		System.out.print("1\n");
 		boolean isInCheck;
 		if(p.get_owner() == 1) {
 			isInCheck =  board.gInfo.isP1inCheck;
 		} else {
 			isInCheck = board.gInfo.isP2inCheck;
 		}
+		System.out.print("2\n");
 
 		if(isInCheck) {
 
 		if(board.model.getInCheckPieces().size() > 0) {
 			if(p instanceof King) {
 				p.move_list();
-
-				Piece enemy;
+				
+				ArrayList<Piece> enemies;
 				if(p.owner == 1) {
-					enemy = board.gInfo.p1_foe;
+					enemies = board.gInfo.p1_foe;
 				} else { 
-					enemy = board.gInfo.p2_foe;
+					enemies = board.gInfo.p2_foe;
 				}
 
 				ArrayList<Coordinate> savingMoves = new ArrayList<Coordinate>(); 
+				boolean saves = false;
 				for(Coordinate move: p.moveList) {
-					
-					if(move.get_x() == enemy.getCoord().get_x() && move.get_y() == enemy.getCoord().get_y()) {
-						savingMoves.add(move);
-						continue;
+					for(Piece enemy: enemies) {
+						if(move.get_x() == enemy.getCoord().get_x() && move.get_y() == enemy.getCoord().get_y()) {
+							saves = true;
+						}
+						else if(!enemy.check_move(move)) {
+							saves = true;
+						} else {
+							saves = false;
+							break;
+						}
 					}
-					if(!enemy.check_move(move)) {
-
+					if(saves == true) {
 						savingMoves.add(move);
-
-//						continue;
 					}
 
 				}
@@ -266,15 +269,23 @@ class Board {
 			} else {
 				ArrayList<Coordinate> savingMoves = new ArrayList<Coordinate>(); 
 				p.move_list();
-				Piece enemy;
+				ArrayList<Piece> enemies;
 				if(p.owner == 1) {
-					enemy = board.gInfo.p1_foe;
+					enemies = board.gInfo.p1_foe;
 				} else { 
-					enemy = board.gInfo.p2_foe;
+					enemies = board.gInfo.p2_foe;
 				}
-
+				boolean saves = false;
 				for(Coordinate move: p.moveList) {
-					if(enemy.blockedMove(enemy, p, move, board.gInfo.getKingPos(p.owner))) {
+					for(Piece enemy:enemies) {
+						if(enemy.blockedMove(enemy, p, move, board.gInfo.getKingPos(p.owner))) {
+							saves = true;
+						} else {
+							saves = false;
+							break;
+						}
+					}
+					if(saves == true) {
 						savingMoves.add(move);
 					}
 				}
@@ -282,6 +293,7 @@ class Board {
 			}
 		}
 		}
+		System.out.print("3\n");
 
 		return p.move_list();
 	}
@@ -331,6 +343,30 @@ class Board {
 			board.add_piece(new Rook(color, coord.get_x(), coord.get_y(), owner, c), coord.get_x(), coord.get_y());
 		}
 		
+	}
+	
+
+	/*
+	 * Retorna se não há mais movimentos possíveis para o jogo de nenhum dos jogadores
+	 */
+	boolean shouldFreeze() throws CoordinateInvalid {
+		ArrayList <Piece> pieces1= board.getPlayerPieces(1);
+		ArrayList <Piece> pieces2= board.getPlayerPieces(2);
+		if(pieces1.size() == 1 && pieces2.size() == 1) {
+			return true;
+		}
+		int sum1 = 0;
+		int sum2 = 0;
+		for(Piece p: pieces1) {
+			sum1 += p.move_list().size();
+		}
+		for(Piece p: pieces2) {
+			sum2 += p.move_list().size();
+		}
+		if(sum1 == 0 || sum2 == 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	

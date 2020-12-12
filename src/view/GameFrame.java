@@ -61,7 +61,6 @@ class GameFrame extends Frame implements MouseListener {
 		gFrame.g2 = (Graphics2D)g;
 		drawBoardFrame();
 		drawBoard();
-		update_status_display(false);
 //		gFrame.model.add_observer(gFrame);
 		try {
 			ArrayList<String> encoded_pieces = gFrame.controller.get_piecesToDisplay();
@@ -75,6 +74,8 @@ class GameFrame extends Frame implements MouseListener {
 		}
 		if(piecesInCheck.size() > 0) {
 			displayPieceInCheck();
+		} else {
+			update_status_display(false);
 		}
 		if(gFrame.shouldDisplayPromotion) {
 			displayPromotion();
@@ -98,6 +99,7 @@ class GameFrame extends Frame implements MouseListener {
 					gFrame.remove(popup);
 					gFrame.togglePromotion();
 					gFrame.controller.promote('r');
+					piecesInCheck = ControllerFacade.isThereCheck();
 				} catch (CoordinateInvalid e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -113,6 +115,7 @@ class GameFrame extends Frame implements MouseListener {
 					gFrame.remove(popup);
 					gFrame.togglePromotion();
 					gFrame.controller.promote('b');
+					piecesInCheck = ControllerFacade.isThereCheck();
 				} catch (CoordinateInvalid e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -128,6 +131,7 @@ class GameFrame extends Frame implements MouseListener {
 					gFrame.remove(popup);
 					gFrame.togglePromotion();
 					gFrame.controller.promote('c');
+					piecesInCheck = ControllerFacade.isThereCheck();
 				} catch (CoordinateInvalid e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -143,6 +147,7 @@ class GameFrame extends Frame implements MouseListener {
 					gFrame.remove(popup);
 					gFrame.togglePromotion();
 					gFrame.controller.promote('q');
+					piecesInCheck = ControllerFacade.isThereCheck();
 				} catch (CoordinateInvalid e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -225,6 +230,7 @@ class GameFrame extends Frame implements MouseListener {
 			if(state == '1') {
 				gFrame.g2.setColor(Color.YELLOW);
 				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
+				update_status_display(false);
 			} else {
 				gFrame.g2.setColor(Color.RED);
 				gFrame.g2.drawRect(coord_to_pos_x(x), coord_to_pos_y(y), 55, 55);
@@ -289,8 +295,14 @@ class GameFrame extends Frame implements MouseListener {
 			g2.drawString(status, 5, 55);
 			isFrozen = true;
 		} else {
-			String status = "Vez do jogador " + gFrame.controller.get_turn();
-			g2.drawString(status, 5, 55);
+			if(isFrozen) {
+				String status = "Partida congelada";
+				g2.drawString(status, 5, 55);
+			}
+			else {
+				String status = "Vez do jogador " + gFrame.controller.get_turn();
+				g2.drawString(status, 5, 55);
+			}
 		}
 	}
 	
@@ -348,6 +360,7 @@ class GameFrame extends Frame implements MouseListener {
 							boolean move = ControllerFacade.make_move(x1, y1, x2, y2);
 							if(move) {
 								piecesInCheck = ControllerFacade.isThereCheck();
+								isFrozen = ControllerFacade.isFrozen();
 								possibleMoves.removeAll(possibleMoves);
 								IsInPreMove = false;
 							} else {

@@ -60,6 +60,9 @@ public class ModelFacade {
 		return board.b;
 	}
 	
+	/*
+	 * Parser da board para uma string
+	 */
 	public String board_data_to_string(Piece[][] bp) {
 		String s = "";
 		int col,linha;
@@ -136,12 +139,18 @@ public class ModelFacade {
 		return mf.board.get_piece(x, y).owner;
 	}
 	
+	/*
+	 * Retorna o(s) rei(s) em cheque
+	 */
 	public ArrayList<String> getInCheckPieces() throws CoordinateInvalid {
 		ArrayList<String> checked = new ArrayList<String>();
 		
 		Coordinate  king1Pos = mf.gInfo.getKingPos(1);
 		Coordinate king2Pos =  mf.gInfo.getKingPos(2);
 		
+		System.out.print("Rei 1 = > "+king1Pos.x + king1Pos.y+ " \n" );
+		System.out.print("Rei 2 = > "+king2Pos.x + king2Pos.y+ " \n" );
+
 		Piece k1 = mf.board.get_piece(king1Pos.x,king1Pos.y);
 		
 		
@@ -172,7 +181,10 @@ public class ModelFacade {
 		return checked;
 	}
 
-
+	
+	/*
+	 * Realiza o roque
+	 */
 	public boolean make_castling(int x1, int x2, int y1, int y2) throws CoordinateInvalid {
 		Piece p1 = mf.board.get_piece(x1, y1);
 		if(p1.Castling(new Coordinate(x1,y1), new Coordinate(x2,y2))) {
@@ -184,7 +196,9 @@ public class ModelFacade {
 		return false;
 	}
 
-
+	/*
+	 * promove a peça
+	 */
 	public void promote(char c) throws CoordinateInvalid {
 		mf.board.promotePiece(c);
 		for (Observer ob : mf.obs) {
@@ -193,12 +207,16 @@ public class ModelFacade {
 		
 	}
 
-
+	
 	public void togglePromotion() {
 		for (Observer ob : mf.obs) {
             ob.pawnPromotion();
         }
 		
+	}
+	
+	public boolean shouldFreeze() throws CoordinateInvalid {
+		return mf.board.shouldFreeze();
 	}
 
 	}
