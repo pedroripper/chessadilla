@@ -382,25 +382,26 @@ class GameFrame extends Frame implements MouseListener {
 				possibleMoves.removeAll(possibleMoves);
 				repaint();
 			}
+			
+		
+		}
+		else if (e.getButton() == MouseEvent.BUTTON3) {
+			int response;
+			JFileChooser chooser = new JFileChooser();
+			//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			chooser.setDialogTitle("Escolha um arquivo para salvar");
+			response = chooser.showSaveDialog(null);
+			
+			if(response == JFileChooser.APPROVE_OPTION) {
+				FileWriter file;
+				try {
+					file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
 
-			else if (e.getButton() == MouseEvent.BUTTON2) {
-				int response;
-				JFileChooser chooser = new JFileChooser();
-				//chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				chooser.setDialogTitle("Escolha um arquivo para salvar");
-				response = chooser.showSaveDialog(null);
-				
-				if(response == JFileChooser.APPROVE_OPTION) {
-					FileWriter file;
-					try {
-						file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
-
-						String s = controller.board_data_to_string();
-						file.write(s);
-						file.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					String s = controller.board_data_to_string();
+					file.write(s);
+					file.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		}
