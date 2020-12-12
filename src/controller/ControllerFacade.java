@@ -70,6 +70,10 @@ public class ControllerFacade {
 		
 	}
 
+	public static boolean isFrozen() throws CoordinateInvalid {
+		return cf.gc.model.shouldFreeze();
+	}
+
 	
 
 	
