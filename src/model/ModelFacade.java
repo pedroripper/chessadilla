@@ -65,7 +65,17 @@ public class ModelFacade {
 	 */
 	public String board_data_to_string(Piece[][] bp) {
 		String s = "";
-		int col,linha;
+		int col, linha;
+		s = String.valueOf(mf.gInfo.get_np1()) + "\n" +
+			String.valueOf(mf.gInfo.get_np2()) + "\n" +
+			String.valueOf(mf.gInfo.get_round()) + "\n" +
+			String.valueOf(mf.gInfo.get_turn()) + "\n" +
+			String.valueOf(mf.gInfo.get_c_k1().get_x()) + " " +
+			String.valueOf(mf.gInfo.get_c_k1().get_y()) + "\n" +
+			String.valueOf(mf.gInfo.get_c_k2().get_x()) + " " +
+			String.valueOf(mf.gInfo.get_c_k2().get_y()) + "\n" +
+			(mf.gInfo.get_isP1inCheck() ? "1" : "0") + "\n" +
+			(mf.gInfo.get_isP2inCheck() ? "1" : "0") + "\n";
 		for(linha = 0;linha < 8; linha++) {
 			for(col = 0;col < 8; col++) {
 				if (bp[col][linha] == null) {
