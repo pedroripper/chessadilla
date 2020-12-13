@@ -55,15 +55,15 @@ class Board {
 		add_piece(new Bishop(Color.black,2,7,2,'b'), 2,7);
 		add_piece(new Bishop(Color.black,5,7,2,'b'), 5,7);
 //		Inicializando a queen
-		add_piece(new Queen(Color.white,3,0,1,'q'), 3,0);
-		add_piece(new Queen(Color.black,3,7,2,'q'), 3,7);
+		add_piece(new Queen(Color.white,4,0,1,'q'), 4,0);
+		add_piece(new Queen(Color.black,4,7,2,'q'), 4,7);
 
 
 //		Inicializando o king
-		add_piece(new King(Color.white,4,0,1,'k'), 4,0);
-		add_piece(new King(Color.black,4,7,2,'k'), 4,7);
-		board.gInfo.setKingCoord(1, new Coordinate(4,0));
-		board.gInfo.setKingCoord(2, new Coordinate(4,7));
+		add_piece(new King(Color.white,3,0,1,'k'), 3,0);
+		add_piece(new King(Color.black,3,7,2,'k'), 3,7);
+		board.gInfo.setKingCoord(1, new Coordinate(3,0));
+		board.gInfo.setKingCoord(2, new Coordinate(3,7));
 	}
 	
 	void load_board(FileReader file) throws CoordinateInvalid {
