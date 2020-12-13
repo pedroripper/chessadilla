@@ -91,20 +91,44 @@ class Board {
 				char c = (char)i;
 				if(c == '1') {
 					c = (char)buffered_reader.read();
-					if(c == 'r') add_piece(new Rook(Color.white,coluna,linha,1,'r'), coluna, linha);
+					if(c == 'r') {
+						String s = "";
+						while((c = (char)buffered_reader.read()) != '$') s = s + c;
+						Rook rook = new Rook(Color.white,coluna,linha,1,'r');
+						rook.nMoves = Integer.parseInt(s);
+						add_piece(rook, coluna, linha);
+					}
 					if(c == 'p') add_piece(new Pawn(Color.white,coluna,linha,1,'p'), coluna, linha);
 					if(c == 'c') add_piece(new Knight(Color.white,coluna,linha,1,'c'), coluna, linha);
 					if(c == 'b') add_piece(new Bishop(Color.white,coluna,linha,1,'b'),coluna, linha);
-					if(c == 'k') add_piece(new King(Color.white,coluna,linha,1,'k'), coluna, linha);
+					if(c == 'k') {
+						String s = "";
+						while((c = (char)buffered_reader.read()) != '$') s = s + c;
+						King king = new King(Color.white,coluna,linha,1,'k');
+						king.nMoves = Integer.parseInt(s);
+						add_piece(king, coluna, linha);
+					}
 					if(c == 'q') add_piece(new Queen(Color.white,coluna,linha,1,'q'), coluna, linha);
 				}
 				if(c == '2') {
 					c = (char)buffered_reader.read();
-					if(c == 'r') add_piece(new Rook(Color.black,coluna,linha,2,'r'), coluna, linha);
+					if(c == 'r') { 
+						String s = "";
+						while((c = (char)buffered_reader.read()) != '$') s = s + c;
+						Rook rook = new Rook(Color.black,coluna,linha,2,'r');
+						rook.nMoves = Integer.parseInt(s);
+						add_piece(rook, coluna, linha);
+					}
 					if(c == 'p') add_piece(new Pawn(Color.black,coluna,linha,2,'p'), coluna, linha);
 					if(c == 'c') add_piece(new Knight(Color.black,coluna,linha,2,'c'),coluna, linha);
 					if(c == 'b') add_piece(new Bishop(Color.black,coluna,linha,2,'b'), coluna, linha);
-					if(c == 'k') add_piece(new King(Color.black,coluna,linha,2,'k'), coluna, linha);
+					if(c == 'k') {
+						String s = "";
+						while((c = (char)buffered_reader.read()) != '$') s = s + c;
+						King king = new King(Color.black,coluna,linha,2,'k');
+						king.nMoves = Integer.parseInt(s);
+						add_piece(king, coluna, linha);
+					}
 					if(c == 'q') add_piece(new Queen(Color.black,coluna,linha,2,'q'), coluna, linha);
 				}
 				if(linha < 8 && coluna == 8) {

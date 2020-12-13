@@ -87,6 +87,9 @@ public class ModelFacade {
 				else {
 					String aux1 = String.valueOf(bp[col][linha].owner);
 					s = s + (aux1 + bp[col][linha].type);
+					if (bp[col][linha].type == 'k' || bp[col][linha].type == 'r') {
+						s = s + String.valueOf(bp[col][linha].nMoves) + "$";
+					}
 				}
 			}
 			s = s + "\n";
