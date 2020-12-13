@@ -15,8 +15,6 @@ class King extends Piece{
 	ArrayList<Piece> enemy_horizontal(Coordinate c) throws CoordinateInvalid {
 		ArrayList<Piece> enemies = new ArrayList<Piece>();
 //		left
-		
-		
 		for(int i = c.get_x()-1; i >= 0; i --) {
 			if(board.verify_xy(i, c.get_y())) {
 				Piece p = board.get_piece(i, c.get_y());
@@ -550,7 +548,6 @@ class King extends Piece{
 		int savingMoves = 0;
 //		int foeMoves = 0;
 		ArrayList<Piece> enemies  = this.enemy_inline(this.getCoord());
-		System.out.print("Tamanho "+enemies.size() + " \n");
 		if(enemies.size() > 0){
 			ArrayList <Piece> pieces = this.board.getPlayerPieces(this.owner);
 			if(this.get_owner() == 1) {

@@ -91,6 +91,7 @@ public class ModelFacade {
 			}
 			s = s + "\n";
 		}
+
 		return s;
 		
 	}
@@ -161,8 +162,6 @@ public class ModelFacade {
 		Coordinate  king1Pos = mf.gInfo.getKingPos(1);
 		Coordinate king2Pos =  mf.gInfo.getKingPos(2);
 		
-		System.out.print("Rei 1 = > "+king1Pos.x + king1Pos.y+ " \n" );
-		System.out.print("Rei 2 = > "+king2Pos.x + king2Pos.y+ " \n" );
 
 		Piece k1 = mf.board.get_piece(king1Pos.x,king1Pos.y);
 		

@@ -97,11 +97,6 @@ class Board {
 					if(c == 'b') add_piece(new Bishop(Color.white,coluna,linha,1,'b'),coluna, linha);
 					if(c == 'k') add_piece(new King(Color.white,coluna,linha,1,'k'), coluna, linha);
 					if(c == 'q') add_piece(new Queen(Color.white,coluna,linha,1,'q'), coluna, linha);
-					System.out.print("1");
-					System.out.print(c);
-					System.out.print(coluna);
-					System.out.print(linha);
-					System.out.print("\n");
 				}
 				if(c == '2') {
 					c = (char)buffered_reader.read();
@@ -111,11 +106,6 @@ class Board {
 					if(c == 'b') add_piece(new Bishop(Color.black,coluna,linha,2,'b'), coluna, linha);
 					if(c == 'k') add_piece(new King(Color.black,coluna,linha,2,'k'), coluna, linha);
 					if(c == 'q') add_piece(new Queen(Color.black,coluna,linha,2,'q'), coluna, linha);
-					System.out.print("2");
-					System.out.print(c);
-					System.out.print(coluna);
-					System.out.print(linha);
-					System.out.print("\n");
 				}
 				if(linha < 8 && coluna == 8) {
 					linha += 1;
@@ -227,7 +217,6 @@ class Board {
 				
 				if(p != null) {
 					String s = "" + i +""+ j + board.b[i][j].type + board.b[i][j].color.get_color();
-					System.out.print(s +  "\n");
 					encoded_pieces.add(s);
 				}
 			}
@@ -241,14 +230,12 @@ class Board {
 			return null;
 		}
 		
-		System.out.print("1\n");
 		boolean isInCheck;
 		if(p.get_owner() == 1) {
 			isInCheck =  board.gInfo.isP1inCheck;
 		} else {
 			isInCheck = board.gInfo.isP2inCheck;
 		}
-		System.out.print("2\n");
 
 		if(isInCheck) {
 
@@ -310,8 +297,6 @@ class Board {
 			}
 		}
 		}
-		System.out.print("3\n");
-
 		return p.move_list();
 	}
 	

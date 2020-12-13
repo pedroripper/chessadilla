@@ -120,7 +120,6 @@ class GameFrame extends Frame implements MouseListener {
 					gFrame.controller.promote('b');
 					piecesInCheck = ControllerFacade.isThereCheck();
 				} catch (CoordinateInvalid e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -397,8 +396,6 @@ class GameFrame extends Frame implements MouseListener {
 				FileWriter file;
 				try {
 					file = new FileWriter(chooser.getSelectedFile().getAbsoluteFile());
-
-//>>>>>>> e007e491f47ae9701559753b3d161575859e7729
 					String s = controller.board_data_to_string();
 					file.write(s);
 					file.close();
@@ -411,9 +408,7 @@ class GameFrame extends Frame implements MouseListener {
 	
 	
 		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+		public void mousePressed(MouseEvent e) {			
 		}
 	
 	

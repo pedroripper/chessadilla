@@ -157,6 +157,7 @@ abstract class Piece {
 				King k = (King) this;
 				if(this.coord.get_x() +3 == c.get_x()|| this.coord.get_x() -4 == c.get_x()) {
 					if(k.Castling(this.coord, c)) {
+						this.nMoves ++;
 						return true;
 					}
 				}
@@ -179,7 +180,8 @@ abstract class Piece {
 					this.setCoord(c);
 
 					board.gInfo.setKingCoord(this.owner, c);
-					
+					this.nMoves ++;
+
 					return true;
 				}
 				else if(board.get_piece(c.get_x(),c.get_y()).owner != this.owner || e == null) {
@@ -194,7 +196,8 @@ abstract class Piece {
 					this.setCoord(c);
 
 					board.gInfo.setKingCoord(this.owner, c);
-					
+					this.nMoves ++;
+
 					return true;
 				}
 				
@@ -256,27 +259,23 @@ abstract class Piece {
 			}
 			return true;
 		} else {
-			System.out.print("1\n");
 			Piece pTemp1 = k;
 			board.remove_piece(k.getCoord().get_x(), k.getCoord().get_y());
 			pTemp1.coord = new Coordinate(6,pTemp1.getCoord().get_y());
 			pTemp1.nMoves ++;
 			board.add_piece(pTemp1, 6, pTemp1.getCoord().get_y());
-			System.out.print("2\n");
 
 			Piece pTemp2 = r;
 			board.remove_piece(r.getCoord().get_x(), r.getCoord().get_y());
 			pTemp2.coord = new Coordinate(5,pTemp2.getCoord().get_y());
 			pTemp2.nMoves ++;
 			board.add_piece(pTemp2, 5, pTemp2.getCoord().get_y());
-			System.out.print("3\n");
 
 			if(this.owner == 1) {
 				this.board.gInfo.c_k1 = new Coordinate(6, pTemp1.getCoord().get_y());
 			} else {
 				this.board.gInfo.c_k2 = new Coordinate(6, pTemp1.getCoord().get_y());
 			}
-			System.out.print("4\n");
 
 			return true;
 		}
