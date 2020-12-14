@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import model.Coordinate;
@@ -293,13 +294,12 @@ class GameFrame extends Frame implements MouseListener {
 		Font font = new Font ("Courier New", 1, 30);
 		g2.setFont(font);
 		if(isOver) {
-			String status = "Xeque mate";
-			g2.drawString(status, 5, 55);
+			JOptionPane.showMessageDialog(this, "Xeque-Mate","Alerta",JOptionPane.INFORMATION_MESSAGE);
+//			g2.drawString(status, 5, 55);
 			isFrozen = true;
 		} else {
 			if(isFrozen) {
-				String status = "Partida congelada";
-				g2.drawString(status, 5, 55);
+				JOptionPane.showMessageDialog(this, "Partida congelada","Alerta",JOptionPane.INFORMATION_MESSAGE);
 			}
 			else {
 				String status = "Vez do jogador " + gFrame.controller.get_turn();
